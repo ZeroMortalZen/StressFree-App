@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "661205185449",
+    "project_id": "stress-free-app-df840",
+    "storage_bucket": "stress-free-app-df840.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661205185449:android:d0bb92e8a0b6c04ba0cab8",
+        "android_client_info": {
+          "package_name": "com.linx.stress_free_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "661205185449-54v1deql2ts7tt2tf6tnb0n6g4r0vvd8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADAMRnJuX_Map6uRtdYodsgj8qY4Yw_fc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "661205185449-54v1deql2ts7tt2tf6tnb0n6g4r0vvd8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
