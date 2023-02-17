@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/pagebkg"
     tools:context=".MoodSurveyActivity">
 
     <FrameLayout
@@ -12,30 +13,54 @@
         android:layout_height="541dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:layout_marginTop="74dp"
-        android:layout_marginEnd="0dp" />
+        android:layout_marginEnd="0dp"
+        android:background="@drawable/white_background">
+
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="129dp"
+            android:layout_height="72dp"
+            android:layout_above="@+id/progress_bar"
+            android:layout_gravity="bottom|center"
+            android:fontFamily="@font/baloo_paaji"
+            android:text="0%"
+            android:textColor="#040202"
+            android:textSize="34sp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="346dp"
+            android:layout_height="98dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/progress_bar_background" />
+    </FrameLayout>
 
     <Button
         android:id="@+id/fragment1btn"
         android:layout_width="150dp"
         android:layout_height="60dp"
-        android:backgroundTint="@color/black"
-        android:text="fragment 1"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="50dp"
         android:layout_marginBottom="50dp"
-        android:layout_marginStart="50dp"/>
+        android:backgroundTint="@color/black"
+        android:text="fragment 1" />
 
     <Button
         android:id="@+id/fragment2btn"
         android:layout_width="150dp"
         android:layout_height="60dp"
-        android:backgroundTint="@color/black"
-        android:text="fragment 2"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="50dp"
         android:layout_marginBottom="50dp"
-        android:layout_marginEnd="50dp"/>
+        android:backgroundTint="@color/black"
+        android:text="fragment 2" />
 
 
 </RelativeLayout>
