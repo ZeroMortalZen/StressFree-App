@@ -67,7 +67,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="109dp"
         android:background="@drawable/white_background"
-        android:text="1"
+        android:text="0"
         android:textAlignment="center"
         android:textSize="60sp" />
 

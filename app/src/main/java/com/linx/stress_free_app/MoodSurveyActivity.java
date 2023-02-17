@@ -42,6 +42,9 @@ public class MoodSurveyActivity extends AppCompatActivity {
         secondFragmentBtn.setVisibility(View.GONE);
 
 
+
+
+
         progressBar =findViewById(R.id.progressBar);
         textView = findViewById(R.id.text_view);
 
@@ -58,6 +61,7 @@ public class MoodSurveyActivity extends AppCompatActivity {
           @Override
           public void onClick(View view) {
               replaceFragment(new PainFragment());
+              firstFragmentBtn.setVisibility(View.GONE);
 
           }
       });
