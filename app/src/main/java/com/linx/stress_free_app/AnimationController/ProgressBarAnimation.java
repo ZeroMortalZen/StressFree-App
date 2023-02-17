@@ -1,21 +1,25 @@
 package com.linx.stress_free_app.AnimationController;
 
 import android.content.Context;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class ProgressBarAnimation extends Animation {
 
-   private Context context;
+   //private Context context;
    private ProgressBar progressBar;
    private TextView textView;
+   private Button button;
    private  float from;
    private  float to;
 
-   public ProgressBarAnimation(Context context ,ProgressBar progressBar, TextView textView, float from ,float to){
-       this.context = context;
+   public ProgressBarAnimation(Button button, ProgressBar progressBar, TextView textView, float from ,float to){
+       //this.context = context;
+       this.button = button;
        this.progressBar= progressBar;
        this.textView= textView;
        this.from = from;
@@ -31,7 +35,8 @@ public class ProgressBarAnimation extends Animation {
         textView.setText((int)value +" %");
 
         if(value == to){
-            //Set Buttons visables
+            button.setVisibility(View.VISIBLE);
+
 
         }
     }

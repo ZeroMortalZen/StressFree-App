@@ -32,6 +32,10 @@ public class MoodSurveyActivity extends AppCompatActivity {
         firstFragmentBtn = findViewById(R.id.fragment1btn);
         secondFragmentBtn = findViewById(R.id.fragment2btn);
 
+        firstFragmentBtn.setVisibility(View.GONE);
+        secondFragmentBtn.setVisibility(View.GONE);
+
+
         progressBar =findViewById(R.id.progressBar);
         textView = findViewById(R.id.text_view);
 
@@ -67,7 +71,7 @@ public class MoodSurveyActivity extends AppCompatActivity {
     }
 
     public void progessAnimation(){
-        ProgressBarAnimation anim = new ProgressBarAnimation(this,progressBar,textView,0f,100f);
+        ProgressBarAnimation anim = new ProgressBarAnimation(firstFragmentBtn,progressBar,textView,0f,100f);
         anim.setDuration(8000);
         progressBar.setAnimation(anim);
     }
