@@ -14,12 +14,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.linx.stress_free_app.AnimationController.ProgressBarAnimation;
+import com.linx.stress_free_app.AnimationController.Typewriter;
 
 public class MoodSurveyActivity extends AppCompatActivity {
 
     Button firstFragmentBtn, secondFragmentBtn;
     ProgressBar progressBar;
     TextView textView;
+    long characterDelay = 40;
+    boolean avoidTextOverflowAtEdge = true;
+
 
 
     @Override
@@ -28,6 +32,8 @@ public class MoodSurveyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mood_survey);
 
 
+        Typewriter typewriterLoadingDialog = findViewById(R.id.typewriterLoadingDialog);
+        final String Loading_Dialog =  getString(R.string.Loading_dialog);
 
         firstFragmentBtn = findViewById(R.id.fragment1btn);
         secondFragmentBtn = findViewById(R.id.fragment2btn);
@@ -41,6 +47,9 @@ public class MoodSurveyActivity extends AppCompatActivity {
 
         progressBar.setMax(100);
         progressBar.setScaleY(3f);
+
+        typewriterLoadingDialog.setCharacterDelay(characterDelay);
+        typewriterLoadingDialog.animateText(Loading_Dialog);
 
         progessAnimation();
 
