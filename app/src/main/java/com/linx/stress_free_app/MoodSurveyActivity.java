@@ -22,7 +22,7 @@ public class MoodSurveyActivity extends AppCompatActivity {
     long characterDelay = 40;
     boolean avoidTextOverflowAtEdge = true;
     private int currentFragmentIndex = 0;
-    private Fragment[] fragments = {new PainFragment(), new BedTimeFragment()};
+    private Fragment[] fragments = {new PainFragment(), new BedTimeFragment(), new GetScreenTimeFragment()};
 
 
 

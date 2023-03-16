@@ -10,6 +10,19 @@
     tools:context=".GetStarted">
 
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/GetPremissionBtn"
+        android:layout_width="230dp"
+        android:layout_height="63dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="101dp"
+        android:background="@drawable/white_background"
+        android:text="Get Premission" />
+
     <com.nitish.typewriterview.TypeWriterView
         android:id="@+id/typeWriterView"
         android:layout_width="354dp"
@@ -33,16 +46,17 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/animateBtn"
-        android:layout_width="232dp"
-        android:layout_height="67dp"
+        android:layout_width="230dp"
+        android:layout_height="63dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="91dp"
+        android:layout_marginStart="88dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="99dp"
+        android:layout_marginBottom="101dp"
         android:background="@drawable/white_background"
-        android:text="AnimateTest" />
+        android:text="Continue"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/imageView"
