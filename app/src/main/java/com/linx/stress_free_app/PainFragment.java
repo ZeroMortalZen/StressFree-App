@@ -51,7 +51,7 @@ public class PainFragment extends Fragment {
             public void onClick(View view) {
                 String getPain= String.valueOf(stressHelperClass.getPain());
                 Toast.makeText(getActivity(),getPain,Toast.LENGTH_SHORT).show();
-                //replaceFragment(new BedTimeFragment())
+
 
 
 
@@ -66,6 +66,8 @@ public class PainFragment extends Fragment {
 
         return view;
     }
+
+
 
 
 

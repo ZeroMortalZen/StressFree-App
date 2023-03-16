@@ -7,8 +7,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -18,11 +16,13 @@ import com.linx.stress_free_app.AnimationController.Typewriter;
 
 public class MoodSurveyActivity extends AppCompatActivity {
 
-    Button firstFragmentBtn, secondFragmentBtn;
+    Button BackBtn, NextBtn;
     ProgressBar progressBar;
     TextView textView;
     long characterDelay = 40;
     boolean avoidTextOverflowAtEdge = true;
+    private int currentFragmentIndex = 0;
+    private Fragment[] fragments = {new PainFragment(), new BedTimeFragment()};
 
 
 
@@ -35,13 +35,8 @@ public class MoodSurveyActivity extends AppCompatActivity {
         Typewriter typewriterLoadingDialog = findViewById(R.id.typewriterLoadingDialog);
         final String Loading_Dialog =  getString(R.string.Loading_dialog);
 
-        firstFragmentBtn = findViewById(R.id.fragment1btn);
-        secondFragmentBtn = findViewById(R.id.fragment2btn);
-
-        firstFragmentBtn.setVisibility(View.GONE);
-        secondFragmentBtn.setVisibility(View.GONE);
-
-
+        BackBtn = findViewById(R.id.Backbtn);
+        NextBtn = findViewById(R.id.Nextbtn);
 
 
 
@@ -57,24 +52,31 @@ public class MoodSurveyActivity extends AppCompatActivity {
         progessAnimation();
 
 
-      firstFragmentBtn.setOnClickListener(new View.OnClickListener() {
+      BackBtn.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
-              replaceFragment(new PainFragment());
-              firstFragmentBtn.setVisibility(View.GONE);
+              currentFragmentIndex--;
+              if (currentFragmentIndex < 0) {
+                  currentFragmentIndex = fragments.length - 1;
+              }
+              switchFragment(fragments[currentFragmentIndex]);
 
           }
       });
 
-      secondFragmentBtn.setOnClickListener(new View.OnClickListener() {
+      NextBtn.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
-              replaceFragment(new BedTimeFragment());
+              currentFragmentIndex++;
+              if (currentFragmentIndex >= fragments.length) {
+                  currentFragmentIndex = 0;
+              }
+              switchFragment(fragments[currentFragmentIndex]);
           }
       });
     }
 
-    public void replaceFragment(Fragment fragment){
+    public void switchFragment(Fragment fragment){
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -84,7 +86,7 @@ public class MoodSurveyActivity extends AppCompatActivity {
     }
 
     public void progessAnimation(){
-        ProgressBarAnimation anim = new ProgressBarAnimation(firstFragmentBtn,progressBar,textView,0f,100f);
+        ProgressBarAnimation anim = new ProgressBarAnimation(BackBtn,progressBar,textView,0f,100f);
         anim.setDuration(8000);
         progressBar.setAnimation(anim);
     }
