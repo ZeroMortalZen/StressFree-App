@@ -43,7 +43,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/baloo_paaji"
-        android:text="This is a typewriter text animation"
+        android:text="Checking Screen Usage"
         android:textAlignment="center"
         android:textSize="20sp" />
 
