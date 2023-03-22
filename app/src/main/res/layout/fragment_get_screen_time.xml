@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/white_background"
     tools:context=".GetScreenTimeFragment">
 
     <ProgressBar
@@ -14,9 +15,10 @@
         android:layout_alignParentEnd="true"
 
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="270dp" />
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="262dp" />
 
     <TextView
         android:id="@+id/precentageView"
@@ -24,37 +26,39 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginStart="139dp"
-        android:layout_marginTop="477dp"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="469dp"
         android:fontFamily="@font/baloo_paaji"
         android:text="0%"
         android:textAlignment="center"
         android:textColor="#040202"
         android:textSize="34sp" />
 
-    <com.linx.stress_free_app.AnimationController.Typewriter
-        android:id="@+id/typewriterLoadingDialog2"
-        android:layout_width="357dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+    <TextView
+        android:id="@+id/typewriter_text"
+        android:layout_width="356dp"
+        android:layout_height="409dp"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="52dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/baloo_paaji"
+        android:text="This is a typewriter text animation"
         android:textAlignment="center"
-        android:textColor="#1B1A1A"
-        android:textSize="34sp"
-        app:fontFamily="@font/baloo_paaji" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/screenTimeTextView"
-        android:layout_width="163dp"
-        android:layout_height="63dp"
+        android:layout_width="256dp"
+        android:layout_height="66dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="131dp"
-        android:layout_marginBottom="86dp"
-        android:text="TextView" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="132dp"
+        android:layout_marginBottom="124dp"
+        android:fontFamily="@font/baloo_paaji"
+        android:text="TextView"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/NextScreenDataBtn"
@@ -62,6 +66,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="56dp"
         android:text="Next" />
 </RelativeLayout>

@@ -35,7 +35,7 @@ public class GetStarted extends Activity {
         TypeWriterView typeWriterView = findViewById(R.id.typeWriterView);
         final String GetStartedDialog = getResources().getString(R.string.GetStartedDialog);
         final Button animateBtn = findViewById(R.id.animateBtn);
-        final Button GetPermissinBtn = findViewById(R.id.GetPremissionBtn);
+        final Button GetPermissionBtn = findViewById(R.id.GetPremissionBtn);
 
         animateBtn.setVisibility(View.GONE);
 
@@ -46,7 +46,7 @@ public class GetStarted extends Activity {
          if (granted){
              //set button to visable and set permission button invisalbe
              animateBtn.setVisibility(View.VISIBLE);
-             GetPermissinBtn.setVisibility(View.GONE);
+             GetPermissionBtn.setVisibility(View.GONE);
          }
 
         animateBtn.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +58,7 @@ public class GetStarted extends Activity {
             }
         });
 
-         GetPermissinBtn.setOnClickListener(new View.OnClickListener() {
+         GetPermissionBtn.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
                  Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
