@@ -11,6 +11,8 @@ import android.text.format.Formatter;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.linx.stress_free_app.StressSystem.PersonStressHelperClass;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,6 +22,7 @@ public class AppUsageAsyncTask extends AsyncTask<Void, Void, List<AppUsage>> {
     private Context context;
     private RecyclerView recyclerView;
     private AppUsageAdapter adapter;
+    PersonStressHelperClass personStressHelperClass = new PersonStressHelperClass();
 
     public AppUsageAsyncTask(Context context, RecyclerView recyclerView, AppUsageAdapter adapter) {
         this.context = context;
@@ -31,6 +34,9 @@ public class AppUsageAsyncTask extends AsyncTask<Void, Void, List<AppUsage>> {
     protected List<AppUsage> doInBackground(Void... voids) {
         // Load app usage data here and return a list of AppUsage objects
         List<AppUsage> appUsages = new ArrayList<>();
+
+        //Total AppData Usage(To be stored in Database)
+        long totalUsage = 0;
 
         // load app usage data from PackageManager
         PackageManager pm = context.getPackageManager();
@@ -48,6 +54,8 @@ public class AppUsageAsyncTask extends AsyncTask<Void, Void, List<AppUsage>> {
             for (UsageStats usageStats : usageStatsList) {
                 if (usageStats.getPackageName().equals(packageInfo.packageName)) {
                     long usageTime = usageStats.getTotalTimeInForeground();
+                    totalUsage += usageTime;
+                    personStressHelperClass.setTotalAppUsage(totalUsage);
                     String appUsage = Formatter.formatShortFileSize(context, usageTime);
                     appUsages.add(new AppUsage(icon, appName, appUsage));
                     break;
