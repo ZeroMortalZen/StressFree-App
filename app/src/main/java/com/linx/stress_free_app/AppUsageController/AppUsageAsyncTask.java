@@ -12,6 +12,8 @@ import android.text.format.Formatter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class AppUsageAsyncTask extends AsyncTask<Void, Void, List<AppUsage>> {
@@ -30,7 +32,7 @@ public class AppUsageAsyncTask extends AsyncTask<Void, Void, List<AppUsage>> {
         // Load app usage data here and return a list of AppUsage objects
         List<AppUsage> appUsages = new ArrayList<>();
 
-        // Example code to load app usage data from PackageManager
+        // load app usage data from PackageManager
         PackageManager pm = context.getPackageManager();
         List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo packageInfo : packages) {
@@ -53,8 +55,12 @@ public class AppUsageAsyncTask extends AsyncTask<Void, Void, List<AppUsage>> {
             }
         }
 
+        // Sort app usage data in descending order (from most used to least used)
+        Collections.sort(appUsages);
         return appUsages;
     }
+
+
 
     @Override
     protected void onPostExecute(List<AppUsage> appUsages) {

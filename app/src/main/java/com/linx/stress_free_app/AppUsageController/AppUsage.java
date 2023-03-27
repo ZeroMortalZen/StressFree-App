@@ -2,7 +2,7 @@ package com.linx.stress_free_app.AppUsageController;
 
 import android.graphics.drawable.Drawable;
 
-public class AppUsage {
+public class AppUsage implements Comparable<AppUsage> {
     private Drawable icon;
     private String name;
     private String usage;
@@ -36,4 +36,12 @@ public class AppUsage {
     public void setUsage(String usage) {
         this.usage = usage;
     }
+
+
+    @Override
+    public int compareTo(AppUsage other) {
+        return other.usage.compareTo(this.usage);
+    }
+
+
 }
