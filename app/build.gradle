@@ -40,4 +40,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
     implementation 'com.github.NitishGadangi:TypeWriter-TextView:v1.3'
+    implementation 'com.etebarian:meow-bottom-navigation:1.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.0"
+    implementation 'com.github.irfaan008:IRBottomNavigationView:1.0.1'
+    implementation 'com.etebarian:meow-bottom-navigation-java:1.2.0'
 }
