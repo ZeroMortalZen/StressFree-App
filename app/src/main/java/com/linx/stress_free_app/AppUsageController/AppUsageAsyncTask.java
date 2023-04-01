@@ -11,6 +11,10 @@ import android.text.format.Formatter;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.linx.stress_free_app.StressSystem.HelperClass;
 
 import java.util.ArrayList;
@@ -22,6 +26,8 @@ public class AppUsageAsyncTask extends AsyncTask<Void, Void, List<AppUsage>> {
     private RecyclerView recyclerView;
     private AppUsageAdapter adapter;
     HelperClass helperClass = new HelperClass();
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     public AppUsageAsyncTask(Context context, RecyclerView recyclerView, AppUsageAdapter adapter) {
         this.context = context;
@@ -55,6 +61,15 @@ public class AppUsageAsyncTask extends AsyncTask<Void, Void, List<AppUsage>> {
                     long usageTime = usageStats.getTotalTimeInForeground();
                     totalUsage += usageTime;
                     helperClass.setTotalAppUsage(totalUsage);
+
+                    //Database connection & Store Values
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    String userId = currentUser.getUid();
+                    DatabaseReference userRef = database.getReference("users").child(userId);
+
+                    userRef.child("totalAppUsage").setValue(totalUsage);
+
+
                     String appUsage = Formatter.formatShortFileSize(context, usageTime);
                     appUsages.add(new AppUsage(icon, appName, appUsage));
                     break;

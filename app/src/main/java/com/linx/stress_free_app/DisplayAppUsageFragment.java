@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.linx.stress_free_app.AnimationController.ProgressBarAnimation;
 import com.linx.stress_free_app.AppUsageController.AppUsageAdapter;
 import com.linx.stress_free_app.AppUsageController.AppUsageAsyncTask;
@@ -35,6 +36,8 @@ public class DisplayAppUsageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_display_app_usage, container, false);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         progressBar= view.findViewById(R.id.progressBar3);
         progressBar.setMax(100);
@@ -58,6 +61,7 @@ public class DisplayAppUsageFragment extends Fragment {
 
 
         return view;
+
     }
 
     @Override
