@@ -22,12 +22,14 @@ import com.linx.stress_free_app.MainMenu.MainMenuFragments.MeditationFragment;
 import com.linx.stress_free_app.MainMenu.MainMenuFragments.MusicFragment;
 import com.linx.stress_free_app.ProfileActivity;
 import com.linx.stress_free_app.R;
+import com.linx.stress_free_app.StressSystem.StressCalacutorSystem;
 
 public class MainMenuActivity extends AppCompatActivity {
 
 
     private Fragment currentFragment;
     FloatingActionButton fab ;
+    StressCalacutorSystem  stressCalacutorSystem = new StressCalacutorSystem();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +37,15 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) this);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
 
         // Load the first fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         currentFragment = new HomeFragment();
         fragmentManager.beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
         Intent intent = new Intent(this, ProfileActivity.class);
+
+        stressCalacutorSystem.CalaculateStressLevel();
 
 
         FloatingActionButton fab = findViewById(R.id.fab);

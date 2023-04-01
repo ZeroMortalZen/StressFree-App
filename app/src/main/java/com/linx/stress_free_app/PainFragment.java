@@ -5,8 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.slider.Slider;
-import com.linx.stress_free_app.StressSystem.PersonStressHelperClass;
+import com.linx.stress_free_app.MainMenu.MainMenuActivity;
+import com.linx.stress_free_app.StressSystem.HelperClass;
 
 public class PainFragment extends Fragment {
 
@@ -24,7 +23,7 @@ public class PainFragment extends Fragment {
    TextView PainNumberView;
    Slider PainSlider;
    Button PainSubmit;
-   PersonStressHelperClass stressHelperClass = new PersonStressHelperClass();
+   HelperClass helperClass = new HelperClass();
 
 
     @Override
@@ -41,7 +40,7 @@ public class PainFragment extends Fragment {
             @Override
             public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
                 PainNumberView.setText(Float.toString(value));
-                stressHelperClass.setPain(Float.parseFloat(Float.toString(value)));
+                helperClass.setPain(Float.parseFloat(Float.toString(value)));
             }
         });
 
@@ -49,9 +48,11 @@ public class PainFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                String getPain= String.valueOf(stressHelperClass.getPain());
+                String getPain= String.valueOf(helperClass.getPain());
                 Toast.makeText(getActivity(),getPain,Toast.LENGTH_SHORT).show();
 
+                Intent intent = new Intent(getActivity(), MainMenuActivity.class);
+                startActivity(intent);
 
 
 

@@ -1,20 +1,24 @@
 package com.linx.stress_free_app;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.linx.stress_free_app.StressSystem.PersonStressHelperClass;
+import com.linx.stress_free_app.MainMenu.MainMenuActivity;
+import com.linx.stress_free_app.StressSystem.HelperClass;
 
-import java.sql.Time;
 import java.util.Locale;
 
 
@@ -24,7 +28,9 @@ public class BedTimeFragment extends Fragment {
    Button timeButton;
    int hour, minute;
    Button TimeSubmit;
-   PersonStressHelperClass stressHelperClass = new PersonStressHelperClass();
+    HelperClass helperClass = new HelperClass();
+   TextView typewriter_text2;
+   EditText editHoursText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,39 +38,33 @@ public class BedTimeFragment extends Fragment {
         // Inflate the layout for this fragment
 
         view=inflater.inflate(R.layout.fragment_bed_time, container, false);
-        timeButton=(Button)view.findViewById(R.id.timebutton);
         TimeSubmit=(Button)view.findViewById(R.id.sumbitTime);
+        typewriter_text2 = (TextView) view.findViewById(R.id.typewriter_text2);
+        handler.postDelayed(runnable, 500);
 
-        timeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        hour = selectedHour;
-                        minute = selectedMinute;
-                        timeButton.setText(String.format(Locale.getDefault(),"%02d:%02d",hour,minute));
-
-                        float hourfloat = selectedHour;
-                        float BedTime =hourfloat;
-
-                        stressHelperClass.setTime(BedTime);
+        editHoursText =(EditText)view.findViewById(R.id.editHoursText);
 
 
-                    }
-                };
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), onTimeSetListener,hour,minute,true);
-                timePickerDialog.setTitle("Select Time");
-                timePickerDialog.show();
-            }
-        });
+
+
+
+
 
 
         TimeSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String getTime= String.valueOf(stressHelperClass.getTime());
+                String getTime= String.valueOf(helperClass.getTime());
+                String setTime = editHoursText.getText().toString();
+
+
+                //convert to float
+                float timeInFloat = Float.parseFloat(setTime);
+
+                helperClass.setTime(timeInFloat);
                 Toast.makeText(getActivity(),getTime,Toast.LENGTH_SHORT).show();
+
+
 
             }
         });
@@ -75,6 +75,21 @@ public class BedTimeFragment extends Fragment {
 
         return view;
     }
+
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        int i = 0;
+        final String text = "Please enter what time you go to bed";
+        @Override
+        public void run() {
+            if (i <= text.length()) {
+                String str = text.substring(0, i);
+                typewriter_text2.setText(str);
+                i++;
+                handler.postDelayed(this, 50); // adjust the delay to make it faster or slower
+            }
+        }
+    };
 
 
 

@@ -1,15 +1,9 @@
 package com.linx.stress_free_app;
 
 import androidx.fragment.app.Fragment;
-import android.app.usage.UsageStats;
-import android.app.usage.UsageStatsManager;
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
+
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,17 +11,15 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.linx.stress_free_app.AnimationController.ProgressBarAnimation;
 import com.linx.stress_free_app.AppUsageController.AppUsageAdapter;
 import com.linx.stress_free_app.AppUsageController.AppUsageAsyncTask;
+import com.linx.stress_free_app.StressSystem.HelperClass;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class DisplayAppUsageFragment extends Fragment {
 
@@ -38,6 +30,7 @@ public class DisplayAppUsageFragment extends Fragment {
     TextView PrecentageView;
     TextView typewriterText;
     Button nextAppDataBtn;
+    HelperClass helperClass = new HelperClass();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,13 +70,19 @@ public class DisplayAppUsageFragment extends Fragment {
         ProgressBarAnimation anim = new ProgressBarAnimation(nextAppDataBtn,progressBar,PrecentageView,0f,100f);
         anim.setDuration(8000);
         progressBar.setAnimation(anim);
+
+        //Loading Logic
+        if(anim.hasEnded()){
+            nextAppDataBtn.setVisibility(View.VISIBLE);
+        }
+
     }
 
 
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         int i = 0;
-        final String text = "Checking App Data Usage";
+        final String text = "Checking App Data Usage will help tell us how much you certain apps. Your Total usage of all is "+helperClass.getTotalAppUsage()+"MB";
         @Override
         public void run() {
             if (i <= text.length()) {

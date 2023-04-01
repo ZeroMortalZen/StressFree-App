@@ -11,18 +11,17 @@ import android.text.format.Formatter;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.linx.stress_free_app.StressSystem.PersonStressHelperClass;
+import com.linx.stress_free_app.StressSystem.HelperClass;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class AppUsageAsyncTask extends AsyncTask<Void, Void, List<AppUsage>> {
     private Context context;
     private RecyclerView recyclerView;
     private AppUsageAdapter adapter;
-    PersonStressHelperClass personStressHelperClass = new PersonStressHelperClass();
+    HelperClass helperClass = new HelperClass();
 
     public AppUsageAsyncTask(Context context, RecyclerView recyclerView, AppUsageAdapter adapter) {
         this.context = context;
@@ -55,7 +54,7 @@ public class AppUsageAsyncTask extends AsyncTask<Void, Void, List<AppUsage>> {
                 if (usageStats.getPackageName().equals(packageInfo.packageName)) {
                     long usageTime = usageStats.getTotalTimeInForeground();
                     totalUsage += usageTime;
-                    personStressHelperClass.setTotalAppUsage(totalUsage);
+                    helperClass.setTotalAppUsage(totalUsage);
                     String appUsage = Formatter.formatShortFileSize(context, usageTime);
                     appUsages.add(new AppUsage(icon, appName, appUsage));
                     break;

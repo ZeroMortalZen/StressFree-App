@@ -1,6 +1,5 @@
 package com.linx.stress_free_app;
 
-import android.annotation.SuppressLint;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
@@ -17,22 +16,26 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.slider.Slider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.linx.stress_free_app.AnimationController.ProgressBarAnimation;
-import com.linx.stress_free_app.StressSystem.PersonStressHelperClass;
-import com.nitish.typewriterview.TypeWriterView;
+import com.linx.stress_free_app.StressSystem.HelperClass;
 
 import java.util.Calendar;
 import java.util.List;
 
 public class GetScreenTimeFragment extends Fragment {
 
-    PersonStressHelperClass stressHelperClass = new PersonStressHelperClass();
+    private FirebaseAuth mAuth;
+    HelperClass helperClass = new HelperClass();
     ProgressBar progressBar;
     TextView PrecentageView;
     Button NextScreenDataBtn;
     TextView typewriterText;
-
+    private static final long WEEK_IN_MILLIS = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
 
 
@@ -40,7 +43,7 @@ public class GetScreenTimeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mAuth = FirebaseAuth.getInstance();
 
 
 
@@ -68,8 +71,12 @@ public class GetScreenTimeFragment extends Fragment {
 
         long screenTime = getScreenTime(getContext());
 
-        screenTimeTextView.setText("Screen Time: " + screenTime + "ms");
+        screenTimeTextView.setText("Screen Time: " + screenTime + "Min");
         progessAnimation();
+
+        startResetScreenUsageTimer();
+
+
 
 
         return view;
@@ -93,12 +100,21 @@ public class GetScreenTimeFragment extends Fragment {
         //Next Convert Ms to Minutes
         long minutes = (totalScreenTime / 1000) / 60;
 
-        stressHelperClass.setTotalScreenTime(minutes);
+        helperClass.setTotalScreenTime(minutes);
 
-        String getTotalScreenTime= String.valueOf(stressHelperClass.getTotalScreenTime());
+        //Store in Database
+
+        // Initialize Firebase
+
+
+// Set the value of the total screen time
+       // myRef.child(userId).child("totalScreenTime").setValue(helperClass.getTotalScreenTime());
+
+        String getTotalScreenTime= String.valueOf(helperClass.getTotalScreenTime());
         Toast.makeText(getActivity(),getTotalScreenTime,Toast.LENGTH_SHORT).show();
 
         return minutes;
+
 
 
 
@@ -125,5 +141,33 @@ public class GetScreenTimeFragment extends Fragment {
             }
         }
     };
+
+
+    private void resetScreenUsageTime() {
+        helperClass.setTotalScreenTime(0);
+    }
+
+    Runnable resetScreenUsageRunnable = new Runnable() {
+        @Override
+        public void run() {
+            resetScreenUsageTime();
+            handler.postDelayed(this, WEEK_IN_MILLIS);
+        }
+    };
+
+    private void startResetScreenUsageTimer() {
+        handler.postDelayed(resetScreenUsageRunnable, WEEK_IN_MILLIS);
+    }
+
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            currentUser.reload();
+
+        }
+    }
+
 
 }

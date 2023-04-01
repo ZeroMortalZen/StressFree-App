@@ -17,8 +17,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="262dp" />
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="261dp" />
 
     <TextView
         android:id="@+id/precentageView"
@@ -38,14 +38,14 @@
 
     <TextView
         android:id="@+id/typewriter_text"
-        android:layout_width="356dp"
-        android:layout_height="409dp"
+        android:layout_width="354dp"
+        android:layout_height="351dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/baloo_paaji"
         android:text="Checking Screen Usage"
         android:textAlignment="center"
-        android:textSize="20sp" />
+        android:textSize="48sp" />
 
     <TextView
         android:id="@+id/screenTimeTextView"
@@ -54,7 +54,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="132dp"
+        android:layout_marginStart="89dp"
         android:layout_marginBottom="124dp"
         android:fontFamily="@font/baloo_paaji"
         android:text="TextView"

@@ -5,17 +5,22 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.linx.stress_free_app.AnimationController.ProgressBarAnimation;
 import com.linx.stress_free_app.AnimationController.Typewriter;
 
 public class MoodSurveyActivity extends AppCompatActivity {
 
+    TextView currentUserTextView;
+    private FirebaseAuth mAuth;
     Button BackBtn, NextBtn;
     ProgressBar progressBar;
     TextView textView;
@@ -30,13 +35,25 @@ public class MoodSurveyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_survey);
+        // Check if user is signed in (non-null) and update UI accordingly.
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            // Redirect to LoginActivity if the user is not logged in
+            Intent intent = new Intent(MoodSurveyActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
 
         Typewriter typewriterLoadingDialog = findViewById(R.id.typewriterLoadingDialog);
         final String Loading_Dialog =  getString(R.string.Loading_dialog);
 
-        BackBtn = findViewById(R.id.Backbtn);
-        NextBtn = findViewById(R.id.Nextbtn);
+        BackBtn = findViewById(R.id.Nextbtn);
+        NextBtn = findViewById(R.id.Backbtn);
+        currentUserTextView = findViewById(R.id.current_user_text_view);
+
+
 
 
 
@@ -50,6 +67,9 @@ public class MoodSurveyActivity extends AppCompatActivity {
         typewriterLoadingDialog.animateText(Loading_Dialog);
 
         progessAnimation();
+
+
+
 
 
       BackBtn.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +94,12 @@ public class MoodSurveyActivity extends AppCompatActivity {
               switchFragment(fragments[currentFragmentIndex]);
           }
       });
+
+
+
+
+
+
     }
 
     public void switchFragment(Fragment fragment){
@@ -89,6 +115,25 @@ public class MoodSurveyActivity extends AppCompatActivity {
         ProgressBarAnimation anim = new ProgressBarAnimation(BackBtn,progressBar,textView,0f,100f);
         anim.setDuration(8000);
         progressBar.setAnimation(anim);
+        if(anim.hasEnded()){
+            NextBtn.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            currentUser.reload();
+            String displayName = currentUser.getDisplayName();
+            if (displayName != null) {
+                currentUserTextView.setText(displayName);
+            } else {
+                currentUserTextView.setText("User");
+            }
+        }
     }
 
 }
