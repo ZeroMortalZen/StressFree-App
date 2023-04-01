@@ -37,6 +37,10 @@ public class MoodSurveyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mood_survey);
         // Check if user is signed in (non-null) and update UI accordingly.
 
+        // Initialize mAuth
+        mAuth = FirebaseAuth.getInstance();
+
+        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
             // Redirect to LoginActivity if the user is not logged in
@@ -131,8 +135,10 @@ public class MoodSurveyActivity extends AppCompatActivity {
             if (displayName != null) {
                 currentUserTextView.setText(displayName);
             } else {
-                currentUserTextView.setText("User");
+                currentUserTextView.setText("user");
             }
+        }else {
+            currentUserTextView.setText("Error");
         }
     }
 
