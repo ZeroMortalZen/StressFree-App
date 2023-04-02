@@ -36,6 +36,8 @@ public class GetScreenTimeFragment extends Fragment {
     Button NextScreenDataBtn;
     TextView typewriterText;
     private static final long WEEK_IN_MILLIS = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
 
 
 
@@ -78,8 +80,25 @@ public class GetScreenTimeFragment extends Fragment {
 
 
 
+        NextScreenDataBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Store in Database
+                //Database connection & Store Values
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                String userId = currentUser.getUid();
+                DatabaseReference userRef = database.getReference("users").child(userId);
+
+                userRef.child("totalScreenTime").setValue(helperClass.getTotalScreenTime());
+
+            }
+        });
+
+
 
         return view;
+
+
     }
 
     private long getScreenTime(Context context) {
@@ -103,12 +122,13 @@ public class GetScreenTimeFragment extends Fragment {
         helperClass.setTotalScreenTime(minutes);
 
         //Store in Database
+        //Database connection & Store Values
 
-        // Initialize Firebase
 
 
-// Set the value of the total screen time
-       // myRef.child(userId).child("totalScreenTime").setValue(helperClass.getTotalScreenTime());
+
+
+
 
         String getTotalScreenTime= String.valueOf(helperClass.getTotalScreenTime());
         Toast.makeText(getActivity(),getTotalScreenTime,Toast.LENGTH_SHORT).show();

@@ -16,6 +16,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.linx.stress_free_app.MainMenu.MainMenuActivity;
 import com.linx.stress_free_app.StressSystem.HelperClass;
 
@@ -31,6 +35,7 @@ public class BedTimeFragment extends Fragment {
     HelperClass helperClass = new HelperClass();
    TextView typewriter_text2;
    EditText editHoursText;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,23 +50,24 @@ public class BedTimeFragment extends Fragment {
         editHoursText =(EditText)view.findViewById(R.id.editHoursText);
 
 
-
-
-
-
-
-
         TimeSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String getTime= String.valueOf(helperClass.getTime());
-                String setTime = editHoursText.getText().toString();
 
+                String setTime = editHoursText.getText().toString();
 
                 //convert to float
                 float timeInFloat = Float.parseFloat(setTime);
-
                 helperClass.setTime(timeInFloat);
+
+                //Database connection & Store Values
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                String userId = currentUser.getUid();
+                DatabaseReference userRef = database.getReference("users").child(userId);
+
+                userRef.child("time").setValue(timeInFloat);
+
+                String getTime= String.valueOf(helperClass.getTime());
                 Toast.makeText(getActivity(),getTime,Toast.LENGTH_SHORT).show();
 
 

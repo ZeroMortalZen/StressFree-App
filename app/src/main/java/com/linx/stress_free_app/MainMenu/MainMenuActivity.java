@@ -45,7 +45,7 @@ public class MainMenuActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
         Intent intent = new Intent(this, ProfileActivity.class);
 
-        stressCalacutorSystem.CalaculateStressLevel();
+
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
