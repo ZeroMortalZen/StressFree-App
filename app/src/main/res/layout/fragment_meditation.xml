@@ -7,95 +7,79 @@
     tools:context=".MainMenu.MainMenuFragments.MeditationFragment">
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="253dp"
-        android:layout_height="44dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="121dp"
-        android:layout_marginTop="176dp"
-        android:text="Morning" />
-
-    <TextView
         android:id="@+id/textView7"
-        android:layout_width="258dp"
-        android:layout_height="32dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="67dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="73dp"
         android:text="Start your day" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="252dp"
-        android:layout_height="103dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="122dp"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="350dp"
-        android:background="@drawable/breathexercise"
-        android:text="Button" />
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView7"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="154dp"
+        android:layout_marginTop="75dp"
+        android:text="Morning" />
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="252dp"
-        android:layout_height="103dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="125dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="143dp"
+        android:layout_width="253dp"
+        android:layout_height="97dp"
+        android:layout_below="@id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="44dp"
+        android:background="@drawable/breathexercise"
         android:text="Button" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="253dp"
-        android:layout_height="44dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="343dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:text="Afternoon" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="253dp"
+        android:layout_height="97dp"
+        android:layout_below="@id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp"
+        android:text="Button" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="253dp"
-        android:layout_height="44dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="127dp"
-        android:layout_marginTop="539dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:text="Night" />
 
     <Button
         android:id="@+id/button1"
         android:layout_width="251dp"
         android:layout_height="106dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="123dp"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="522dp"
+        android:layout_below="@id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dp"
         android:text="Button" />
 
     <LinearLayout
         android:id="@+id/verticalStepProgressBar"
-        android:layout_width="71dp"
-        android:layout_height="499dp"
-        android:layout_alignTop="@+id/button1"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="-3dp"
-        android:layout_marginBottom="-1dp"
+        android:layout_width="68dp"
+        android:layout_height="465dp"
+        android:layout_alignTop="@+id/button3"
+        android:layout_alignBottom="@+id/button2"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="-213dp"
+        android:layout_toStartOf="@+id/button3"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:weightSum="2">
@@ -104,7 +88,7 @@
             android:id="@+id/step1"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/circle_completed" />
+            android:src="@drawable/circle_uncompleted" />
 
         <View
             android:layout_width="2dp"
@@ -116,7 +100,7 @@
             android:id="@+id/step2"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/circle_completed" />
+            android:src="@drawable/circle_uncompleted" />
 
         <View
             android:layout_width="2dp"
@@ -126,8 +110,8 @@
 
         <ImageView
             android:id="@+id/step3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/circle_uncompleted" />
 
         <!-- Add more ImageView and View elements for additional steps and lines as needed -->
@@ -135,14 +119,14 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="216dp"
+        android:id="@+id/YTbutton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="110dp"
-        android:layout_marginEnd="43dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="104dp"
+        android:layout_marginEnd="55dp"
         android:text="Explanation Video Click here" />
-
 
 </RelativeLayout>
