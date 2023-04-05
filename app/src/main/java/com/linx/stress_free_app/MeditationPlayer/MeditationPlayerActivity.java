@@ -7,6 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.linx.stress_free_app.R;
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -27,6 +31,12 @@ public class MeditationPlayerActivity extends AppCompatActivity {
     private ImageView step1ImageView;
     private OnStepCompletedListener stepCompletedListener;
     private ProgressBar progressBar;
+    int medlevel;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+    String userId = currentUser.getUid();
+    DatabaseReference userRef = database.getReference("users").child(userId);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +57,7 @@ public class MeditationPlayerActivity extends AppCompatActivity {
         // Set the MediaPlayer to loop the audio clip
         mediaPlayer.setLooping(true);
 
+
     }
 
     public void setOnStepCompletedListener(OnStepCompletedListener listener) {
@@ -62,8 +73,25 @@ public class MeditationPlayerActivity extends AppCompatActivity {
 
                 if (elapsedTime >= targetTime) {
                     userScore += 1;
+
+                    // Update medlevel based on the userScore
+                    if (userScore >= 1 && userScore <= 5) {
+                        medlevel = 1;
+                    } else if (userScore >= 6 && userScore <= 10) {
+                        medlevel = 2;
+                    } else if (userScore >= 11) {
+                        medlevel = 3;
+                    }
+
+                    // Store data in Firebase when the target time is reached
+                    storeDataInFirebase(elapsedTime, medlevel);
+
+                    // Reset the elapsedTime after storing the data
                     elapsedTime = 0;
                     mediaPlayer.pause();
+
+
+
 
                     if (stepCompletedListener != null) {
                         stepCompletedListener.onStepCompleted(1);
@@ -74,6 +102,10 @@ public class MeditationPlayerActivity extends AppCompatActivity {
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                 } else {
+                    // Store data in Firebase periodically (e.g., every 5 seconds)
+                    if (elapsedTime % 5000 == 0) {
+                        storeDataInFirebase(elapsedTime, medlevel);
+                    }
                     progressBar.setProgress((int) elapsedTime);
                     handler.postDelayed(this, 1000);
                 }
@@ -94,6 +126,11 @@ public class MeditationPlayerActivity extends AppCompatActivity {
             mediaPlayer.release();
             mediaPlayer = null;
         }
+    }
+
+    private void storeDataInFirebase(long elapsedTime, int medlevel) {
+        userRef.child("mediationTime").setValue(elapsedTime);
+        userRef.child("medLevel").setValue(medlevel);
     }
 
 

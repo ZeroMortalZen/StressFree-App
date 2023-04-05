@@ -1,7 +1,9 @@
 package com.linx.stress_free_app.MainMenu.MainMenuFragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -42,6 +44,7 @@ public class MeditationFragment extends Fragment {
         ytbutton = view.findViewById(R.id.YTbutton);
 
         verticalStepProgressBar = view.findViewById(R.id.verticalStepProgressBar);
+        currentStep = loadSteps(); // Load the steps
         updateStepIndicators(currentStep);
 
 
@@ -113,6 +116,7 @@ public class MeditationFragment extends Fragment {
     public void setCurrentStep(int currentStep) {
         this.currentStep = currentStep;
         updateStepIndicators(currentStep);
+        saveSteps(currentStep);
     }
 
     @Override
@@ -125,6 +129,29 @@ public class MeditationFragment extends Fragment {
                 setCurrentStep(step);
             }
         }
+    }
+
+    private void saveSteps(int steps) {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_steps", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("steps", steps);
+        editor.putLong("timestamp", System.currentTimeMillis());
+        editor.apply();
+    }
+
+    private int loadSteps() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_steps", Context.MODE_PRIVATE);
+        long savedTimestamp = sharedPreferences.getLong("timestamp", 0);
+        long currentTime = System.currentTimeMillis();
+        long timeDifference = currentTime - savedTimestamp;
+
+        // Check if a day has passed (24 hours * 60 minutes * 60 seconds * 1000 milliseconds)
+        if (timeDifference >= 24 * 60 * 60 * 1000) {
+            saveSteps(0); // Reset the steps
+            return 0;
+        }
+
+        return sharedPreferences.getInt("steps", 0);
     }
 
 
