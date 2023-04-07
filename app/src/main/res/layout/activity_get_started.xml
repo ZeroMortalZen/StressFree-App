@@ -59,7 +59,7 @@
         android:visibility="gone" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewMorning"
         android:layout_width="176dp"
         android:layout_height="121dp"
         android:layout_alignParentTop="true"

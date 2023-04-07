@@ -5,7 +5,6 @@
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -19,6 +18,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StressFreeApp"
         tools:targetApi="31">
+        <activity
+            android:name=".MeditationPlayerActivity3"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".MeditationPlayerActivity2"
+            android:exported="false"
+            android:label="@string/title_activity_meditation_player2"
+            android:theme="@style/Theme.StressFreeApp.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".MeditationPlayer.TutorialPlayerActivity"
             android:exported="false">

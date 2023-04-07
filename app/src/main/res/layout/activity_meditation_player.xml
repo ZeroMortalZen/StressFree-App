@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/morningbackground"
     tools:context=".MeditationPlayer.MeditationPlayerActivity">
 
     <ProgressBar
@@ -30,11 +31,14 @@
         android:text="Back" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/imageViewMorning"
+        android:layout_width="343dp"
+        android:layout_height="412dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="101dp" />
 
 
 </RelativeLayout>
