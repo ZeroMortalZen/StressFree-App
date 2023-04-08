@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.linx.stress_free_app.MeditationPlayer.MeditationPlayerActivity;
+import com.linx.stress_free_app.MeditationPlayer.MeditationPlayerActivity2;
+import com.linx.stress_free_app.MeditationPlayer.MeditationPlayerActivity3;
 import com.linx.stress_free_app.MeditationPlayer.OnStepCompletedListener;
 import com.linx.stress_free_app.MeditationPlayer.TutorialPlayerActivity;
 import com.linx.stress_free_app.R;
@@ -60,8 +62,9 @@ public class MeditationFragment extends Fragment {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(getActivity(), MainMenuActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(getActivity(), MeditationPlayerActivity2.class);
+                startActivityForResult(intent, 2);
+
             }
         });
 
@@ -69,8 +72,8 @@ public class MeditationFragment extends Fragment {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(getActivity(), MainMenuActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(getActivity(), MeditationPlayerActivity3.class);
+                startActivityForResult(intent, 3);
             }
         });
 
@@ -82,16 +85,7 @@ public class MeditationFragment extends Fragment {
             }
         });
 
-        MeditationPlayerActivity meditationPlayerActivity = new MeditationPlayerActivity();
-        meditationPlayerActivity.setOnStepCompletedListener(new OnStepCompletedListener() {
-            @Override
-            public void onStepCompleted(int step) {
-                if (step == 1) {
-                    ImageView step1ImageView = view.findViewById(R.id.step1);
-                    step1ImageView.setImageResource(R.drawable.circle_completed);
-                }
-            }
-        });
+
 
 
 
@@ -123,7 +117,7 @@ public class MeditationFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1) {
+        if (requestCode == 1 || requestCode == 2 || requestCode == 3) {
             if (resultCode == Activity.RESULT_OK) {
                 int step = data.getIntExtra("step", 0);
                 setCurrentStep(step);

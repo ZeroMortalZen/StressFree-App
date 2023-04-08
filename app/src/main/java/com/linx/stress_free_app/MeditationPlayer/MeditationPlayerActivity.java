@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.linx.stress_free_app.R;
 import android.media.MediaPlayer;
@@ -57,9 +58,12 @@ public class MeditationPlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_meditation_player);
         progressBar = findViewById(R.id.progress_bar);
 
+        // Initialize Firebase Storage reference
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
         MorningMedGif = findViewById(R.id.imageViewMorning);
         loadGifFromFirebaseStorage();
-
+        loadAudioFromFirebaseStorageAndPlay();
 
         mediaPlayerLocal = MediaPlayer.create(this, R.raw.calmsunrisebreathing);
         handler = new Handler();
@@ -107,7 +111,7 @@ public class MeditationPlayerActivity extends AppCompatActivity {
 
                     // Reset the elapsedTime after storing the data
                     elapsedTime = 0;
-                    mediaPlayerLocal.pause();
+                    //mediaPlayerLocal.pause();
 
 
 
@@ -172,7 +176,7 @@ public class MeditationPlayerActivity extends AppCompatActivity {
     }
 
     private void loadAudioFromFirebaseStorageAndPlay() {
-        String audioPath = "path/to/your/audiofile.wav"; // Replace with the path of your .wav file in Firebase Storage
+        String audioPath = "Voiceovers/MorningVoice/MorningVoice.wav";
         StorageReference audioRef = mStorageRef.child(audioPath);
 
         audioRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

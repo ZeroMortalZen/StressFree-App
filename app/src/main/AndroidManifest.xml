@@ -19,14 +19,14 @@
         android:theme="@style/Theme.StressFreeApp"
         tools:targetApi="31">
         <activity
-            android:name=".MeditationPlayerActivity3"
+            android:name=".MeditationPlayer.MeditationPlayerActivity3"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MeditationPlayerActivity2"
+            android:name=".MeditationPlayer.MeditationPlayerActivity2"
             android:exported="false"
             android:label="@string/title_activity_meditation_player2"
             android:theme="@style/Theme.StressFreeApp.NoActionBar">
