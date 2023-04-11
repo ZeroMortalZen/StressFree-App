@@ -1,66 +1,157 @@
 package com.linx.stress_free_app.MainMenu.MainMenuFragments;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.linx.stress_free_app.ExercisePlayer.ExercisePlayerActivity;
+import com.linx.stress_free_app.ExercisePlayer.ExercisePlayerActivity2;
+import com.linx.stress_free_app.ExercisePlayer.ExercisePlayerActivity3;
+import com.linx.stress_free_app.ExercisePlayer.TutorialPlayerActivity2;
+import com.linx.stress_free_app.MeditationPlayer.MeditationPlayerActivity;
+import com.linx.stress_free_app.MeditationPlayer.MeditationPlayerActivity2;
+import com.linx.stress_free_app.MeditationPlayer.MeditationPlayerActivity3;
+import com.linx.stress_free_app.MeditationPlayer.OnStepCompletedListener;
+import com.linx.stress_free_app.MeditationPlayer.TutorialPlayerActivity;
 import com.linx.stress_free_app.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ExerciseFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ExerciseFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private LinearLayout verticalStepProgressBar;
+    private int[] stepIndicatorIds = {R.id.step1, R.id.step2, R.id.step3}; // Add more step IDs if needed
+    private int currentStep = 0;
+    ImageButton button1;
+    ImageButton button2;
+    ImageButton button3;
+    Button ytbutton;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ExerciseFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ExerciseFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ExerciseFragment newInstance(String param1, String param2) {
-        ExerciseFragment fragment = new ExerciseFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_exercise, container, false);
+
+        button1 = view.findViewById(R.id.button1);
+        button2 = view.findViewById(R.id.button3);
+        button3 = view.findViewById(R.id.button2);
+        ytbutton = view.findViewById(R.id.YTbutton);
+
+        verticalStepProgressBar = view.findViewById(R.id.verticalStepProgressBar);
+        currentStep = loadSteps(); // Load the steps
+        updateStepIndicators(currentStep);
+
+
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ExercisePlayerActivity.class);
+                startActivityForResult(intent, 1);
+            }
+        });
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ExercisePlayerActivity2.class);
+                startActivityForResult(intent, 2);
+
+            }
+        });
+
+
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ExercisePlayerActivity3.class);
+                startActivityForResult(intent, 3);
+            }
+        });
+
+        ytbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), TutorialPlayerActivity2.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+
+
+
+        return view;
+    }
+
+    private void updateStepIndicators(int currentStep) {
+        for (int i = 0; i < stepIndicatorIds.length; i++) {
+            ImageView stepIndicator = verticalStepProgressBar.findViewById(stepIndicatorIds[i]);
+            if (i < currentStep) {
+                stepIndicator.setImageResource(R.drawable.circle_completed);
+            } else {
+                stepIndicator.setImageResource(R.drawable.circle_uncompleted);
+            }
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_exercise, container, false);
+    // Call this method to update the current step and refresh the step indicators
+    public void setCurrentStep(int currentStep) {
+        this.currentStep = currentStep;
+        updateStepIndicators(currentStep);
+        saveSteps(currentStep);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 || requestCode == 2 || requestCode == 3) {
+            if (resultCode == Activity.RESULT_OK) {
+                int step = data.getIntExtra("step", 0);
+                setCurrentStep(step);
+            }
+        }
+    }
+
+    private void saveSteps(int steps) {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_steps", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("steps", steps);
+        editor.putLong("timestamp", System.currentTimeMillis());
+        editor.apply();
+    }
+
+    private int loadSteps() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_steps", Context.MODE_PRIVATE);
+        long savedTimestamp = sharedPreferences.getLong("timestamp", 0);
+        long currentTime = System.currentTimeMillis();
+        long timeDifference = currentTime - savedTimestamp;
+
+        // Check if a day has passed (24 hours * 60 minutes * 60 seconds * 1000 milliseconds)
+        if (timeDifference >= 24 * 60 * 60 * 1000) {
+            saveSteps(0); // Reset the steps
+            return 0;
+        }
+
+        return sharedPreferences.getInt("steps", 0);
+    }
+
+
 }

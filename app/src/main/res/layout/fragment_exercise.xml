@@ -1,14 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainMenu.MainMenuFragments.ExerciseFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="73dp"
+        android:text="Start your day" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView7"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="154dp"
+        android:layout_marginTop="75dp"
+        android:text="Yoga 1" />
+
+    <ImageButton
+        android:id="@+id/button3"
+        android:layout_width="253dp"
+        android:layout_height="97dp"
+        android:layout_below="@id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="44dp"
+        android:background="@drawable/akwhitelogo"
+        android:text="Button" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Yoga 2" />
+
+    <ImageButton
+        android:id="@+id/button2"
+        android:layout_width="253dp"
+        android:layout_height="97dp"
+        android:layout_below="@id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp"
+        android:background="@drawable/akwhitelogo"
+        android:text="Button" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Yoga 3" />
+
+    <ImageButton
+        android:id="@+id/button1"
+        android:layout_width="251dp"
+        android:layout_height="106dp"
+        android:layout_below="@id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dp"
+        android:background="@drawable/akwhitelogo"
+        android:text="Button" />
+
+    <LinearLayout
+        android:id="@+id/verticalStepProgressBar"
+        android:layout_width="68dp"
+        android:layout_height="465dp"
+        android:layout_alignTop="@+id/button3"
+        android:layout_alignBottom="@+id/button2"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="-213dp"
+        android:layout_toStartOf="@+id/button3"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:weightSum="2">
+
+        <ImageView
+            android:id="@+id/step1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/circle_uncompleted" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/vertical_line" />
+
+        <ImageView
+            android:id="@+id/step2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/circle_uncompleted" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/vertical_line" />
+
+        <ImageView
+            android:id="@+id/step3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/circle_uncompleted" />
+
+        <!-- Add more ImageView and View elements for additional steps and lines as needed -->
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/YTbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="104dp"
+        android:layout_marginEnd="55dp"
+        android:text="Explanation Video Click here" />
+
+</RelativeLayout>

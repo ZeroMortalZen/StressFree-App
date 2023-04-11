@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ExercisePlayer.ExercisePlayerActivity">
+
+    <ImageView
+        android:id="@+id/imageViewExerciseGif"
+        android:layout_width="343dp"
+        android:layout_height="412dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="162dp"
+        android:layout_marginEnd="19dp" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar3"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="357dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="650dp"
+        android:indeterminate="false"
+        android:progress="0" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="144dp"
+        android:layout_marginBottom="91dp"
+        android:text="Button" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="281dp"
+        android:layout_height="58dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="81dp"
+        android:text="TextView" />
+
+</RelativeLayout>
