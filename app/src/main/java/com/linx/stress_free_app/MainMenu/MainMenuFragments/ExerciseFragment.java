@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,16 +19,25 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.linx.stress_free_app.ExercisePlayer.ExercisePlayerActivity;
 import com.linx.stress_free_app.ExercisePlayer.ExercisePlayerActivity2;
 import com.linx.stress_free_app.ExercisePlayer.ExercisePlayerActivity3;
+import com.linx.stress_free_app.ExercisePlayer.ImageData;
+import com.linx.stress_free_app.ExercisePlayer.ImageFragment;
+import com.linx.stress_free_app.ExercisePlayer.ImagesAdapter;
 import com.linx.stress_free_app.ExercisePlayer.TutorialPlayerActivity2;
-import com.linx.stress_free_app.MeditationPlayer.MeditationPlayerActivity;
-import com.linx.stress_free_app.MeditationPlayer.MeditationPlayerActivity2;
-import com.linx.stress_free_app.MeditationPlayer.MeditationPlayerActivity3;
-import com.linx.stress_free_app.MeditationPlayer.OnStepCompletedListener;
-import com.linx.stress_free_app.MeditationPlayer.TutorialPlayerActivity;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
 import com.linx.stress_free_app.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ExerciseFragment extends Fragment {
@@ -39,6 +49,10 @@ public class ExerciseFragment extends Fragment {
     ImageButton button2;
     ImageButton button3;
     Button ytbutton;
+
+    private RecyclerView imagesRecyclerView;
+    private ImagesAdapter imagesAdapter;
+    private List<ImageData> imagesData = new ArrayList<>();
 
 
     @Override
@@ -53,6 +67,9 @@ public class ExerciseFragment extends Fragment {
         verticalStepProgressBar = view.findViewById(R.id.verticalStepProgressBar);
         currentStep = loadSteps(); // Load the steps
         updateStepIndicators(currentStep);
+
+
+
 
 
 
@@ -89,6 +106,25 @@ public class ExerciseFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+
+        // Set up the RecyclerView and Adapter
+        imagesRecyclerView = view.findViewById(R.id.images_recycler_view);
+        imagesAdapter = new ImagesAdapter(imagesData, imageUrl -> {
+            // Handle image click and open the fragment with the ImageView
+            // Replace ImageFragment with your fragment class that contains the ImageView
+            ImageFragment imageFragment = ImageFragment.newInstance(imageUrl);
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, imageFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+        imagesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        imagesRecyclerView.setAdapter(imagesAdapter);
+
+        // Load images and gifs from Firebase Storage
+        loadImagesFromFirebase();
 
 
 
@@ -151,6 +187,41 @@ public class ExerciseFragment extends Fragment {
         }
 
         return sharedPreferences.getInt("steps", 0);
+    }
+
+
+    private void loadImagesFromFirebase() {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference().child("/ExerciseVids"); // folder name in Firebase Storage
+
+        storageRef.listAll()
+                .addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                    @Override
+                    public void onSuccess(ListResult listResult) {
+                        for (StorageReference item : listResult.getItems()) {
+                            // Check if the file is a GIF by examining the file extension
+                            String fileName = item.getName();
+                            String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+                            if (fileExtension.equalsIgnoreCase("gif")) {
+                                item.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        // Remove the file extension (.gif) from the file name
+                                        String displayName = fileName.substring(0, fileName.lastIndexOf("."));
+                                        imagesData.add(new ImageData(displayName, uri.toString(), uri.toString()));
+                                        imagesAdapter.notifyDataSetChanged();
+                                    }
+                                });
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle any errors
+                    }
+                });
     }
 
 
