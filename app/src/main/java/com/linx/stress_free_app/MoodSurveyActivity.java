@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -14,11 +15,20 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.linx.stress_free_app.AnimationController.ProgressBarAnimation;
 import com.linx.stress_free_app.AnimationController.Typewriter;
+import com.linx.stress_free_app.ExercisePlayer.TutorialPlayerActivity2;
+import com.linx.stress_free_app.MainMenu.MainMenuActivity;
 
 public class MoodSurveyActivity extends AppCompatActivity {
 
+
+    Button Skipsurvey;
     TextView currentUserTextView;
     private FirebaseAuth mAuth;
     Button BackBtn, NextBtn;
@@ -55,6 +65,7 @@ public class MoodSurveyActivity extends AppCompatActivity {
 
         BackBtn = findViewById(R.id.Nextbtn);
         NextBtn = findViewById(R.id.Backbtn);
+        Skipsurvey = findViewById(R.id.skipSurvey);
         currentUserTextView = findViewById(R.id.current_user_text_view);
 
 
@@ -71,6 +82,45 @@ public class MoodSurveyActivity extends AppCompatActivity {
         typewriterLoadingDialog.animateText(Loading_Dialog);
 
         progessAnimation();
+
+
+        // Get a reference to the user's hasStressLevel in the database
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users")
+                .child(currentUser.getUid())
+                .child("hasStresslevel");
+
+         // Add a ValueEventListener to listen for changes in the user's hasStressLevel value
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    boolean hasStressLevel = dataSnapshot.getValue(Boolean.class);
+                    if (hasStressLevel) {
+                        Skipsurvey.setVisibility(View.VISIBLE);
+                    } else {
+                        Skipsurvey.setVisibility(View.GONE);
+                    }
+                } else {
+                    Skipsurvey.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Log the error if the read operation fails
+                Log.w("MoodSurveyActivity", "Failed to read hasStressLevel value.", databaseError.toException());
+            }
+        });
+
+
+
+        Skipsurvey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MoodSurveyActivity.this, MainMenuActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 

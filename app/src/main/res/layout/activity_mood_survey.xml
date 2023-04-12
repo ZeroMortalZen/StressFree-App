@@ -101,5 +101,17 @@
         android:text="TextView"
         android:textSize="20sp" />
 
+    <Button
+        android:id="@+id/skipSurvey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="17dp"
+        android:background="@drawable/circle_completed"
+        android:text="Skip Survey"
+        android:visibility="invisible" />
+
 
 </RelativeLayout>

@@ -110,15 +110,16 @@ public class ExerciseFragment extends Fragment {
 
         // Set up the RecyclerView and Adapter
         imagesRecyclerView = view.findViewById(R.id.images_recycler_view);
-        imagesAdapter = new ImagesAdapter(imagesData, imageUrl -> {
-            // Handle image click and open the fragment with the ImageView
-            // Replace ImageFragment with your fragment class that contains the ImageView
-            ImageFragment imageFragment = ImageFragment.newInstance(imageUrl);
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, imageFragment)
-                    .addToBackStack(null)
-                    .commit();
+        imagesAdapter = new ImagesAdapter(imagesData, new ImagesAdapter.OnItemClickListener() {
+            public void onItemClick(ImageData imageData, int position) {
+                // Pass both imageUrl and audioUrl when creating a new instance of the ImageFragment
+                ImageFragment imageFragment = ImageFragment.newInstance(imageData.getImageUrl(), imageData.getAudioUrl());
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, imageFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
         });
         imagesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         imagesRecyclerView.setAdapter(imagesAdapter);
@@ -208,7 +209,8 @@ public class ExerciseFragment extends Fragment {
                                     public void onSuccess(Uri uri) {
                                         // Remove the file extension (.gif) from the file name
                                         String displayName = fileName.substring(0, fileName.lastIndexOf("."));
-                                        imagesData.add(new ImageData(displayName, uri.toString(), uri.toString()));
+                                        String audioUrl = uri.toString().replace(".gif", ".wav");
+                                        imagesData.add(new ImageData(displayName, uri.toString(), uri.toString(), audioUrl));
                                         imagesAdapter.notifyDataSetChanged();
                                     }
                                 });
