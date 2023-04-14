@@ -9,13 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
-import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationBarView;
 import com.linx.stress_free_app.MainMenu.MainMenuFragments.ExerciseFragment;
 import com.linx.stress_free_app.MainMenu.MainMenuFragments.HomeFragment;
 import com.linx.stress_free_app.MainMenu.MainMenuFragments.MeditationFragment;
@@ -26,7 +22,6 @@ import com.linx.stress_free_app.StressSystem.StressCalacutorSystem;
 
 public class MainMenuActivity extends AppCompatActivity {
 
-
     private Fragment currentFragment;
     FloatingActionButton fab ;
     StressCalacutorSystem  stressCalacutorSystem = new StressCalacutorSystem();
@@ -35,6 +30,7 @@ public class MainMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
@@ -56,6 +52,8 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
 
 
@@ -75,12 +73,16 @@ public class MainMenuActivity extends AppCompatActivity {
 
             case R.id.listenMenu:
                 currentFragment = new MusicFragment();
+
                 break;
         }
 
         fragmentManager.beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
         return true;
     }
+
+
+
 
 
 }
