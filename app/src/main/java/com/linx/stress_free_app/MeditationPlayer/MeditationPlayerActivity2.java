@@ -57,7 +57,7 @@ public class MeditationPlayerActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meditation_player2);
-        progressBar = findViewById(R.id.progress_bar);
+        progressBar = findViewById(R.id.progress_barAudio);
 
         // Initialize Firebase Storage reference
         mStorageRef = FirebaseStorage.getInstance().getReference();

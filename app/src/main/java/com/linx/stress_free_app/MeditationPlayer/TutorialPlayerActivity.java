@@ -18,7 +18,7 @@ public class TutorialPlayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial_player);
-        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        ProgressBar progressBar = findViewById(R.id.progress_barAudio);
 
         WebView webView = findViewById(R.id.webview_youtube_player);
         WebSettings webSettings = webView.getSettings();

@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -21,7 +20,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.linx.stress_free_app.R;
@@ -59,7 +57,7 @@ public class MeditationPlayerActivity3 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meditation_player3);
-        progressBar = findViewById(R.id.progress_bar);
+        progressBar = findViewById(R.id.progress_barAudio);
 
         // Initialize Firebase Storage reference
         mStorageRef = FirebaseStorage.getInstance().getReference();

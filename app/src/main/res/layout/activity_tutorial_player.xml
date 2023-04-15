@@ -13,7 +13,7 @@
         android:layout_height="339dp" />
 
     <ProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/progress_barAudio"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="357dp"
         android:layout_height="wrap_content"

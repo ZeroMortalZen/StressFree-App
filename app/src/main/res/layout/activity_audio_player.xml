@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     android:padding="16dp"
     tools:context=".YoutubeAPI.AudioPlayerActivity">
 
@@ -26,5 +26,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Play" />
+
+    <ProgressBar
+        android:id="@+id/progress_BarAudio"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
