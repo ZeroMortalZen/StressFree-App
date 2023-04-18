@@ -10,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.linx.stress_free_app.R;
 
 import java.util.List;
@@ -34,15 +37,22 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         User user = userList.get(position);
         holder.emailTextView.setText(user.getEmail());
 
-        // Load the profile picture using Glide
-        Glide.with(holder.profileImageView.getContext())
-                .load(user.getProfilePicPath())
-                .placeholder(R.drawable.placeholder_image) // Add a placeholder image if needed
-                .error(R.drawable.error_image)
-                .into(holder.profileImageView);
+        // Load the profile picture using GlideApp and FirebaseStorageLoader
+        if (user.getProfilePicRef() != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(user.getProfilePicRef());
+
+            GlideApp.with(holder.profileImageView.getContext())
+                    .load(user.getProfilePicUrl())
+                    .placeholder(R.drawable.placeholder_image)
+                    .error(R.drawable.error_image)
+                    .into(holder.profileImageView);
+        } else {
+            holder.profileImageView.setImageResource(R.drawable.error_image);
+        }
 
         holder.rankTextView.setText(user.getMedalRank());
     }
+
 
     @Override
     public int getItemCount() {

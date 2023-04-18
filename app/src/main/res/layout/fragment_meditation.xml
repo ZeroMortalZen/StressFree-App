@@ -25,7 +25,7 @@
         android:text="Morning" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/medbutton1"
         android:layout_width="253dp"
         android:layout_height="97dp"
         android:layout_below="@id/textView3"
@@ -39,13 +39,13 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button3"
+        android:layout_below="@id/medbutton1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Afternoon" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/medbutton2"
         android:layout_width="253dp"
         android:layout_height="97dp"
         android:layout_below="@id/textView"
@@ -57,13 +57,13 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button2"
+        android:layout_below="@id/medbutton2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Night" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/medbutton3"
         android:layout_width="251dp"
         android:layout_height="106dp"
         android:layout_below="@id/textView2"
@@ -75,11 +75,11 @@
         android:id="@+id/verticalStepProgressBar"
         android:layout_width="68dp"
         android:layout_height="465dp"
-        android:layout_alignTop="@+id/button3"
-        android:layout_alignBottom="@+id/button2"
+        android:layout_alignTop="@+id/medbutton1"
+        android:layout_alignBottom="@+id/medbutton2"
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="-213dp"
-        android:layout_toStartOf="@+id/button3"
+        android:layout_toStartOf="@+id/medbutton1"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:weightSum="2">

@@ -12,7 +12,7 @@ import com.linx.stress_free_app.R;
 
 public class TutorialPlayerActivity2 extends AppCompatActivity {
 
-    private static final String VIDEO_ID = "8kV4FHSdNA";
+    private static final String VIDEO_ID = "B40PWmdBVtk";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

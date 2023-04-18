@@ -16,4 +16,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="appAuthRedirectScheme">my-stressfree-app</string>
     <string name="youtube_api_key">AIzaSyDMFZK6EnTNAq7EmY67mCNIv3suBYX-124</string>
+    <string name="your_stress_level_text">Your stress level is %1$d</string>
 </resources>

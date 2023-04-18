@@ -59,9 +59,9 @@ public class ExerciseFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_exercise, container, false);
 
-        button1 = view.findViewById(R.id.button1);
-        button2 = view.findViewById(R.id.button3);
-        button3 = view.findViewById(R.id.button2);
+        button2 = view.findViewById(R.id.button2);
+        button1 = view.findViewById(R.id.medbutton1);
+        button3 = view.findViewById(R.id.medbutton2);
         ytbutton = view.findViewById(R.id.YTbutton);
 
         verticalStepProgressBar = view.findViewById(R.id.verticalStepProgressBar);

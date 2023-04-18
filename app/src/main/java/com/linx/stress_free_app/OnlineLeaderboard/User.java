@@ -1,17 +1,23 @@
 package com.linx.stress_free_app.OnlineLeaderboard;
 
+import com.google.firebase.storage.StorageReference;
+
 public class User {
     private String email;
-    private String profilePicPath;
+
     private String medalRank;
+    private String profilePicRef;
+    private String profilePicUrl;
+
 
     public User() {
     }
 
-    public User(String email, String profilePicPath, String medalRank) {
+    public User(String email, String profilePicRef, String medalRank , String profilePicUrl) {
         this.email = email;
-        this.profilePicPath = profilePicPath;
+        this.profilePicRef = profilePicRef;
         this.medalRank = medalRank;
+        this.profilePicUrl =profilePicUrl;
     }
 
     public String getEmail() {
@@ -22,13 +28,12 @@ public class User {
         this.email = email;
     }
 
-    public String getProfilePicPath() {
-        return profilePicPath;
+    // Add getter and setter methods
+    public String getProfilePicRef() {
+        return profilePicRef;
     }
 
-    public void setProfilePicPath(String profilePicPath) {
-        this.profilePicPath = profilePicPath;
-    }
+
 
     public String getMedalRank() {
         return medalRank;
@@ -36,5 +41,17 @@ public class User {
 
     public void setMedalRank(String medalRank) {
         this.medalRank = medalRank;
+    }
+
+    public void setProfilePicRef(String profilePicRef) {
+        this.profilePicRef = profilePicRef;
+    }
+
+    public String getProfilePicUrl() {
+        return profilePicUrl;
+    }
+
+    public void setProfilePicUrl(String profilePicUrl) {
+        this.profilePicUrl = profilePicUrl;
     }
 }

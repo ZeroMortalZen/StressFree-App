@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import com.linx.stress_free_app.MeditationPlayer.MeditationPlayerActivity;
 import com.linx.stress_free_app.MeditationPlayer.MeditationPlayerActivity2;
 import com.linx.stress_free_app.MeditationPlayer.MeditationPlayerActivity3;
-import com.linx.stress_free_app.MeditationPlayer.OnStepCompletedListener;
 import com.linx.stress_free_app.MeditationPlayer.TutorialPlayerActivity;
 import com.linx.stress_free_app.R;
 
@@ -40,9 +39,9 @@ public class MeditationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meditation, container, false);
 
-        button1 = view.findViewById(R.id.button1);
-        button2 = view.findViewById(R.id.button3);
-        button3 = view.findViewById(R.id.button2);
+        button3 = view.findViewById(R.id.medbutton3);
+        button1 = view.findViewById(R.id.medbutton1);
+        button2 = view.findViewById(R.id.medbutton2);
         ytbutton = view.findViewById(R.id.YTbutton);
 
         verticalStepProgressBar = view.findViewById(R.id.verticalStepProgressBar);

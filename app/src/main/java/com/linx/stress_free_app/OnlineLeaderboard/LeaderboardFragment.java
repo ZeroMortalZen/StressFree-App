@@ -1,6 +1,7 @@
 package com.linx.stress_free_app.OnlineLeaderboard;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.linx.stress_free_app.R;
 
 import java.util.ArrayList;
@@ -54,8 +57,14 @@ public class LeaderboardFragment extends Fragment {
                 List<User> userList = new ArrayList<>();
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     User user = userSnapshot.getValue(User.class);
-                    assert user != null;
-                    user.setProfilePicPath(userSnapshot.child("ProfilePicPath").getValue(String.class));
+                    String profilePicUrl = userSnapshot.child("profilePicUrl").getValue(String.class);
+
+                    Log.d("LeaderboardFragment", "Profile Pic URL: " + profilePicUrl);
+
+                    if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
+                        user.setProfilePicRef(profilePicUrl);
+                    }
+
                     userList.add(user);
                 }
 
@@ -70,4 +79,5 @@ public class LeaderboardFragment extends Fragment {
             }
         });
     }
+
 }

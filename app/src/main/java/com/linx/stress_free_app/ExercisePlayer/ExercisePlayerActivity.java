@@ -3,7 +3,6 @@ package com.linx.stress_free_app.ExercisePlayer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,11 +14,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.linx.stress_free_app.MeditationPlayer.OnStepCompletedListener;
@@ -65,7 +61,7 @@ public class ExercisePlayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_player);
-        progressBar = findViewById(R.id.progress_bar3);
+        progressBar = findViewById(R.id.progress_bar4);
 
         // Initialize Firebase Storage reference
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -92,8 +88,12 @@ public class ExercisePlayerActivity extends AppCompatActivity {
             editor.putLong("lastUpdateTimestamp", System.currentTimeMillis());
             editor.apply();
 
-            int randomIndex = getRandomIndex(exerciseFiles.size());
-            String randomFileName = exerciseFiles.get(randomIndex);
+            String randomFileName;
+            do {
+                int randomIndex = getRandomIndex(exerciseFiles.size());
+                randomFileName = exerciseFiles.get(randomIndex);
+            } while (isFileUsedInOtherActivities(randomFileName));
+
             editor.putString("chosenFileName", randomFileName);
             editor.apply();
 
@@ -127,6 +127,18 @@ public class ExercisePlayerActivity extends AppCompatActivity {
     private int getRandomIndex(int listSize) {
         return random.nextInt(listSize);
     }
+
+    private boolean isFileUsedInOtherActivities(String fileName) {
+        SharedPreferences sharedPreferences2 = getSharedPreferences("ExercisePlayerActivity2", MODE_PRIVATE);
+        String chosenFileName2 = sharedPreferences2.getString("chosenFileName", "");
+
+        SharedPreferences sharedPreferences3 = getSharedPreferences("ExercisePlayerActivity3", MODE_PRIVATE);
+        String chosenFileName3 = sharedPreferences3.getString("chosenFileName", "");
+
+        return fileName.equals(chosenFileName2) || fileName.equals(chosenFileName3);
+    }
+
+
 
 
     public void setOnStepCompletedListener(OnStepCompletedListener listener) {

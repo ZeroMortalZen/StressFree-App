@@ -127,6 +127,7 @@ public class StressCalacutorSystem {
                 else{
                     //Assign StresslevelScore to 3;
                     userRef.child("stressLevelScore").setValue(3);
+
                 }
 
             }
