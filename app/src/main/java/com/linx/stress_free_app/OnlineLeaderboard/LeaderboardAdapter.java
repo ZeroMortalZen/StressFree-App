@@ -1,5 +1,6 @@
 package com.linx.stress_free_app.OnlineLeaderboard;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         return new ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = userList.get(position);
@@ -50,8 +52,25 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
             holder.profileImageView.setImageResource(R.drawable.error_image);
         }
 
-        holder.rankTextView.setText(user.getMedalRank());
+        // Set the rank and the corresponding colors for the top 3 positions
+        int rank = position + 1;
+        holder.rankTextView.setText(String.valueOf(rank));
+        switch (rank) {
+            case 1:
+                holder.rankTextView.setTextColor(Color.parseColor("#FFD700")); // Gold
+                break;
+            case 2:
+                holder.rankTextView.setTextColor(Color.parseColor("#C0C0C0")); // Silver
+                break;
+            case 3:
+                holder.rankTextView.setTextColor(Color.parseColor("#CD7F32")); // Bronze
+                break;
+            default:
+                holder.rankTextView.setTextColor(Color.BLACK); // Default color for other positions
+                break;
+        }
     }
+
 
 
     @Override

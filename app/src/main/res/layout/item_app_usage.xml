@@ -19,12 +19,14 @@
         android:layout_weight="1"
         android:fontFamily="@font/baloo_paaji"
         android:text="App Name"
+        android:textColor="#E6DBDB"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/appUsage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0 MB"/>
+        android:text="0 MB"
+        android:textColor="#F4F4F4" />
 
 </LinearLayout>

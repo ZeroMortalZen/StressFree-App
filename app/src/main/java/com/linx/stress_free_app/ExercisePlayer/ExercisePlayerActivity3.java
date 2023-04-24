@@ -29,6 +29,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class ExercisePlayerActivity3 extends AppCompatActivity {
     int exerciselevel;
     ImageView ExerciseGif;
     private StorageReference mStorageRef;
+    private TextView ExDialog;
 
     private List<String> exerciseFiles;
     private long lastUpdateTimestamp;
@@ -65,7 +67,8 @@ public class ExercisePlayerActivity3 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_player3);
-        progressBar = findViewById(R.id.progress_bar5);
+        progressBar = findViewById(R.id.progress_bar4);
+        ExDialog =findViewById(R.id.ExDialog);
 
         // Initialize Firebase Storage reference
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -270,6 +273,9 @@ public class ExercisePlayerActivity3 extends AppCompatActivity {
     private void loadGifFromFirebaseStorage(String fileName) {
         String gifPath = "ExerciseVids/" + fileName + ".gif";
         StorageReference gifRef = mStorageRef.child(gifPath);
+
+        int stringId = getResources().getIdentifier(fileName, "string", getPackageName());
+        ExDialog.setText(getString(stringId));
 
         gifRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override

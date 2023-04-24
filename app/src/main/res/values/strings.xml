@@ -11,10 +11,60 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="Welcomeback">Welcome Back  Have you done your daily tasks</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="appAuthRedirectScheme">my-stressfree-app</string>
     <string name="youtube_api_key">AIzaSyDMFZK6EnTNAq7EmY67mCNIv3suBYX-124</string>
     <string name="your_stress_level_text">Your stress level is %1$d</string>
+
+    <!-- Strings used for exercises -->
+    <string name="child">Get into a kneeling position with your knees hip-distance apart and feet together behind you.
+        Take a deep inhale, and on the exhale lay your torso over your thighs, pressing your butt onto your heels and reaching your arms forward.
+        Think about lengthening your neck and spine by drawing your ribs away from your tailbone and the crown of your head away from your shoulders.
+        Rest your forehead on the mat. You should feel a stretch on your backside and possibly in your hips. You may also feel a stretch in your arms if they are straight in front. Hold for 30 to 60 seconds.</string>
+
+    <string name="cowcat">Begin on the floor, on your hands and knees with your spine in a neutral position.
+        As you inhale, arch your back by dropping your belly button toward the floor and look up toward the ceiling and hold.
+        Exhale as you round your back up toward the ceiling like an angry cat. Lower your head and drop your shoulders.
+        Move between these two positions gently and slowly for five to eight repetitions.</string>
+
+    <string name="dog">Start on your hands and knees with your hands stacked under your shoulders and knees under your hips.
+        Spread your hands wide and press your index finger and thumb into your mat. Lift your tailbone and press your butt up and back.
+        Drawing your hips toward the ceiling. Straighten your legs as best as you can, and press your heels gently toward the floor.
+        Your head should be relaxed between your arms, facing your knees.
+        Your shoulders should be pulled back and down, and your back should be flat.
+        You may feel a stretch in your hamstrings, calves back, and or shoulders hold for 30 to 60 seconds.</string>
+
+
+    <string name="flexor">Kneel on one knee. Place the opposite foot flat in front of you.
+        Front thigh, parallel to the floor, ankle underneath your knee. Hold this position or for a deeper stretch, lean forward.
+        Stretching your hip toward the floor. Squeeze your butt. This will allow you to stretch your hip flexor even more for an even deeper stretch.
+        Reach up with the arm on the same side as the knee on the floor. Hold for 30 to 60 seconds. Switch sides and repeat.</string>
+
+    <string name="fold">Stand with your feet, shoulder with the part. Straighten your legs out as much as you can without locking your knees and let your torso hang down. Tuck your chin in toward your chest. Relax your shoulders and extend the crown of your head toward the floor to create a long spine. Depending on your flexibility, your hands will touch the floor or dangle above floor level.
+        You can hold onto each elbow with the opposite arm or let your arms hang separately.
+        You should feel a stretch in your back.
+        And hamstrings hold for 30 to 60 seconds.</string>
+
+    <string name="glue">Lie on your back and bend your knees so your feet are flat on the floor. Cross your right foot to your left knee, keeping your left leg bent.
+        To create a figure four, bring your hands behind your right knee and pull both legs toward your chest. Repeat on the other side.</string>
+
+    <string name="pigeon">From a kneeling position, get into downward facing dog and extend your right leg high behind you.
+        Then bring your right leg underneath your body and place it in front of you with your shin parallel to the top of your mat. The goal isn\'t to create an L shape with your right leg. Your foot can be tucked as close to your hips as needed.
+        Extend your left leg long behind you and rest the top of your foot on the mat.
+        Keep your right foot flexed and try to keep your pelvis.
+        And your left hip is close to the mat as you can.
+        If your hip lifts off the floor, bring your right foot a little closer to your body.
+        You should feel a stretch in your right hip.Hold for 30 to 60 seconds. Switch sides and repeat</string>
+
+    <string name="puppy">Get into tabletop position with your wrists under shoulders, knees under hips.
+        Walk your arms forward and bring your chin to the floor while keeping your butt lifted above your knees.
+        Your arms should be stretched out in front and your armpits lifted off the floor.
+        You should feel a stretch in your armpits across the front of your chest and in your core hold for 30 to 60 seconds.</string>
+
+
+
+
 </resources>

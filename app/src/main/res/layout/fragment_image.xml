@@ -4,23 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     tools:context=".ExercisePlayer.ImageFragment">
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="match_parent"
-        android:layout_height="452dp"
+        android:layout_width="341dp"
+        android:layout_height="316dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="47dp"
         android:scaleType="centerCrop" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:id="@+id/exbackbutton"
+        android:layout_width="122dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="130dp"
-        android:layout_marginBottom="84dp"
-        android:text="Button" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="127dp"
+        android:layout_marginBottom="196dp"
+        android:background="@drawable/innerblckround_btn"
+        android:fontFamily="@font/baloo_paaji"
+        android:text="Back"
+        android:textColor="#F4F4F4"
+        android:textSize="16sp" />
 
     <ProgressBar
         android:id="@+id/progressBar4"
@@ -29,7 +40,23 @@
         android:layout_height="39dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="23dp"
-        android:layout_marginBottom="207dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="272dp"
+        android:background="@drawable/progress_bar_background"
+        android:progressDrawable="@drawable/curved_progress_bar" />
+
+    <TextView
+        android:id="@+id/extTextview"
+        android:layout_width="338dp"
+        android:layout_height="112dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="27dp"
+        android:layout_marginBottom="349dp"
+        android:background="@drawable/curved_progress_bar"
+        android:text="TextView"
+        android:textColor="#E4DEDE" />
 
 </RelativeLayout>

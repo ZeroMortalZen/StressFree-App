@@ -10,14 +10,17 @@
     <ProgressBar
         android:id="@+id/progress_barAudio"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="373dp"
-        android:layout_height="wrap_content"
+        android:layout_width="370dp"
+        android:layout_height="36dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="177dp"
-        android:max="20000" />
+        android:layout_marginStart="14dp"
+        android:layout_marginBottom="146dp"
+        android:background="@drawable/buttonbckblack"
+        android:progressDrawable="@drawable/curved_progress_bar"
+        android:max="20000"
+        />
 
     <Button
         android:id="@+id/button4"
@@ -28,7 +31,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="125dp"
         android:layout_marginBottom="69dp"
-        android:text="Back" />
+        android:background="@drawable/round_btn"
+        android:text="Back"
+        android:textColor="#FFFFFF" />
 
     <ImageView
         android:id="@+id/imageViewMorning"

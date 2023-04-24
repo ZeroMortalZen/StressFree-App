@@ -4,7 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainMenu.MainMenuFragments.MusicFragment">
+    tools:context=".MainMenu.MainMenuFragments.MusicFragment"
+    android:orientation="vertical">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="114dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/curved_progress_bar"
+        android:fontFamily="@font/baloo_paaji"
+        android:text="A List of Tunes and Melodies to help you sleep and calm your Mind."
+        android:textColor="#F3EDED"
+        android:textSize="20sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_tracks"

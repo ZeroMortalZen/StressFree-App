@@ -23,9 +23,12 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.linx.stress_free_app.StressSystem.HelperClass;
+
+import java.util.List;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -88,23 +91,60 @@ public class SignUpActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(SignUpActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
-                            String userId = mAuth.getCurrentUser().getUid();
-                            saveUserDataToDatabase(userId);
-                            finish();
+        // Validate email and password
+        if (isEmailValid(email) && isPasswordValid(password)) {
+            mAuth.fetchSignInMethodsForEmail(email)
+                    .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                            if (task.isSuccessful()) {
+                                SignInMethodQueryResult result = task.getResult();
+                                List<String> signInMethods = result.getSignInMethods();
+                                if (signInMethods != null && signInMethods.isEmpty()) {
+                                    // Email is not in use, create a new account
+                                    mAuth.createUserWithEmailAndPassword(email, password)
+                                            .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(SignUpActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
+                                                        String userId = mAuth.getCurrentUser().getUid();
+                                                        saveUserDataToDatabase(userId);
+                                                        finish();
 
-                            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(SignUpActivity.this, "Sign up failed", Toast.LENGTH_SHORT).show();
+                                                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                                                        startActivity(intent);
+                                                    } else {
+                                                        Toast.makeText(SignUpActivity.this, "Sign up failed", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                } else {
+                                    // Email is already in use
+                                    Toast.makeText(SignUpActivity.this, "Email is already in use", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(SignUpActivity.this, "Error checking email", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+        } else {
+            if (!isEmailValid(email)) {
+                Toast.makeText(SignUpActivity.this, "Invalid email", Toast.LENGTH_SHORT).show();
+            }
+            if (!isPasswordValid(password)) {
+                Toast.makeText(SignUpActivity.this, "Invalid password", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+    boolean isEmailValid(String email) {
+        return email.contains("@");
+    }
+
+    boolean isPasswordValid(String password) {
+        return password.length() >= 4 && password.length() <= 20;
     }
 
     private void signInWithGoogle() {
@@ -165,4 +205,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 }

@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     tools:context=".MainMenu.MainMenuFragments.MeditationFragment">
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="73dp"
-        android:text="Start your day" />
+        android:layout_marginEnd="75dp"
+        android:fontFamily="@font/baloo_paaji"
+        android:text="Breathing Exercises"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/textView3"
@@ -21,8 +27,11 @@
         android:layout_below="@id/textView7"
         android:layout_centerInParent="true"
         android:layout_marginStart="154dp"
-        android:layout_marginTop="75dp"
-        android:text="Morning" />
+        android:layout_marginTop="95dp"
+        android:fontFamily="@font/baloo_paaji"
+        android:text="Morning"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/medbutton1"
@@ -33,34 +42,46 @@
         android:layout_marginTop="34dp"
         android:layout_marginEnd="44dp"
         android:background="@drawable/breathexercise"
-        android:text="Button" />
+        android:fontFamily="@font/baloo_paaji"
+        android:text="Exercise 1"
+        android:textColor="#FFFFFF" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/ex1text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/medbutton1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Afternoon" />
+        android:fontFamily="@font/baloo_paaji"
+        android:text="Afternoon"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/medbutton2"
         android:layout_width="253dp"
         android:layout_height="97dp"
-        android:layout_below="@id/textView"
+        android:layout_below="@id/ex1text"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="19dp"
-        android:text="Button" />
+        android:fontFamily="@font/baloo_paaji"
+        android:text="Exercise 2"
+        android:textColor="#FDFDFD" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:layout_width="86dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/medbutton2"
+        android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Night" />
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="151dp"
+        android:fontFamily="@font/baloo_paaji"
+        android:text="Night"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/medbutton3"
@@ -68,17 +89,19 @@
         android:layout_height="106dp"
         android:layout_below="@id/textView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
-        android:text="Button" />
+        android:layout_marginTop="7dp"
+        android:fontFamily="@font/baloo_paaji"
+        android:text="Exercise 3"
+        android:textColor="#FFFFFF" />
 
     <LinearLayout
         android:id="@+id/verticalStepProgressBar"
-        android:layout_width="68dp"
-        android:layout_height="465dp"
+        android:layout_width="62dp"
+        android:layout_height="424dp"
         android:layout_alignTop="@+id/medbutton1"
         android:layout_alignBottom="@+id/medbutton2"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="-213dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="-163dp"
         android:layout_toStartOf="@+id/medbutton1"
         android:gravity="center_horizontal"
         android:orientation="vertical"
@@ -120,13 +143,62 @@
 
     <Button
         android:id="@+id/YTbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="203dp"
+        android:layout_height="65dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="104dp"
-        android:layout_marginEnd="55dp"
-        android:text="Explanation Video Click here" />
+        android:layout_marginTop="138dp"
+        android:layout_marginEnd="85dp"
+        android:fontFamily="@font/baloo_paaji"
+        android:text="Explanation Video Click here"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/textviewtaskcom"
+        android:layout_width="119dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="73dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="201dp"
+        android:fontFamily="@font/baloo_paaji"
+        android:text="Daily Meditation Completed :  0"
+        android:textColor="#FFFEFE" />
+
+    <ImageView
+        android:id="@+id/imageTask"
+        android:layout_width="61dp"
+        android:layout_height="54dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/num0" />
+
+    <ImageView
+        android:id="@+id/rewardmedicon"
+        android:layout_width="62dp"
+        android:layout_height="49dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="327dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/reward"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/rewardText"
+        android:layout_width="87dp"
+        android:layout_height="51dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="68dp"
+        android:fontFamily="@font/baloo_paaji"
+        android:text="You Earned A Point"
+        android:textColor="#FFFAFA"
+        android:visibility="gone" />
 
 </RelativeLayout>

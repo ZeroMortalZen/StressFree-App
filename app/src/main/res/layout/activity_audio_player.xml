@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/moonmusic"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp"
@@ -12,25 +13,62 @@
     <WebView
         android:id="@+id/webview"
         android:layout_width="305dp"
-        android:layout_height="243dp" />
+        android:layout_height="243dp"
+        android:visibility="invisible" />
+
+    <Space
+        android:layout_width="379dp"
+        android:layout_height="222dp" />
+
+    <Space
+        android:layout_width="360dp"
+        android:layout_height="44dp" />
 
     <Button
         android:id="@+id/pause_button"
-        android:layout_width="wrap_content"
+        style="@style/WhiteButton"
+        android:layout_width="139dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Pause" />
+        android:background="@drawable/innerblckround_btn"
+        android:text="Pause"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#FFFFFF" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="24dp" />
 
     <Button
         android:id="@+id/play_button"
-        android:layout_width="wrap_content"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="138dp"
         android:layout_height="wrap_content"
-        android:text="Play" />
+        android:background="@drawable/lavender_border"
+        android:text="Play"
+        android:textColor="#FFFFFF" />
+
+    <Space
+        android:layout_width="366dp"
+        android:layout_height="44dp" />
 
     <ProgressBar
         android:id="@+id/progress_BarAudio"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="355dp"
+        android:layout_height="33dp"
+        android:background="@drawable/progress_bar_background" />
+
+    <Space
+        android:layout_width="407dp"
+        android:layout_height="11dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="158dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/innerblckround_btn"
+        android:text="Back"
+        android:textColor="#FFFEFE" />
 
 </LinearLayout>

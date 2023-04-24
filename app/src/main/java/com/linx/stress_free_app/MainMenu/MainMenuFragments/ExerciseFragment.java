@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,13 +36,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
+import com.linx.stress_free_app.MeditationPlayer.OnStepCompletedListener;
 import com.linx.stress_free_app.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ExerciseFragment extends Fragment {
+public class ExerciseFragment extends Fragment implements OnStepCompletedListener {
 
     private LinearLayout verticalStepProgressBar;
     private int[] stepIndicatorIds = {R.id.step1, R.id.step2, R.id.step3}; // Add more step IDs if needed
@@ -49,6 +52,10 @@ public class ExerciseFragment extends Fragment {
     ImageButton button2;
     ImageButton button3;
     Button ytbutton;
+    TextView textviewtaskcom2;
+    TextView rewardText2;
+    ImageView rewardmedicon2;
+    ImageView imageTask2;
 
     private RecyclerView imagesRecyclerView;
     private ImagesAdapter imagesAdapter;
@@ -59,12 +66,26 @@ public class ExerciseFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_exercise, container, false);
 
+        textviewtaskcom2 =view.findViewById(R.id.textviewtaskcom2);
+        imageTask2 = view.findViewById(R.id.imageTask2);
+        rewardmedicon2 = view.findViewById(R.id.rewardmedicon2);
+        rewardText2=view.findViewById(R.id.rewardText2);
+
+
+
         button2 = view.findViewById(R.id.button2);
         button1 = view.findViewById(R.id.medbutton1);
         button3 = view.findViewById(R.id.medbutton2);
         ytbutton = view.findViewById(R.id.YTbutton);
 
+
+
         verticalStepProgressBar = view.findViewById(R.id.verticalStepProgressBar);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
+        int completedStep = sharedPreferences.getInt("completed_step", 0);
+        updateUIForCompletedStep(completedStep);
+
         currentStep = loadSteps(); // Load the steps
         updateStepIndicators(currentStep);
 
@@ -163,6 +184,7 @@ public class ExerciseFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 int step = data.getIntExtra("step", 0);
                 setCurrentStep(step);
+                onStepCompleted(step);
             }
         }
     }
@@ -184,11 +206,13 @@ public class ExerciseFragment extends Fragment {
         // Check if a day has passed (24 hours * 60 minutes * 60 seconds * 1000 milliseconds)
         if (timeDifference >= 24 * 60 * 60 * 1000) {
             saveSteps(0); // Reset the steps
+            updateUIForCompletedStep(0); // Update UI based on reset steps
             return 0;
         }
 
         return sharedPreferences.getInt("steps", 0);
     }
+
 
 
     private void loadImagesFromFirebase() {
@@ -225,6 +249,63 @@ public class ExerciseFragment extends Fragment {
                     }
                 });
     }
+
+
+    public void onStepCompleted(int step) {
+        if (step == 1) {
+            imageTask2.setImageResource(R.drawable.num1); // Replace with the appropriate image resource
+            textviewtaskcom2.setText("Daily Meditation Completed 1");
+            Toast.makeText(getActivity(), "You have completed your morning exercise, you have earned a point.", Toast.LENGTH_SHORT).show();
+        } else if (step == 2) {
+            imageTask2.setImageResource(R.drawable.num2); // Replace with the appropriate image resource
+            textviewtaskcom2.setText("Daily Meditation Completed 2");
+            Toast.makeText(getActivity(), "You have completed your afternoon exercise, you have earned a point.", Toast.LENGTH_SHORT).show();
+        } else if (step == 3) {
+            imageTask2.setImageResource(R.drawable.num3); // Replace with the appropriate image resource
+            textviewtaskcom2.setText("Daily Meditation Completed 3");
+            rewardmedicon2.setVisibility(View.VISIBLE);
+            rewardText2.setVisibility(View.VISIBLE);
+            Toast.makeText(getActivity(), "You have completed your night exercise, you have earned a point.", Toast.LENGTH_SHORT).show();
+        }
+        saveCompletedStep(step);
+    }
+
+    private void saveCompletedStep(int step) {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("completed_step", step);
+        editor.apply();
+    }
+
+
+    private void updateUIForCompletedStep(int step) {
+        if (step == 1) {
+            imageTask2.setImageResource(R.drawable.num1);
+            textviewtaskcom2.setText("Daily Exercise Completed 1");
+        } else if (step == 2) {
+            imageTask2.setImageResource(R.drawable.num2);
+            textviewtaskcom2.setText("Daily Exercise Completed 2");
+        } else if (step == 3) {
+            imageTask2.setImageResource(R.drawable.num3);
+            rewardmedicon2.setImageResource(R.drawable.reward);
+            rewardText2.setText("You Earned A Point");
+            textviewtaskcom2.setText("Daily Exercise Completed 3");
+        }
+        // Disable button2 and button3 initially
+        button2.setEnabled(false);
+        button3.setEnabled(false);
+
+       // Enable button2 if step 1 is completed
+        if (step >= 1) {
+            button2.setEnabled(true);
+        }
+
+        // Enable button3 if step 2 is completed
+        if (step >= 2) {
+            button3.setEnabled(true);
+        }
+    }
+
 
 
 }

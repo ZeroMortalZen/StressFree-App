@@ -1,5 +1,8 @@
 package com.linx.stress_free_app.NewsSystem;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +19,13 @@ import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     private List<NewsArticle> articles;
+    private Context context;
 
-    public NewsAdapter(List<NewsArticle> articles) {
+    public NewsAdapter(Context context, List<NewsArticle> articles) {
+        this.context = context;
         this.articles = articles;
     }
 
-    @NonNull
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item, parent, false);
@@ -34,6 +38,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         holder.title.setText(article.getTitle());
         holder.description.setText(article.getDescription());
         Picasso.get().load(article.getUrlToImage()).into(holder.image);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse(article.getUrl());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

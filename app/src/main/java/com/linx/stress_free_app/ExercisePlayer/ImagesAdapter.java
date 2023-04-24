@@ -19,6 +19,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageViewH
     private List<ImageData> images;
     private OnItemClickListener onItemClickListener;
 
+
     public interface OnItemClickListener {
         void onItemClick(ImageData imageData, int position);
     }

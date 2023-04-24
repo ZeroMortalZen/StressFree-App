@@ -10,12 +10,25 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageView
-            android:layout_weight="4"
-            android:src="@drawable/ic_login"
-            android:scaleType="centerCrop"
             android:layout_width="match_parent"
-            android:layout_height="0dp" />
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_login" />
+
+        <Button
+            android:id="@+id/LoginButton"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/speechbubble"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Login up"
+            android:textColor="#FFFFFF" />
+
         <View
             android:layout_weight="1"
             android:layout_width="match_parent"
@@ -43,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:layout_margin="20dp"
-            android:background="@drawable/round_corner"
+            android:background="@drawable/curved_progress_bar"
             android:hint="Email"
             android:paddingStart="10dp"
             android:paddingLeft="10dp"
@@ -56,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:layout_margin="20dp"
-            android:background="@drawable/round_corner"
+            android:background="@drawable/curved_progress_bar"
             android:hint="Password"
             android:inputType="textPassword"
             android:paddingStart="10dp"
@@ -65,15 +78,6 @@
             android:textColorHint="#eee"
             android:textSize="17sp" />
 
-        <Button
-            android:id="@+id/LoginButton"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:background="@drawable/rounded_corner_button"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="Login up"
-            android:textColor="#777" />
     </LinearLayout>
 
 

@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.linx.stress_free_app.MainMenu.MainMenuFragments.ExerciseFragment;
 import com.linx.stress_free_app.R;
 
 import java.io.IOException;
@@ -36,6 +38,9 @@ public class ImageFragment extends Fragment {
     private ProgressBar progressBar;
     private Runnable updateElapsedTime;
     private static final String AUDIO_URL = "audio_url";
+    private Button extTextview;
+    private Button exbackbutton;
+
 
     private String audioUrl;
 
@@ -83,6 +88,17 @@ public class ImageFragment extends Fragment {
                     .load(imageUrl)
                     .into(imageView);
         }
+
+        exbackbutton= view.findViewById(R.id.exbackbutton);
+
+
+        exbackbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Intent intent = new Intent(getActivity(), ExerciseFragment.class);
+
+            }
+        });
 
         mediaPlayerLocal = MediaPlayer.create(getActivity(), R.raw.afternoonbreathing);
         handler = new Handler();

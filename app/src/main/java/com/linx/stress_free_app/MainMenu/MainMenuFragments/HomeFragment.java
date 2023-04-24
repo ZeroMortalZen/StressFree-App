@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
                 if (response.isSuccessful()) {
                     List<NewsArticle> articles = response.body().getArticles();
-                    recyclerView.setAdapter(new NewsAdapter(articles));
+                    recyclerView.setAdapter(new NewsAdapter(getActivity(),articles));
                 } else {
                     Log.e("NewsFragment", "Error fetching news articles");
                 }

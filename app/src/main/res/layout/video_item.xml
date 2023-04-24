@@ -16,7 +16,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:fontFamily="@font/baloo_paaji"
         android:paddingStart="8dp"
-        android:textAppearance="?android:textAppearanceMedium" />
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

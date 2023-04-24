@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="72dp"
+        android:layout_height="56dp"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/ic_baseline_person_24" />
+
+    <TextView
+        android:id="@+id/profile_email"
+        android:layout_width="138dp"
+        android:layout_height="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="-2dp"
+        android:layout_marginEnd="175dp"
+        android:layout_toRightOf="@+id/profile_image"
+        android:fontFamily="@font/baloo_paaji"
+        android:text="example@example.com"
+        android:textColor="#F3F3F3"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/profile_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_email"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="9dp"
+        android:layout_marginTop="-20dp"
+        android:layout_toRightOf="@+id/profile_image"
+        android:fontFamily="@font/baloo_paaji"
+        android:text="Rank: 1"
+        android:textColor="#F8F5F5"
+        android:textSize="14sp" />
+
+</RelativeLayout>

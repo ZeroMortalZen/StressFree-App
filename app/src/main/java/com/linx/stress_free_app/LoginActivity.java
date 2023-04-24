@@ -69,24 +69,29 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "signInWithEmail:success");
-                            Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_SHORT).show();
+        if (isEmailValid(email) && isPasswordValid(password)) {
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "signInWithEmail:success");
+                                Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(LoginActivity.this, GetStarted.class);
-                            startActivity(intent);
+                                Intent intent = new Intent(LoginActivity.this, GetStarted.class);
+                                startActivity(intent);
 
-                        } else {
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+        } else {
+            Toast.makeText(LoginActivity.this, "Invalid email or password.", Toast.LENGTH_SHORT).show();
+        }
     }
+
 
     private void signInWithGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -127,5 +132,14 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+
+    public boolean isEmailValid(String email) {
+        return email.contains("@");
+    }
+
+    public boolean isPasswordValid(String password) {
+        return password.length() >= 6;
     }
 }

@@ -12,8 +12,10 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.linx.stress_free_app.AnimationController.Typewriter;
 import com.nitish.typewriterview.TypeWriterView;
 
@@ -36,6 +38,9 @@ public class GetStarted extends Activity {
         final String GetStartedDialog = getResources().getString(R.string.GetStartedDialog);
         final Button animateBtn = findViewById(R.id.animateBtn);
         final Button GetPermissionBtn = findViewById(R.id.GetPremissionBtn);
+
+        ImageView imageView2 = findViewById(R.id.imageView2);
+        Glide.with(this).load(R.drawable.docanim).into(imageView2);
 
         animateBtn.setVisibility(View.GONE);
 

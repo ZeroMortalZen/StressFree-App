@@ -1,6 +1,8 @@
 package com.linx.stress_free_app;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.linx.stress_free_app.MainMenu.MainMenuActivity;
 import com.linx.stress_free_app.StressSystem.HelperClass;
 import com.linx.stress_free_app.StressSystem.StressCalacutorSystem;
+import android.animation.ArgbEvaluator;
 
 public class PainFragment extends Fragment {
 
@@ -34,6 +38,8 @@ public class PainFragment extends Fragment {
    HelperClass helperClass = new HelperClass();
    FirebaseDatabase database = FirebaseDatabase.getInstance();
    StressCalacutorSystem stressCalacutorSystem = new StressCalacutorSystem();
+   ImageView PainIcon;
+   ImageView NonPainIcon;
 
 
     @Override
@@ -45,12 +51,25 @@ public class PainFragment extends Fragment {
         PainSlider =(Slider) view.findViewById(R.id.PainSlider);
         PainNumberView =(TextView) view.findViewById(R.id.PainNumberView);
         PainSubmit =(Button)view.findViewById(R.id.PainSubmit);
+        NonPainIcon =(ImageView)view.findViewById(R.id.imageNonPain);
+        PainIcon =(ImageView)view.findViewById(R.id.imagePain);
+
 
         PainSlider.addOnChangeListener(new Slider.OnChangeListener() {
+            ArgbEvaluator argbEvaluator = new ArgbEvaluator(); //ArgbEvaluator instance
+            int startColor = Color.parseColor("#FFFFFF"); //  starting color of the PainIcon
+            int endColor = Color.parseColor("#FF0000"); //  red color when the slider is at its maximum value
+
             @Override
             public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
                 PainNumberView.setText(Float.toString(value));
                 helperClass.setPain(Float.parseFloat(Float.toString(value)));
+
+
+                float ratio = value / 10; // Calculate the ratio of the current value to the maximum value
+                int interpolatedColor = (int) argbEvaluator.evaluate(ratio, startColor, endColor); // Interpolate the color based on the ratio
+                ColorStateList tintList = ColorStateList.valueOf(interpolatedColor);
+                PainIcon.setImageTintList(tintList); // Apply the interpolated color to the PainIcon
             }
         });
 
