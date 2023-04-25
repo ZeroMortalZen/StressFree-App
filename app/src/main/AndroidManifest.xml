@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -20,7 +19,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StressFreeApp"
         tools:targetApi="31">
-
+        <activity
+            android:name=".DiarySystem.UserDiaryEntryActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".DiarySystem.AddDiaryEntryActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
 
         <receiver
             android:name=".NotificationSystem.NotificationReceiver"
@@ -34,6 +46,7 @@
         <meta-data
             android:name="com.linx.stress_free_app.YoutubeAPI.API_KEY"
             android:value="AIzaSyDMFZK6EnTNAq7EmY67mCNIv3suBYX-124" />
+
         <activity
             android:name=".YoutubeAPI.AudioPlayerActivity"
             android:exported="false">

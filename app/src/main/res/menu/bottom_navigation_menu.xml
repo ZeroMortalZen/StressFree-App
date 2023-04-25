@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/diaryFragment"
+        android:icon="@drawable/diary"
+         android:color="@color/white" android:state_checked="true"
+        android:title="Diary" />
+    <item
+        android:id="@+id/graphFragment"
+        android:icon="@drawable/bargraph"
+        android:color="@color/white" android:state_checked="true"
+        android:title="Graph" />
+    <item
+        android:id="@+id/leaderboardFragment"
+        android:icon="@drawable/podium"
+        android:color="@color/white" android:state_checked="true"
+        android:title="Leaderboard" />
+</menu>

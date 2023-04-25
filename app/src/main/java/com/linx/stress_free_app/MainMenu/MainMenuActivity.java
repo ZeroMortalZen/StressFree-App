@@ -179,13 +179,23 @@ public class MainMenuActivity extends AppCompatActivity {
         // For 4-hour notifications
         Intent intent1 = new Intent(this, NotificationReceiver.class);
         intent1.putExtra("channelId", "channel1");
-        PendingIntent pendingIntent1 = PendingIntent.getBroadcast(this, 1, intent1, 0);
+        PendingIntent pendingIntent1;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            pendingIntent1 = PendingIntent.getBroadcast(this, 1, intent1, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        } else {
+            pendingIntent1 = PendingIntent.getBroadcast(this, 1, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (4 * 60 * 60 * 1000), (4 * 60 * 60 * 1000), pendingIntent1);
 
         // For 24-hour notifications
         Intent intent2 = new Intent(this, NotificationReceiver.class);
         intent2.putExtra("channelId", "channel2");
-        PendingIntent pendingIntent2 = PendingIntent.getBroadcast(this, 2, intent2, 0);
+        PendingIntent pendingIntent2;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            pendingIntent2 = PendingIntent.getBroadcast(this, 2, intent2, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        } else {
+            pendingIntent2 = PendingIntent.getBroadcast(this, 2, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (24 * 60 * 60 * 1000), (24 * 60 * 60 * 1000), pendingIntent2);
     }
 
@@ -195,4 +205,5 @@ public class MainMenuActivity extends AppCompatActivity {
 
 
 
-    }
+
+}

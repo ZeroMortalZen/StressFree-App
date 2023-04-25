@@ -8,7 +8,7 @@ public class User {
     private String medalRank;
     private String profilePicRef;
     private String profilePicUrl;
-
+    private String userId;
 
     public User() {
     }
@@ -53,5 +53,13 @@ public class User {
 
     public void setProfilePicUrl(String profilePicUrl) {
         this.profilePicUrl = profilePicUrl;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

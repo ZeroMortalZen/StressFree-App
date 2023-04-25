@@ -22,4 +22,9 @@
     <style name="Theme.StressFreeApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.StressFreeApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="BottomNavigationTheme" parent="Theme.MaterialComponents.DayNight">
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSurface">@color/white</item>
+    </style>
 </resources>

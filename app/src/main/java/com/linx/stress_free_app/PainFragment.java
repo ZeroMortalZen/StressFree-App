@@ -92,10 +92,21 @@ public class PainFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         // Get the values from the database
-                        float pain = dataSnapshot.child("pain").getValue(Float.class);
-                        float time = dataSnapshot.child("time").getValue(Float.class);
-                        float totalAppUsage = dataSnapshot.child("totalAppUsage").getValue(Float.class);
-                        float totalScreenTime = dataSnapshot.child("totalScreenTime").getValue(Float.class);
+                        Float painValue = dataSnapshot.child("pain").getValue(Float.class);
+                        Float timeValue = dataSnapshot.child("time").getValue(Float.class);
+                        Float totalAppUsageValue = dataSnapshot.child("totalAppUsage").getValue(Float.class);
+                        Float totalScreenTimeValue = dataSnapshot.child("totalScreenTime").getValue(Float.class);
+
+                        // Check if any of the values are null
+                        if (painValue == null || timeValue == null || totalAppUsageValue == null || totalScreenTimeValue == null) {
+                            Toast.makeText(getActivity(), "Mood Survey Has been Uncompleted", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        float pain = painValue.floatValue();
+                        float time = timeValue.floatValue();
+                        float totalAppUsage = totalAppUsageValue.floatValue();
+                        float totalScreenTime = totalScreenTimeValue.floatValue();
 
                         // Check if the survey has been filled
                         if (pain >= 0.1 && time >= 0.1 && totalAppUsage >= 0.1 && totalScreenTime >= 0.1) {
@@ -114,6 +125,7 @@ public class PainFragment extends Fragment {
                             Toast.makeText(getActivity(), "Mood Survey Has been Uncompleted", Toast.LENGTH_SHORT).show();
                         }
                     }
+
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {

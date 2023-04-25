@@ -7,6 +7,11 @@
     tools:context=".ProfileActivity">
 
 
+    <Space
+        android:layout_width="366dp"
+        android:layout_height="19dp"
+        android:layout_weight="1" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,6 +38,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
+            <Space
+                android:layout_width="366dp"
+                android:layout_height="19dp"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/email_label"
@@ -88,25 +98,30 @@
             android:text="Save Changes"
             android:textColor="#E4E4E4" />
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="371dp"
-            android:layout_height="42dp"
-            android:fontFamily="@font/baloo_paaji"
-            android:text="Leaderboard"
-            android:textColor="#FFFFFF"
-            android:textSize="34sp" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="17dp" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/curved_progress_bar"
+            app:itemIconTint="@color/bottom_navigation_icon_tint"
+            app:itemTextColor="@color/bottom_navigation_icon_tint"
+            app:menu="@menu/bottom_navigation_menu" />
 
         <Space
-            android:layout_width="362dp"
-            android:layout_height="13dp" />
+            android:layout_width="match_parent"
+            android:layout_height="17dp" />
 
         <FrameLayout
             android:id="@+id/leaderboard_fragment_container"
-            android:layout_width="353dp"
-            android:layout_height="376dp"
+            android:layout_width="366dp"
+            android:layout_height="342dp"
             android:layout_marginBottom="11dp"
-            android:background="@drawable/buttonbckblack"
+            android:background="@drawable/curved_progress_bar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

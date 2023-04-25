@@ -3,6 +3,7 @@ package com.linx.stress_free_app;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +33,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.linx.stress_free_app.DiarySystem.AddDiaryEntryActivity;
+import com.linx.stress_free_app.DiarySystem.DiaryFragment;
+import com.linx.stress_free_app.MainMenu.MainMenuActivity;
 import com.linx.stress_free_app.OnlineLeaderboard.LeaderboardFragment;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -39,6 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button saveChangesButton;
+    private Button DiaryButton;
 
     private static final int SELECT_PROFILE_PICTURE_REQUEST_CODE = 100;
 
@@ -65,6 +72,7 @@ public class ProfileActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.email_edit_text);
         passwordEditText = findViewById(R.id.password_edit_text);
         saveChangesButton = findViewById(R.id.save_changes_button);
+        //DiaryButton = findViewById(R.id.Diarybutton);
 
         fetchUserDataAndPopulateUI();
 
@@ -82,6 +90,44 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivityForResult(intent, SELECT_PROFILE_PICTURE_REQUEST_CODE);
             }
         });
+
+
+        // Initialize BottomNavigationView
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment selectedFragment = null;
+
+                switch (item.getItemId()) {
+                    case R.id.diaryFragment:
+                        selectedFragment = new DiaryFragment();
+                        break;
+                    case R.id.graphFragment:
+                        //selectedFragment = new GraphFragment();
+                        break;
+                    case R.id.leaderboardFragment:
+                        selectedFragment = new LeaderboardFragment();
+                        break;
+                }
+
+                if (selectedFragment != null) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.leaderboard_fragment_container, selectedFragment).commit();
+                }
+                return true;
+            }
+        });
+
+
+        //DiaryButton.setOnClickListener(new View.OnClickListener() {
+            //@Override
+            //public void onClick(View view) {
+               // Intent intent = new Intent(ProfileActivity.this, AddDiaryEntryActivity.class);
+               // startActivity(intent);
+            //}
+        //});
+
+
     }
 
     private void fetchUserDataAndPopulateUI() {

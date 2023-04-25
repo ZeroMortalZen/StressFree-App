@@ -1,5 +1,6 @@
 package com.linx.stress_free_app.OnlineLeaderboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,16 +21,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.linx.stress_free_app.DiarySystem.UserDiaryEntryActivity;
 import com.linx.stress_free_app.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeaderboardFragment extends Fragment {
+public class LeaderboardFragment extends Fragment implements LeaderboardAdapter.OnUserItemClickListener {
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private DatabaseReference usersRef;
+
 
     @Nullable
     @Override
@@ -59,6 +62,8 @@ public class LeaderboardFragment extends Fragment {
                     User user = userSnapshot.getValue(User.class);
                     String profilePicUrl = userSnapshot.child("profilePicUrl").getValue(String.class);
 
+                    user.setUserId(userSnapshot.getKey()); // Set the userId
+
                     Log.d("LeaderboardFragment", "Profile Pic URL: " + profilePicUrl);
 
                     if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
@@ -68,7 +73,7 @@ public class LeaderboardFragment extends Fragment {
                     userList.add(user);
                 }
 
-                LeaderboardAdapter adapter = new LeaderboardAdapter(userList);
+                LeaderboardAdapter adapter = new LeaderboardAdapter(userList, LeaderboardFragment.this);
                 recyclerView.setAdapter(adapter);
                 progressBar.setVisibility(View.GONE);
             }
@@ -78,6 +83,12 @@ public class LeaderboardFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
             }
         });
+    }
+
+    public void onUserItemClick(String userId) {
+        Intent intent = new Intent(getContext(), UserDiaryEntryActivity.class);
+        intent.putExtra("userId", userId);
+        startActivity(intent);
     }
 
 }

@@ -21,17 +21,23 @@ import java.util.List;
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder> {
 
     private List<User> userList;
+    private OnUserItemClickListener onUserItemClickListener;
 
-    public LeaderboardAdapter(List<User> userList) {
+    public LeaderboardAdapter(List<User> userList, OnUserItemClickListener onUserItemClickListener) {
         this.userList = userList;
+        this.onUserItemClickListener = onUserItemClickListener;
     }
+
+
 
     @NonNull
     @Override
+
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.leaderboard_item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, onUserItemClickListener);
     }
+
 
 
     @Override
@@ -45,6 +51,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
             GlideApp.with(holder.profileImageView.getContext())
                     .load(user.getProfilePicUrl())
+                    .circleCrop()
                     .placeholder(R.drawable.placeholder_image)
                     .error(R.drawable.error_image)
                     .into(holder.profileImageView);
@@ -78,16 +85,34 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         return userList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public interface OnUserItemClickListener {
+        void onUserItemClick(String userId);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView profileImageView;
         public TextView emailTextView;
         public TextView rankTextView;
 
-        public ViewHolder(@NonNull View itemView) {
+        OnUserItemClickListener onUserItemClickListener;
+
+        public ViewHolder(@NonNull View itemView, OnUserItemClickListener onUserItemClickListener) {
             super(itemView);
             profileImageView = itemView.findViewById(R.id.profile_image);
             emailTextView = itemView.findViewById(R.id.email_text);
             rankTextView = itemView.findViewById(R.id.rank_text);
+
+            this.onUserItemClickListener = onUserItemClickListener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            onUserItemClickListener.onUserItemClick(userList.get(getAdapterPosition()).getUserId());
         }
     }
 }
+
+
+
+
