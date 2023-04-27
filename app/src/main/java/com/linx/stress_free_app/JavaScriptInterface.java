@@ -6,9 +6,12 @@ import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 
 public class JavaScriptInterface {
     private ProgressBar progressBar;
@@ -69,10 +72,22 @@ public class JavaScriptInterface {
     }
 
 
-    private void storeWatchedTimeAndScoreInFirebase(int watchedTime, int score) {
-        userRef.child("musicTime").setValue(watchedTime, new DatabaseReference.CompletionListener() {
+    private void storeWatchedTimeAndScoreInFirebase(final int watchedTime, final int score) {
+        DatabaseReference musicTimeRef = userRef.child("musicTime");
+        musicTimeRef.runTransaction(new Transaction.Handler() {
             @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Integer currentValue = mutableData.getValue(Integer.class);
+                if (currentValue == null) {
+                    mutableData.setValue(watchedTime);
+                } else {
+                    mutableData.setValue(currentValue + watchedTime);
+                }
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
                 if (databaseError != null) {
                     System.out.println("Data could not be saved: " + databaseError.getMessage());
                 } else {
@@ -81,9 +96,21 @@ public class JavaScriptInterface {
             }
         });
 
-        userRef.child("musicLevel").setValue(score, new DatabaseReference.CompletionListener() {
+        DatabaseReference musicLevelRef = userRef.child("musicLevel");
+        musicLevelRef.runTransaction(new Transaction.Handler() {
             @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Integer currentValue = mutableData.getValue(Integer.class);
+                if (currentValue == null) {
+                    mutableData.setValue(score);
+                } else {
+                    mutableData.setValue(currentValue + score);
+                }
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
                 if (databaseError != null) {
                     System.out.println("Data could not be saved: " + databaseError.getMessage());
                 } else {

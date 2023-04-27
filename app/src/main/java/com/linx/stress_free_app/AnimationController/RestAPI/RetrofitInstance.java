@@ -1,4 +1,4 @@
-package com.linx.stress_free_app.RestAPI;
+package com.linx.stress_free_app.AnimationController.RestAPI;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

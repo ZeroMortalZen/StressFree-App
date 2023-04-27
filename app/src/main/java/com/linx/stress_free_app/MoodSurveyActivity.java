@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,8 +24,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.linx.stress_free_app.AnimationController.ProgressBarAnimation;
 import com.linx.stress_free_app.AnimationController.Typewriter;
+import com.linx.stress_free_app.AppUsageController.ResetTotalUsageWorker;
 import com.linx.stress_free_app.ExercisePlayer.TutorialPlayerActivity2;
 import com.linx.stress_free_app.MainMenu.MainMenuActivity;
+
+import java.util.concurrent.TimeUnit;
 
 public class MoodSurveyActivity extends AppCompatActivity {
 
@@ -46,6 +51,12 @@ public class MoodSurveyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_survey);
         // Check if user is signed in (non-null) and update UI accordingly.
+
+        // Schedule ResetTotalUsageWorker to run once every week
+        PeriodicWorkRequest resetTotalUsageRequest = new PeriodicWorkRequest.Builder(
+                ResetTotalUsageWorker.class, 7, TimeUnit.DAYS)
+                .build();
+        WorkManager.getInstance(this).enqueue(resetTotalUsageRequest);
 
         // Initialize mAuth
         mAuth = FirebaseAuth.getInstance();

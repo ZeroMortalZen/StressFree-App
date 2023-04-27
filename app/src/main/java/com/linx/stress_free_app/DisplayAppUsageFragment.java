@@ -14,7 +14,13 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.linx.stress_free_app.AnimationController.ProgressBarAnimation;
 import com.linx.stress_free_app.AppUsageController.AppUsageAdapter;
 import com.linx.stress_free_app.AppUsageController.AppUsageAsyncTask;
@@ -32,10 +38,14 @@ public class DisplayAppUsageFragment extends Fragment {
     TextView typewriterText;
     Button nextAppDataBtn;
     HelperClass helperClass = new HelperClass();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private long totalAppUsage = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_display_app_usage, container, false);
+
+
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -58,6 +68,7 @@ public class DisplayAppUsageFragment extends Fragment {
 
         appUsageAsyncTask = new AppUsageAsyncTask(getActivity(), recyclerView, adapter);
         progessAnimation();
+        fetchTotalAppUsage();
 
 
         return view;
@@ -86,7 +97,7 @@ public class DisplayAppUsageFragment extends Fragment {
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         int i = 0;
-        final String text = "Checking App Data Usage will help tell us how much you certain apps. Your Total usage of all is "+helperClass.getTotalAppUsage()+"MB";
+        final String text = "Checking App Data Usage will help tell us how much you use apps. Your Total usage of all is " + totalAppUsage + "MB";
         @Override
         public void run() {
             if (i <= text.length()) {
@@ -97,5 +108,29 @@ public class DisplayAppUsageFragment extends Fragment {
             }
         }
     };
+
+
+    private void fetchTotalAppUsage() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            DatabaseReference userRef = database.getReference("users").child(userId);
+
+            userRef.child("totalAppUsage").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        totalAppUsage = dataSnapshot.getValue(Long.class);
+                        handler.postDelayed(runnable, 500);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        }
+    }
+
 }
 

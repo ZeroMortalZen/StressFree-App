@@ -27,9 +27,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.linx.stress_free_app.MainMenu.MainMenuActivity;
 import com.linx.stress_free_app.StressSystem.HelperClass;
 import com.linx.stress_free_app.StressSystem.StressCalacutorSystem;
+import com.nitish.typewriterview.TypeWriterView;
+
 import android.animation.ArgbEvaluator;
 
 public class PainFragment extends Fragment {
+    int count =0;
+    boolean isAnimating = true;
 
    View view;
    TextView PainNumberView;
@@ -53,6 +57,12 @@ public class PainFragment extends Fragment {
         PainSubmit =(Button)view.findViewById(R.id.PainSubmit);
         NonPainIcon =(ImageView)view.findViewById(R.id.imageNonPain);
         PainIcon =(ImageView)view.findViewById(R.id.imagePain);
+        TypeWriterView typeWriterView =(TypeWriterView)view.findViewById(R.id.typeWriterView2);
+        final String PainDialog = getResources().getString(R.string.Pain);
+
+
+        //Animate Text
+        typeWriterView.animateText(PainDialog);
 
 
         PainSlider.addOnChangeListener(new Slider.OnChangeListener() {

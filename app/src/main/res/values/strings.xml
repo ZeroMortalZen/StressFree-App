@@ -4,7 +4,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Loading_dialog">You will be given a few questions to allow us to predict your stress levels and what your mood level is at.</string>
-    <string name="Screen_Time">Checking Screen Usage</string>
+    <string name="Screen_Time">Checking Screen Usage will allow see home much you use your phone </string>
+    <string name="Pain">If you have any pains.Could you rate it from a scale of 1 to 10 </string>
     <string name="title_activity_meditation_player2">MeditationPlayerActivity2</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

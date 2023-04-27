@@ -44,10 +44,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="72dp"
         android:fontFamily="@font/baloo_paaji"
-        android:text="Checking Screen Usage"
+        android:text="Checking Screen Usage will allow see home much you use your phone"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
-        android:textSize="48sp" />
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/screenTimeTextView"

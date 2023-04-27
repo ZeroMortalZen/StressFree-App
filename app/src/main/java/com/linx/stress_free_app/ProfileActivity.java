@@ -35,6 +35,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.linx.stress_free_app.DiarySystem.AddDiaryEntryActivity;
 import com.linx.stress_free_app.DiarySystem.DiaryFragment;
+import com.linx.stress_free_app.GraphSystem.GraphFragment;
 import com.linx.stress_free_app.MainMenu.MainMenuActivity;
 import com.linx.stress_free_app.OnlineLeaderboard.LeaderboardFragment;
 
@@ -104,7 +105,7 @@ public class ProfileActivity extends AppCompatActivity {
                         selectedFragment = new DiaryFragment();
                         break;
                     case R.id.graphFragment:
-                        //selectedFragment = new GraphFragment();
+                        selectedFragment = new GraphFragment();
                         break;
                     case R.id.leaderboardFragment:
                         selectedFragment = new LeaderboardFragment();
@@ -112,7 +113,10 @@ public class ProfileActivity extends AppCompatActivity {
                 }
 
                 if (selectedFragment != null) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.leaderboard_fragment_container, selectedFragment).commit();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.leaderboard_fragment_container, selectedFragment)
+                            .addToBackStack(null) // Add this line
+                            .commit();
                 }
                 return true;
             }
