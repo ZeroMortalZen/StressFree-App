@@ -23,8 +23,8 @@ import com.linx.stress_free_app.NewsSystem.NewsAdapter;
 import com.linx.stress_free_app.NewsSystem.NewsArticle;
 import com.linx.stress_free_app.NewsSystem.NewsResponse;
 import com.linx.stress_free_app.R;
-import com.linx.stress_free_app.AnimationController.RestAPI.NewsAPI;
-import com.linx.stress_free_app.AnimationController.RestAPI.RetrofitInstance;
+import com.linx.stress_free_app.RestAPI.NewsAPI;
+import com.linx.stress_free_app.RestAPI.RetrofitInstance;
 import com.linx.stress_free_app.StressSystem.Item;
 import com.linx.stress_free_app.StressSystem.RecommendAdapter;
 
@@ -110,7 +110,7 @@ public class HomeFragment extends Fragment {
         switch (stressLevel) {
             case 1:
                 // Add items for stress level 1
-                items.add(new Item(R.drawable.icon1, "Item 1 for stress level 1"));
+                items.add(new Item(R.drawable.icon1, "You should listen to so light music "));
                 break;
             case 2:
                 // Add items for stress level 2

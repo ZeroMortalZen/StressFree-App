@@ -26,7 +26,7 @@ public class UserDiaryEntryActivity extends AppCompatActivity {
         tvDiaryEntry = findViewById(R.id.tv_diary_entry);
 
         String userId = getIntent().getStringExtra("userId");
-        diaryEntriesRef = FirebaseDatabase.getInstance().getReference("diaryEntries").child(userId);
+        diaryEntriesRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("diary_entries");
 
         fetchLatestDiaryEntry();
     }
@@ -36,7 +36,7 @@ public class UserDiaryEntryActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot entrySnapshot : dataSnapshot.getChildren()) {
-                    String diaryEntry = entrySnapshot.child("entry").getValue(String.class);
+                    String diaryEntry = entrySnapshot.child("content").getValue(String.class);
                     tvDiaryEntry.setText(diaryEntry);
                 }
             }

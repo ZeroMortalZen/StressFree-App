@@ -14,13 +14,13 @@
 
     <TextView
         android:id="@+id/recommend_item_name"
-        android:layout_width="91dp"
-        android:layout_height="31dp"
+        android:layout_width="299dp"
+        android:layout_height="75dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="16dp"
         android:fontFamily="@font/baloo_paaji"
         android:text="Item name"
         android:textColor="#FDFDFD"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
 </LinearLayout>

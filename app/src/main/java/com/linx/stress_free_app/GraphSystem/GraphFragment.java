@@ -79,7 +79,7 @@ public class GraphFragment extends Fragment {
 
                 entries.add(new BarEntry(0, new float[]{exerciseTime, meditationTime, musicTime}));
 
-                BarDataSet barDataSet = new BarDataSet(entries, "User Activities");
+                BarDataSet barDataSet = new BarDataSet(entries, "User Activities (Minutes)");
                 barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
                 barDataSet.setStackLabels(new String[]{"Exercise", "Meditation", "Music"});
 

@@ -27,6 +27,7 @@
         android:shadowRadius="1.6"
         android:textAlignment="center"
         android:textAllCaps="true"
+        android:textColor="#FAF6F6"
         android:textColorHint="#601D1D"
         android:textSize="32sp"
         app:fontFamily="@font/baloo_paaji" />

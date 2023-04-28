@@ -162,6 +162,7 @@ public class ExercisePlayerActivity3 extends AppCompatActivity {
             @Override
             public void run() {
                 elapsedTime += 1000;
+                long elapsedTimeInMinutes = elapsedTime / 60000;
 
                 if (elapsedTime >= targetTime) {
                     userScore += 1;
@@ -176,27 +177,23 @@ public class ExercisePlayerActivity3 extends AppCompatActivity {
                     }
 
                     // Store data in Firebase when the target time is reached
-                    storeDataInFirebase(elapsedTime, exerciselevel);
+                    storeDataInFirebase(elapsedTimeInMinutes, exerciselevel);
 
                     // Reset the elapsedTime after storing the data
                     elapsedTime = 0;
-                    //mediaPlayerLocal.pause();
-
-
-
 
                     if (stepCompletedListener != null) {
-                        stepCompletedListener.onStepCompleted(3);
+                        stepCompletedListener.onStepCompleted(1);
                     }
 
                     Intent resultIntent = new Intent();
-                    resultIntent.putExtra("step", 3);
+                    resultIntent.putExtra("step", 1);
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                 } else {
                     // Store data in Firebase periodically (e.g., every 5 seconds)
                     if (elapsedTime % 5000 == 0) {
-                        storeDataInFirebase(elapsedTime, exerciselevel);
+                        storeDataInFirebase(elapsedTimeInMinutes, exerciselevel);
                     }
                     progressBar.setProgress((int) elapsedTime);
                     handler.postDelayed(this, 1000);
@@ -229,16 +226,16 @@ public class ExercisePlayerActivity3 extends AppCompatActivity {
         }
     }
 
-    private void storeDataInFirebase(long elapsedTime, int exerciselevel) {
+    private void storeDataInFirebase(long elapsedTimeInMinutes, int exerciselevel) {
         // Update exerciseTime
         userRef.child("exerciseTime").runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
                 Long currentExerciseTime = mutableData.getValue(Long.class);
                 if (currentExerciseTime == null) {
-                    mutableData.setValue(elapsedTime);
+                    mutableData.setValue(elapsedTimeInMinutes);
                 } else {
-                    mutableData.setValue(currentExerciseTime + elapsedTime);
+                    mutableData.setValue(currentExerciseTime + elapsedTimeInMinutes);
                 }
                 return Transaction.success(mutableData);
             }

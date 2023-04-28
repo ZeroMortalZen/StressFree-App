@@ -150,7 +150,7 @@ public class GetScreenTimeFragment extends Fragment {
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         int i = 0;
-        final String text = "Checking Screen Usage";
+        final String text = "Checking Screen Usage will allow me see much you use your phone";
         @Override
         public void run() {
             if (i <= text.length()) {

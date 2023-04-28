@@ -94,6 +94,7 @@ public class MeditationPlayerActivity2 extends AppCompatActivity {
             @Override
             public void run() {
                 elapsedTime += 1000;
+                long elapsedTimeInMinutes = elapsedTime / 60000;
 
                 if (elapsedTime >= targetTime) {
                     userScore += 1;
@@ -108,7 +109,7 @@ public class MeditationPlayerActivity2 extends AppCompatActivity {
                     }
 
                     // Store data in Firebase when the target time is reached
-                    storeDataInFirebase(elapsedTime, medlevel);
+                    storeDataInFirebase(elapsedTimeInMinutes, medlevel);
 
                     // Reset the elapsedTime after storing the data
                     elapsedTime = 0;
@@ -161,16 +162,16 @@ public class MeditationPlayerActivity2 extends AppCompatActivity {
         }
     }
 
-    private void storeDataInFirebase(long elapsedTime, int medlevel) {
+    private void storeDataInFirebase(long elapsedTimeInMinutes , int medlevel) {
         userRef.child("mediationTime").runTransaction(new Transaction.Handler() {
             @NonNull
             @Override
             public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
                 Long currentValue = mutableData.getValue(Long.class);
                 if (currentValue == null) {
-                    mutableData.setValue(elapsedTime);
+                    mutableData.setValue(elapsedTimeInMinutes);
                 } else {
-                    mutableData.setValue(currentValue + elapsedTime);
+                    mutableData.setValue(currentValue + elapsedTimeInMinutes);
                 }
                 return Transaction.success(mutableData);
             }

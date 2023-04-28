@@ -1,6 +1,7 @@
 package com.linx.stress_free_app.MeditationPlayer;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -13,8 +14,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.linx.stress_free_app.R;
@@ -89,6 +94,7 @@ public class MeditationPlayerActivity extends AppCompatActivity {
             @Override
             public void run() {
                 elapsedTime += 1000;
+                long elapsedTimeInMinutes = elapsedTime / 60000;
 
                 if (elapsedTime >= targetTime) {
                     userScore += 1;
@@ -103,7 +109,7 @@ public class MeditationPlayerActivity extends AppCompatActivity {
                     }
 
                     // Store data in Firebase when the target time is reached
-                    storeDataInFirebase(elapsedTime, medlevel);
+                    storeDataInFirebase(elapsedTimeInMinutes, medlevel);
 
                     // Reset the elapsedTime after storing the data
                     elapsedTime = 0;
@@ -156,9 +162,44 @@ public class MeditationPlayerActivity extends AppCompatActivity {
         }
     }
 
-    private void storeDataInFirebase(long elapsedTime, int medlevel) {
-        userRef.child("mediationTime").setValue(elapsedTime);
-        userRef.child("medLevel").setValue(medlevel);
+    private void storeDataInFirebase(long elapsedTimeInMinutes , int medlevel) {
+        userRef.child("mediationTime").runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                Long currentValue = mutableData.getValue(Long.class);
+                if (currentValue == null) {
+                    mutableData.setValue(elapsedTimeInMinutes);
+                } else {
+                    mutableData.setValue(currentValue + elapsedTimeInMinutes);
+                }
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+                // Transaction completed
+            }
+        });
+
+        userRef.child("medLevel").runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                Integer currentValue = mutableData.getValue(Integer.class);
+                if (currentValue == null) {
+                    mutableData.setValue(medlevel);
+                } else {
+                    mutableData.setValue(currentValue + medlevel);
+                }
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+                // Transaction completed
+            }
+        });
     }
 
 

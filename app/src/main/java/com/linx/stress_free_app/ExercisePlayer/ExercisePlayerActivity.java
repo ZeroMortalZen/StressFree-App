@@ -14,8 +14,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.linx.stress_free_app.MeditationPlayer.OnStepCompletedListener;
@@ -122,7 +126,7 @@ public class ExercisePlayerActivity extends AppCompatActivity {
         handler = new Handler();
         startPlaying();
         elapsedTime = 0;
-        targetTime = TimeUnit.SECONDS.toMillis(40); // Set the target time, e.g., 10 seconds
+        targetTime = TimeUnit.SECONDS.toMillis(60); // Set the target time, e.g., 10 seconds
         userScore = 0;
 
         // Set the MediaPlayer to loop the audio clip
@@ -161,6 +165,7 @@ public class ExercisePlayerActivity extends AppCompatActivity {
             @Override
             public void run() {
                 elapsedTime += 1000;
+                long elapsedTimeInMinutes = elapsedTime / 60000;
 
                 if (elapsedTime >= targetTime) {
                     userScore += 1;
@@ -169,20 +174,16 @@ public class ExercisePlayerActivity extends AppCompatActivity {
                     if (userScore >= 1 && userScore <= 5) {
                         exerciselevel = 1;
                     } else if (userScore >= 6 && userScore <= 10) {
-                       exerciselevel = 2;
+                        exerciselevel = 2;
                     } else if (userScore >= 11) {
-                       exerciselevel = 3;
+                        exerciselevel = 3;
                     }
 
                     // Store data in Firebase when the target time is reached
-                    storeDataInFirebase(elapsedTime, exerciselevel);
+                    storeDataInFirebase(elapsedTimeInMinutes, exerciselevel);
 
                     // Reset the elapsedTime after storing the data
                     elapsedTime = 0;
-                    //mediaPlayerLocal.pause();
-
-
-
 
                     if (stepCompletedListener != null) {
                         stepCompletedListener.onStepCompleted(1);
@@ -195,7 +196,7 @@ public class ExercisePlayerActivity extends AppCompatActivity {
                 } else {
                     // Store data in Firebase periodically (e.g., every 5 seconds)
                     if (elapsedTime % 5000 == 0) {
-                        storeDataInFirebase(elapsedTime, exerciselevel);
+                        storeDataInFirebase(elapsedTimeInMinutes, exerciselevel);
                     }
                     progressBar.setProgress((int) elapsedTime);
                     handler.postDelayed(this, 1000);
@@ -228,9 +229,44 @@ public class ExercisePlayerActivity extends AppCompatActivity {
         }
     }
 
-    private void storeDataInFirebase(long elapsedTime, int exerciselevel) {
-        userRef.child("exerciseTime").setValue(elapsedTime);
-        userRef.child("exerciselevel").setValue(exerciselevel);
+    private void storeDataInFirebase(long elapsedTimeInMinutes, int exerciselevel) {
+        // Update exerciseTime
+        userRef.child("exerciseTime").runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Long currentExerciseTime = mutableData.getValue(Long.class);
+                if (currentExerciseTime == null) {
+                    mutableData.setValue(elapsedTimeInMinutes);
+                } else {
+                    mutableData.setValue(currentExerciseTime + elapsedTimeInMinutes);
+                }
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
+                // Handle completion of the transaction here.
+            }
+        });
+
+        // Update exerciselevel
+        userRef.child("exerciselevel").runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Integer currentExerciseLevel = mutableData.getValue(Integer.class);
+                if (currentExerciseLevel == null) {
+                    mutableData.setValue(exerciselevel);
+                } else {
+                    mutableData.setValue(currentExerciseLevel + exerciselevel);
+                }
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
+                // Handle completion of the transaction here.
+            }
+        });
     }
 
 
