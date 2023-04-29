@@ -27,6 +27,9 @@ import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.linx.stress_free_app.StressSystem.HelperClass;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
 
 import java.util.List;
 
@@ -115,25 +118,40 @@ public class SignUpActivity extends AppCompatActivity {
                                                         Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                                                         startActivity(intent);
                                                     } else {
-                                                        Toast.makeText(SignUpActivity.this, "Sign up failed", Toast.LENGTH_SHORT).show();
+                                                        new AestheticDialog.Builder(SignUpActivity.this, DialogStyle.EMOTION, DialogType.ERROR)
+                                                                .setTitle("Failed to Sign up")
+                                                                .setMessage("Invaild Inputs")
+                                                                .show();
                                                     }
                                                 }
                                             });
                                 } else {
                                     // Email is already in use
-                                    Toast.makeText(SignUpActivity.this, "Email is already in use", Toast.LENGTH_SHORT).show();
+                                    new AestheticDialog.Builder(SignUpActivity.this, DialogStyle.EMOTION, DialogType.ERROR)
+                                            .setTitle("Failed to Sign up")
+                                            .setMessage("Email is already used ")
+                                            .show();
                                 }
                             } else {
-                                Toast.makeText(SignUpActivity.this, "Error checking email", Toast.LENGTH_SHORT).show();
+                                new AestheticDialog.Builder(SignUpActivity.this, DialogStyle.EMOTION, DialogType.ERROR)
+                                        .setTitle("Failed to Sign up")
+                                        .setMessage("Error checking email ")
+                                        .show();
                             }
                         }
                     });
         } else {
             if (!isEmailValid(email)) {
-                Toast.makeText(SignUpActivity.this, "Invalid email", Toast.LENGTH_SHORT).show();
+                new AestheticDialog.Builder(SignUpActivity.this, DialogStyle.EMOTION, DialogType.ERROR)
+                        .setTitle("Failed to Sign up")
+                        .setMessage("Invalid Email ")
+                        .show();
             }
             if (!isPasswordValid(password)) {
-                Toast.makeText(SignUpActivity.this, "Invalid password", Toast.LENGTH_SHORT).show();
+                new AestheticDialog.Builder(SignUpActivity.this, DialogStyle.EMOTION, DialogType.ERROR)
+                        .setTitle("Failed to Sign up")
+                        .setMessage("Invalid Password ")
+                        .show();
             }
         }
     }
@@ -183,7 +201,10 @@ public class SignUpActivity extends AppCompatActivity {
                             startActivity(intent);
 
                         } else {
-                            Toast.makeText(SignUpActivity.this, "Sign in with Google failed", Toast.LENGTH_SHORT).show();
+                            new AestheticDialog.Builder(SignUpActivity.this, DialogStyle.EMOTION, DialogType.ERROR)
+                                    .setTitle("Failed to Sign up")
+                                    .setMessage("Sign in with google failed ")
+                                    .show();
                         }
                     }
                 });

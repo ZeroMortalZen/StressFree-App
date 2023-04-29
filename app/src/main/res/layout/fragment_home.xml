@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -27,13 +28,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecoRecyclerView"
-        android:layout_width="367dp"
-        android:layout_height="84dp"
+        android:layout_width="365dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="276dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="139dp"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp">
 
@@ -46,8 +47,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="586dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginBottom="741dp"
         android:background="@drawable/curved_progress_bar"
         android:fontFamily="@font/baloo_paaji"
         android:text="Due to your stress level we  have to choose these things  beacuse"
@@ -63,7 +64,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="bottom"
         android:layout_marginStart="6dp"
-        android:layout_marginBottom="427dp"
+        android:layout_marginBottom="470dp"
         android:background="@drawable/curved_progress_bar"
         android:fontFamily="@font/baloo_paaji"
         android:text="Explore More!"
@@ -71,20 +72,15 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="368dp"
-        android:layout_height="93dp"
-        android:layout_alignParentStart="true"
+    <ImageButton
+        android:id="@+id/settingbutton"
+        android:layout_width="66dp"
+        android:layout_height="58dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center|top"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="132dp"
-        android:background="@drawable/curved_progress_bar"
-        android:fontFamily="@font/baloo_paaji"
-        android:text="We Recomend These stuff to do"
-        android:textColor="#FBFBFB"
-        android:textSize="16sp" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="27dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/gear" />
 
 </RelativeLayout>

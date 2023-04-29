@@ -36,17 +36,9 @@
     <TextView
         android:id="@+id/ExDialog2"
         android:layout_width="match_parent"
-        android:layout_height="148dp"
+        android:layout_height="225dp"
         android:text="TextView"
         android:textColor="#FFFFFF" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="95dp"
-        android:layout_height="71dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        app:srcCompat="@drawable/akwhitelogo" />
 
     <ProgressBar
         android:id="@+id/progress_bar4"

@@ -18,34 +18,10 @@
         android:layout_marginTop="74dp"
         android:layout_marginEnd="0dp">
 
-
-        <TextView
-            android:id="@+id/text_view"
-            android:layout_width="133dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="center"
-            android:layout_marginStart="127dp"
-            android:layout_marginTop="503dp"
-            android:fontFamily="@font/baloo_paaji"
-            android:text="0%"
-            android:textAlignment="center"
-            android:textColor="#F4F4F4"
-            android:textSize="34sp" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center"
-            android:layout_marginEnd="22dp"
-            android:layout_marginBottom="185dp"
-            android:background="@drawable/buttonbckblack"
-            android:progressDrawable="@drawable/curved_progress_bar" />
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <com.linx.stress_free_app.AnimationController.Typewriter
             android:id="@+id/typewriterLoadingDialog"
@@ -94,9 +70,9 @@
         android:textColor="#F3EDED" />
 
     <TextView
-        android:id="@+id/current_user_text_view"
-        android:layout_width="133dp"
-        android:layout_height="40dp"
+        android:id="@+id/tally_score"
+        android:layout_width="218dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="18dp"
@@ -119,5 +95,12 @@
         android:textColor="#FFFFFF"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="98dp"
+        android:layout_height="73dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@mipmap/ic_launcher" />
 
 </RelativeLayout>

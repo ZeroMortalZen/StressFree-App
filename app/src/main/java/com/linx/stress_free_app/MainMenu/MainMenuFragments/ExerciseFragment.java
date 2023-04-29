@@ -38,6 +38,10 @@ import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.linx.stress_free_app.MeditationPlayer.OnStepCompletedListener;
 import com.linx.stress_free_app.R;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
+import com.thecode.aestheticdialogs.OnDialogClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -282,14 +286,17 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
         if (step == 1) {
             imageTask2.setImageResource(R.drawable.num1);
             textviewtaskcom2.setText("Daily Exercise Completed 1");
+            showEmotionDialog("Well done!", "You have completed your morning exercise.");
         } else if (step == 2) {
             imageTask2.setImageResource(R.drawable.num2);
             textviewtaskcom2.setText("Daily Exercise Completed 2");
+            showEmotionDialog("Well done!", "You have completed your afternoon exercise.");
         } else if (step == 3) {
             imageTask2.setImageResource(R.drawable.num3);
             rewardmedicon2.setImageResource(R.drawable.reward);
             rewardText2.setText("You Earned A Point");
             textviewtaskcom2.setText("Daily Exercise Completed 3");
+            showEmotionDialog("Well done!", "You have completed your night exercise.");
         }
         // Disable button2 and button3 initially
         button2.setEnabled(false);
@@ -304,6 +311,21 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
         if (step >= 2) {
             button3.setEnabled(true);
         }
+    }
+
+
+    private void showEmotionDialog(String title, String message) {
+        AestheticDialog.Builder builder = new AestheticDialog.Builder(getActivity(), DialogStyle.EMOTION, DialogType.SUCCESS);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setCancelable(true)
+                .setOnClickListener(new OnDialogClickListener() {
+                    @Override
+                    public void onClick(AestheticDialog.Builder dialog) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 
 

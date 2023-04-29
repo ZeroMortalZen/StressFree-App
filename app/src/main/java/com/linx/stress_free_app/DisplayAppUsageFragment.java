@@ -1,7 +1,10 @@
 package com.linx.stress_free_app;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
+import android.graphics.SumPathEffect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -30,16 +33,28 @@ import java.util.ArrayList;
 
 public class DisplayAppUsageFragment extends Fragment {
 
+    private FragmentSubmitListener submitListener;
     private RecyclerView recyclerView;
     private AppUsageAdapter adapter;
     private AppUsageAsyncTask appUsageAsyncTask;
     ProgressBar progressBar;
     TextView PrecentageView;
     TextView typewriterText;
-    Button nextAppDataBtn;
+    Button Submit;
     HelperClass helperClass = new HelperClass();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     private long totalAppUsage = 0;
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentSubmitListener) {
+            submitListener = (FragmentSubmitListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement FragmentSubmitListener");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,12 +64,10 @@ public class DisplayAppUsageFragment extends Fragment {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        progressBar= view.findViewById(R.id.progressBar3);
-        progressBar.setMax(100);
-        progressBar.setScaleY(3f);
-        PrecentageView = view.findViewById(R.id.precentageView2);
 
-        nextAppDataBtn=view.findViewById(R.id.nextAppDataBtn);
+
+
+        Submit=view.findViewById(R.id.Submit);
 
         //TypeWriter
         typewriterText = (TextView) view.findViewById(R.id.typewriter_text3);
@@ -67,8 +80,17 @@ public class DisplayAppUsageFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         appUsageAsyncTask = new AppUsageAsyncTask(getActivity(), recyclerView, adapter);
-        progessAnimation();
         fetchTotalAppUsage();
+
+        Submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submitListener.onSubmit(0);
+            }
+        });
+
+
+
 
 
         return view;
@@ -81,23 +103,12 @@ public class DisplayAppUsageFragment extends Fragment {
         appUsageAsyncTask.execute();
     }
 
-    public void progessAnimation(){
-        ProgressBarAnimation anim = new ProgressBarAnimation(nextAppDataBtn,progressBar,PrecentageView,0f,100f);
-        anim.setDuration(8000);
-        progressBar.setAnimation(anim);
-
-        //Loading Logic
-        if(anim.hasEnded()){
-            nextAppDataBtn.setVisibility(View.VISIBLE);
-        }
-
-    }
 
 
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         int i = 0;
-        final String text = "Checking App Data Usage will help tell us how much you use apps. Your Total usage of all is " + totalAppUsage + "MB";
+        final String text = "Checking App Data Usage will help tell us how much you use apps.";
         @Override
         public void run() {
             if (i <= text.length()) {
@@ -130,6 +141,13 @@ public class DisplayAppUsageFragment extends Fragment {
                 }
             });
         }
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        submitListener = null;
     }
 
 }

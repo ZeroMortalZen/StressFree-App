@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.linx.stress_free_app.GetStarted;
 import com.linx.stress_free_app.R;
 
 import java.util.List;
@@ -38,8 +39,11 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.View
         holder.name.setText(item.getName());
         holder.itemView.setOnClickListener(v -> {
             // Start the desired activity when an item is clicked
-            //Intent intent = new Intent(context, YourDesiredActivity.class);
-           // context.startActivity(intent);
+            if (item.getName().equals("Started Stress Survery")) {
+                Intent intent = new Intent(context, GetStarted.class);
+                context.startActivity(intent);
+            }
+            //other intents for other items if needed
         });
     }
 

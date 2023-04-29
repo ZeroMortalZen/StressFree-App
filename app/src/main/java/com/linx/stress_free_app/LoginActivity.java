@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -22,6 +23,10 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.linx.stress_free_app.MainMenu.MainMenuActivity;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -78,12 +83,15 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d(TAG, "signInWithEmail:success");
                                 Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_SHORT).show();
 
-                                Intent intent = new Intent(LoginActivity.this, GetStarted.class);
+                                Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
                                 startActivity(intent);
 
                             } else {
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_SHORT).show();
+                                new AestheticDialog.Builder(LoginActivity.this, DialogStyle.EMOTION, DialogType.ERROR)
+                                        .setTitle("Failed Login")
+                                        .setMessage("Invaild Email or Password")
+                                        .show();
                             }
                         }
                     });
@@ -128,11 +136,15 @@ public class LoginActivity extends AppCompatActivity {
 
                         } else {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_SHORT).show();
+                            new AestheticDialog.Builder(LoginActivity.this, DialogStyle.EMOTION, DialogType.ERROR)
+                                    .setTitle("Failed Login")
+                                    .setMessage("Invaild Email or Password")
+                                    .show();
                         }
                     }
                 });
     }
+
 
 
     public boolean isEmailValid(String email) {

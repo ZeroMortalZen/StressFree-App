@@ -4,203 +4,93 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.linx.stress_free_app.AnimationController.ProgressBarAnimation;
-import com.linx.stress_free_app.AnimationController.Typewriter;
-import com.linx.stress_free_app.AppUsageController.ResetTotalUsageWorker;
-import com.linx.stress_free_app.ExercisePlayer.TutorialPlayerActivity2;
-import com.linx.stress_free_app.MainMenu.MainMenuActivity;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
 
-import java.util.concurrent.TimeUnit;
+public class MoodSurveyActivity extends AppCompatActivity implements FragmentSubmitListener {
 
-public class MoodSurveyActivity extends AppCompatActivity {
-
-
-    Button Skipsurvey;
-    TextView currentUserTextView;
-    private FirebaseAuth mAuth;
-    Button BackBtn, NextBtn;
-    ProgressBar progressBar;
-    TextView textView;
-    long characterDelay = 40;
-    boolean avoidTextOverflowAtEdge = true;
-    private int currentFragmentIndex = 0;
-    private final Fragment[] fragments = {new PainFragment(), new BedTimeFragment(), new GetScreenTimeFragment(), new DisplayAppUsageFragment()};
-
-
+    Button NextBtn;
+    TextView tallyScore;
+    int currentFragmentIndex = 0;
+    int submittedFragmentsCount = 0;
+    final int totalFragments = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_survey);
-        // Check if user is signed in (non-null) and update UI accordingly.
 
-        // Schedule ResetTotalUsageWorker to run once every week
-        PeriodicWorkRequest resetTotalUsageRequest = new PeriodicWorkRequest.Builder(
-                ResetTotalUsageWorker.class, 7, TimeUnit.DAYS)
-                .build();
-        WorkManager.getInstance(this).enqueue(resetTotalUsageRequest);
+        NextBtn = findViewById(R.id.Nextbtn);
+        tallyScore = findViewById(R.id.tally_score);
 
-        // Initialize mAuth
-        mAuth = FirebaseAuth.getInstance();
+        updateTallyScore();
 
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null) {
-            // Redirect to LoginActivity if the user is not logged in
-            Intent intent = new Intent(MoodSurveyActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
-
-        Typewriter typewriterLoadingDialog = findViewById(R.id.typewriterLoadingDialog);
-        final String Loading_Dialog =  getString(R.string.Loading_dialog);
-
-        BackBtn = findViewById(R.id.Nextbtn);
-        NextBtn = findViewById(R.id.Backbtn);
-        Skipsurvey = findViewById(R.id.skipSurvey);
-        currentUserTextView = findViewById(R.id.current_user_text_view);
-
-
-
-
-
-        progressBar =findViewById(R.id.progressBar);
-        textView = findViewById(R.id.text_view);
-
-        progressBar.setMax(100);
-        progressBar.setScaleY(3f);
-
-        typewriterLoadingDialog.setCharacterDelay(characterDelay);
-        typewriterLoadingDialog.animateText(Loading_Dialog);
-
-        progessAnimation();
-
-
-        // Get a reference to the user's hasStressLevel in the database
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users")
-                .child(currentUser.getUid())
-                .child("hasStresslevel");
-
-         // Add a ValueEventListener to listen for changes in the user's hasStressLevel value
-        userRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    boolean hasStressLevel = dataSnapshot.getValue(Boolean.class);
-                    if (hasStressLevel) {
-                        Skipsurvey.setVisibility(View.VISIBLE);
-                    } else {
-                        Skipsurvey.setVisibility(View.GONE);
-                    }
-                } else {
-                    Skipsurvey.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Log the error if the read operation fails
-                Log.w("MoodSurveyActivity", "Failed to read hasStressLevel value.", databaseError.toException());
-            }
-        });
-
-
-
-        Skipsurvey.setOnClickListener(new View.OnClickListener() {
+        NextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MoodSurveyActivity.this, MainMenuActivity.class);
-                startActivity(intent);
+                if (submittedFragmentsCount == totalFragments) {
+                    // Go to MainMenuActivity and display the toast
+                    Toast.makeText(MoodSurveyActivity.this, "Well done for completing the survey! Look at your stress level below and find recommendations for reducing your stress.", Toast.LENGTH_LONG).show();
+                    // Navigate to MainMenuActivity
+                } else {
+                    navigateToNextFragment();
+                }
             }
         });
 
-
-
-
-
-      BackBtn.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-              currentFragmentIndex--;
-              if (currentFragmentIndex < 0) {
-                  currentFragmentIndex = fragments.length - 1;
-              }
-              switchFragment(fragments[currentFragmentIndex]);
-
-          }
-      });
-
-      NextBtn.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-              currentFragmentIndex++;
-              if (currentFragmentIndex >= fragments.length) {
-                  currentFragmentIndex = 0;
-              }
-              switchFragment(fragments[currentFragmentIndex]);
-          }
-      });
-
-
-
-
-
-
+        // Load the initial fragment
+        navigateToNextFragment();
     }
 
-    public void switchFragment(Fragment fragment){
+    private void navigateToNextFragment() {
+        Fragment fragment;
+
+        switch (currentFragmentIndex) {
+            case 0:
+                fragment = new GetScreenTimeFragment();
+                break;
+            case 1:
+                fragment = new BedTimeFragment();
+                break;
+            case 2:
+                fragment = new DisplayAppUsageFragment();
+                break;
+            case 3:
+                fragment = new PainFragment(); // Replace with the actual fourth fragment class
+                break;
+            default:
+                throw new IllegalStateException("Invalid fragment index");
+        }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentTransaction.replace(R.id.frameLayout,fragment);
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
+
+        NextBtn.setVisibility(View.GONE);
+        currentFragmentIndex++;
     }
 
-    public void progessAnimation(){
-        ProgressBarAnimation anim = new ProgressBarAnimation(BackBtn,progressBar,textView,0f,100f);
-        anim.setDuration(8000);
-        progressBar.setAnimation(anim);
-        if(anim.hasEnded()){
-            NextBtn.setVisibility(View.VISIBLE);
-        }
-
+    private void updateTallyScore() {
+        tallyScore.setText("Survey Completed"+" "+submittedFragmentsCount + "/" + totalFragments);
     }
 
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            currentUser.reload();
-            String displayName = currentUser.getDisplayName();
-            if (displayName != null) {
-                currentUserTextView.setText(displayName);
-            } else {
-                currentUserTextView.setText("user");
-            }
-        }else {
-            currentUserTextView.setText("Error");
-        }
+    @Override
+    public void onSubmit(int fragmentIndex) {
+        submittedFragmentsCount++;
+        updateTallyScore();
+        new AestheticDialog.Builder(this, DialogStyle.EMOTION, DialogType.SUCCESS)
+                .setTitle("Well done")
+                .setMessage("Thank you for submitting the data")
+                .show();
+        NextBtn.setVisibility(View.VISIBLE);
     }
-
 }

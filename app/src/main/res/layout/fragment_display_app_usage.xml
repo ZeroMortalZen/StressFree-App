@@ -22,47 +22,16 @@
         android:scrollbars="vertical" />
 
     <Button
-        android:id="@+id/nextAppDataBtn"
+        android:id="@+id/Submit"
         android:layout_width="106dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="159dp"
+        android:layout_marginStart="132dp"
+        android:layout_marginBottom="179dp"
         android:text="Submit"
         android:textColor="#FDFDFD" />
-
-    <ProgressBar
-        android:id="@+id/progressBar3"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="345dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="27dp"
-        android:layout_marginBottom="224dp"
-        android:background="@drawable/buttonbckblack"
-        android:progressDrawable="@drawable/curved_progress_bar" />
-
-    <TextView
-        android:id="@+id/precentageView2"
-        android:layout_width="133dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginStart="127dp"
-        android:layout_marginTop="546dp"
-        android:fontFamily="@font/baloo_paaji"
-        android:text="0%"
-        android:textAlignment="center"
-        android:textColor="#FFFCFC"
-        android:textSize="34sp" />
 
     <TextView
         android:id="@+id/typewriter_text3"

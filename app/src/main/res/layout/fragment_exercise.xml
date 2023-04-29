@@ -58,36 +58,6 @@
             android:layout_alignParentTop="true"
             android:src="@drawable/num0" />
 
-        <LinearLayout
-        android:layout_width="341dp"
-        android:layout_height="117dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="449dp"
-        android:background="@drawable/curved_progress_bar"
-        android:orientation="vertical"></LinearLayout>
-
-    <LinearLayout
-        android:layout_width="348dp"
-        android:layout_height="115dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="297dp"
-        android:background="@drawable/curved_progress_bar"
-        android:orientation="vertical"></LinearLayout>
-
-        <LinearLayout
-            android:layout_width="335dp"
-            android:layout_height="133dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="114dp"
-            android:background="@drawable/curved_progress_bar"
-            android:orientation="vertical"></LinearLayout>
-
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
@@ -102,15 +72,15 @@
             android:textSize="16sp" />
 
         <ImageButton
-        android:id="@+id/medbutton1"
-        android:layout_width="244dp"
-        android:layout_height="85dp"
-        android:layout_below="@id/textView3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="-313dp"
-        android:layout_marginEnd="44dp"
-        android:background="@drawable/medimagebutton"
-        android:text="Button" />
+            android:id="@+id/medbutton1"
+            android:layout_width="230dp"
+            android:layout_height="73dp"
+            android:layout_below="@id/textView3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-313dp"
+            android:layout_marginEnd="44dp"
+            android:background="@drawable/medimagebutton"
+            android:text="Button" />
 
         <TextView
             android:id="@+id/ex1text"
@@ -125,15 +95,15 @@
             android:textColor="#FFFFFF"
             android:textSize="16sp" />
 
-    <ImageButton
-        android:id="@+id/medbutton2"
-        android:layout_width="253dp"
-        android:layout_height="97dp"
-        android:layout_below="@id/ex1text"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="185dp"
-        android:background="@drawable/medimagebutton"
-        android:text="Button" />
+        <ImageButton
+            android:id="@+id/medbutton2"
+            android:layout_width="242dp"
+            android:layout_height="69dp"
+            android:layout_below="@id/ex1text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="213dp"
+            android:background="@drawable/medimagebutton"
+            android:text="Button" />
 
         <TextView
             android:id="@+id/textView2"
@@ -149,17 +119,18 @@
             android:textSize="16sp" />
 
         <ImageButton
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="82dp"
-        android:layout_below="@id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="-279dp"
-        android:background="@drawable/medimagebutton"
-        android:contentDescription="TODO"
-        android:text="Button" />
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_below="@id/textView2"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-289dp"
+            android:layout_marginEnd="69dp"
+            android:background="@drawable/medimagebutton"
+            android:contentDescription="TODO"
+            android:text="Button" />
 
-    <LinearLayout
+        <LinearLayout
         android:id="@+id/verticalStepProgressBar"
         android:layout_width="76dp"
         android:layout_height="421dp"
@@ -174,8 +145,8 @@
 
         <ImageView
             android:id="@+id/step1"
-            android:layout_width="66dp"
-            android:layout_height="102dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:contentDescription="TODO"
             android:src="@drawable/circle_uncompleted"
             tools:ignore="ImageContrastCheck" />
@@ -186,12 +157,12 @@
             android:layout_weight="1"
             android:background="@drawable/vertical_line" />
 
-        <ImageView
-            android:id="@+id/step2"
-            android:layout_width="59dp"
-            android:layout_height="72dp"
-            android:src="@drawable/circle_uncompleted"
-            tools:ignore="ImageContrastCheck" />
+            <ImageView
+                android:id="@+id/step2"
+                android:layout_width="62dp"
+                android:layout_height="69dp"
+                android:src="@drawable/circle_uncompleted"
+                tools:ignore="ImageContrastCheck" />
 
         <View
             android:layout_width="9dp"
@@ -201,8 +172,8 @@
 
         <ImageView
             android:id="@+id/step3"
-            android:layout_width="63dp"
-            android:layout_height="68dp"
+            android:layout_width="65dp"
+            android:layout_height="72dp"
             android:contentDescription="TODO"
             android:src="@drawable/circle_uncompleted" />
 
@@ -217,23 +188,23 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="56dp"
-            android:layout_marginEnd="133dp"
+            android:layout_marginTop="57dp"
+            android:layout_marginEnd="107dp"
             android:text="Explanation Video Click here"
             android:textColor="#F9F9FA" />
 
         <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/images_recycler_view"
-        android:layout_width="386dp"
-        android:layout_height="217dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/curved_progress_bar" />
+            android:id="@+id/images_recycler_view"
+            android:layout_width="386dp"
+            android:layout_height="228dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/curved_progress_bar" />
 
         <TextView
             android:id="@+id/textView4"
@@ -242,7 +213,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="122dp"
-            android:layout_marginBottom="220dp"
+            android:layout_marginBottom="233dp"
             android:fontFamily="@font/baloo_paaji"
             android:text="More Exercises"
             android:textColor="#FFFFFF"

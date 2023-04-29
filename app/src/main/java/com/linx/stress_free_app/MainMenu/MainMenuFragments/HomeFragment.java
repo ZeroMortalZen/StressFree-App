@@ -1,5 +1,7 @@
 package com.linx.stress_free_app.MainMenu.MainMenuFragments;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +28,7 @@ import com.linx.stress_free_app.NewsSystem.NewsResponse;
 import com.linx.stress_free_app.R;
 import com.linx.stress_free_app.RestAPI.NewsAPI;
 import com.linx.stress_free_app.RestAPI.RetrofitInstance;
+import com.linx.stress_free_app.Settings.SettingsActivity;
 import com.linx.stress_free_app.StressSystem.Item;
 import com.linx.stress_free_app.StressSystem.RecommendAdapter;
 
@@ -42,6 +46,8 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView RecommendrecyclerView;
     private TextView RecoView;
+    private ImageButton settingsbutton;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,10 +56,22 @@ public class HomeFragment extends Fragment {
         fetchUserStressLevel();
         RecoView = rootView.findViewById(R.id.whyReco);
 
+        settingsbutton = rootView.findViewById(R.id.settingbutton);
+        settingsbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
         RecommendrecyclerView = rootView.findViewById(R.id.RecoRecyclerView);
         recyclerView = rootView.findViewById(R.id.NewsRecyler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
+
+
+
 
         NewsAPI newsAPI = RetrofitInstance.getRetrofitInstance().create(NewsAPI.class);
         Call<NewsResponse> call = newsAPI.getNews("stress+AND+meditation", API_KEY);
@@ -74,6 +92,8 @@ public class HomeFragment extends Fragment {
                 Log.e("NewsFragment", "Error: " + t.getMessage());
             }
         });
+
+
 
         return rootView;
     }
@@ -110,14 +130,17 @@ public class HomeFragment extends Fragment {
         switch (stressLevel) {
             case 1:
                 // Add items for stress level 1
+                items.add(new Item(R.drawable.tutorial, "Started Stress Survery"));
                 items.add(new Item(R.drawable.icon1, "You should listen to so light music "));
                 break;
             case 2:
                 // Add items for stress level 2
+                items.add(new Item(R.drawable.tutorial, "Started Stress Survery"));
                 items.add(new Item(R.drawable.icon2, "Item 1 for stress level 2"));
                 break;
             case 3:
                 // Add items for stress level 3
+                items.add(new Item(R.drawable.tutorial, "Started Stress Survery"));
                 items.add(new Item(R.drawable.icon3, "Item 1 for stress level 3"));
                 break;
             default:

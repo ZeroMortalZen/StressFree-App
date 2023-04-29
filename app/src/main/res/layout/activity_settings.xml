@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    tools:context=".Settings.SettingsActivity">
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="215dp"
+        android:layout_height="61dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="97dp"
+        android:layout_marginTop="7dp"
+        android:fontFamily="@font/baloo_paaji"
+        android:text="Settings"
+        android:textAlignment="center"
+        android:textColor="#FDF7F7"
+        android:textSize="40sp" />
+
+    <LinearLayout
+        android:layout_width="372dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="77dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="7dp"
+        android:background="@color/InnerColor"
+        android:orientation="vertical">
+
+        <Switch
+            android:id="@+id/tutorial_switch"
+            android:layout_width="167dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="133dp"
+            android:background="@drawable/curved_progress_bar"
+            android:text="Turn Off Tutorial"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.061"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.115" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/settingbackbutton"
+        android:layout_width="49dp"
+        android:layout_height="43dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="24dp"
+        tools:srcCompat="@drawable/back" />
+
+</RelativeLayout>

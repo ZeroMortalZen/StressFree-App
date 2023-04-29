@@ -1,5 +1,6 @@
 package com.linx.stress_free_app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -34,6 +35,7 @@ import android.animation.ArgbEvaluator;
 public class PainFragment extends Fragment {
     int count =0;
     boolean isAnimating = true;
+    private FragmentSubmitListener submitListener;
 
    View view;
    TextView PainNumberView;
@@ -44,6 +46,17 @@ public class PainFragment extends Fragment {
    StressCalacutorSystem stressCalacutorSystem = new StressCalacutorSystem();
    ImageView PainIcon;
    ImageView NonPainIcon;
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentSubmitListener) {
+            submitListener = (FragmentSubmitListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement FragmentSubmitListener");
+        }
+    }
 
 
     @Override
@@ -89,6 +102,10 @@ public class PainFragment extends Fragment {
             public void onClick(View view) {
                 String getPain = String.valueOf(helperClass.getPain());
                 Toast.makeText(getActivity(), getPain, Toast.LENGTH_SHORT).show();
+
+                if (submitListener != null) {
+                    submitListener.onSubmit(3);
+                }
 
                 // Store in Database
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -149,6 +166,13 @@ public class PainFragment extends Fragment {
 
 
         return view;
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        submitListener = null;
     }
 
 

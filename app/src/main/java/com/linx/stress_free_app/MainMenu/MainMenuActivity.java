@@ -8,14 +8,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,7 +43,13 @@ import com.linx.stress_free_app.OnlineLeaderboard.UserProfile;
 import com.linx.stress_free_app.OnlineLeaderboard.UserProfileAdapter;
 import com.linx.stress_free_app.ProfileActivity;
 import com.linx.stress_free_app.R;
+import com.linx.stress_free_app.Settings.SettingsActivity;
 import com.linx.stress_free_app.StressSystem.StressCalacutorSystem;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogAnimation;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
+import com.thecode.aestheticdialogs.OnDialogClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,16 +57,20 @@ import java.util.List;
 public class MainMenuActivity extends AppCompatActivity {
 
     private Fragment currentFragment;
-    FloatingActionButton fab ;
-    StressCalacutorSystem  stressCalacutorSystem = new StressCalacutorSystem();
+    FloatingActionButton fab;
+    StressCalacutorSystem stressCalacutorSystem = new StressCalacutorSystem();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        showTutorialSequence();
 
         createNotificationChannels();
         scheduleNotifications();
+
+
 
 
         // Set up the ProfileRecycle RecyclerView
@@ -65,7 +83,6 @@ public class MainMenuActivity extends AppCompatActivity {
         List<UserProfile> userProfiles = new ArrayList<>();
         UserProfileAdapter userProfileAdapter = new UserProfileAdapter(this, userProfiles);
         profileRecycle.setAdapter(userProfileAdapter);
-
 
 
         // Get the current user's uid
@@ -110,8 +127,6 @@ public class MainMenuActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ProfileActivity.class);
 
 
-
-
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +134,12 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
+
+
+
 
 
     }
@@ -172,7 +193,6 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
 
-
     private void scheduleNotifications() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
@@ -200,6 +220,138 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
 
+    //Tutorial
+    private void showSequence1() {
+        AestheticDialog.Builder builder = new AestheticDialog.Builder(this, DialogStyle.FLASH, DialogType.SUCCESS);
+        builder.setTitle("Welcome to the App")
+                .setMessage("This is the main menu, where you can access different features of the app.")
+                .setAnimation(DialogAnimation.DIAGONAL)
+                .setOnClickListener(new OnDialogClickListener() {
+                    @Override
+                    public void onClick(AestheticDialog.Builder dialog) {
+                        dialog.dismiss();
+                        showSequence2();
+                    }
+                })
+                .show();
+    }
+
+    private void showSequence2() {
+        AestheticDialog.Builder builder = new AestheticDialog.Builder(this, DialogStyle.FLASH, DialogType.SUCCESS);
+        builder.setTitle("RecyclerView")
+                .setMessage("This is the RecyclerView, where you can browse through various items.")
+                .setAnimation(DialogAnimation.DIAGONAL)
+                .setOnClickListener(new OnDialogClickListener() {
+                    @Override
+                    public void onClick(AestheticDialog.Builder dialog) {
+                        dialog.dismiss();
+                        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+                        bottomNavigationView.setSelectedItemId(R.id.excerciseMenu);
+                        showSequence3();
+                    }
+                })
+                .show();
+    }
+
+    private void showSequence3() {
+        AestheticDialog.Builder builder = new AestheticDialog.Builder(this, DialogStyle.FLASH, DialogType.SUCCESS);
+        builder.setTitle("Exercise Icon")
+                .setMessage("This is the Exercise Icon, where you can access exercise-related features.")
+                .setAnimation(DialogAnimation.DIAGONAL)
+                .setOnClickListener(new OnDialogClickListener() {
+                    @Override
+                    public void onClick(AestheticDialog.Builder dialog) {
+                        dialog.dismiss();
+                        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+                        bottomNavigationView.setSelectedItemId(R.id.meditationMenu);
+                        showSequence4();
+                    }
+                })
+                .show();
+    }
+
+
+    private void showSequence4() {
+        AestheticDialog.Builder builder = new AestheticDialog.Builder(this, DialogStyle.FLASH, DialogType.SUCCESS);
+        builder.setTitle("Meditation Icon")
+                .setMessage("This is the Meditation Icon, where you can access meditation-related features.")
+                .setAnimation(DialogAnimation.DIAGONAL)
+                .setOnClickListener(new OnDialogClickListener() {
+                    @Override
+                    public void onClick(AestheticDialog.Builder dialog) {
+                        dialog.dismiss();
+                        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+                        bottomNavigationView.setSelectedItemId(R.id.listenMenu);
+                        showSequence5();
+                    }
+                })
+                .show();
+    }
+
+    private void showSequence5() {
+        AestheticDialog.Builder builder = new AestheticDialog.Builder(this, DialogStyle.FLASH, DialogType.SUCCESS);
+        builder.setTitle("Music Icon")
+                .setMessage("This is the Music Icon, where you can access music-related features.")
+                .setAnimation(DialogAnimation.DIAGONAL)
+                .setOnClickListener(new OnDialogClickListener() {
+                    @Override
+                    public void onClick(AestheticDialog.Builder dialog) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(MainMenuActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                        showSequence6();
+                    }
+                })
+                .show();
+    }
+
+    private void showSequence6() {
+        AestheticDialog.Builder builder = new AestheticDialog.Builder(this, DialogStyle.FLASH, DialogType.SUCCESS);
+        builder.setTitle("Profile Icon")
+                .setMessage("This is the Profile Icon, where you can access your profile.")
+                .setAnimation(DialogAnimation.DIAGONAL)
+                .setOnClickListener(new OnDialogClickListener() {
+                    @Override
+                    public void onClick(AestheticDialog.Builder dialog) {
+                        Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                        showSequence7();
+                    }
+
+
+                })
+                .show();
+    }
+
+    private void showSequence7() {
+        AestheticDialog.Builder builder = new AestheticDialog.Builder(this, DialogStyle.FLASH, DialogType.SUCCESS);
+        builder.setTitle("Settings Icon")
+                .setMessage("This is the Settings Icon, where you can access app settings.")
+                .setAnimation(DialogAnimation.DIAGONAL)
+                .setOnClickListener(new OnDialogClickListener() {
+                    @Override
+                    public void onClick(AestheticDialog.Builder dialog) {
+
+                        // You can call any further actions or simply end the tutorial here
+                    }
+                })
+                .show();
+    }
+
+    private void showTutorialSequence() {
+         SharedPreferences sharedPreferences = getSharedPreferences("APP_PREFS", MODE_PRIVATE);
+         boolean isFirstTime = sharedPreferences.getBoolean("isFirstTime", true);
+
+        // Temporarily comment out the "isFirstTime" check
+         if (isFirstTime) {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showSequence1();
+            }
+        }, 500); // 500 milliseconds delay
+         }
+    }
 
 
 
@@ -207,3 +359,4 @@ public class MainMenuActivity extends AppCompatActivity {
 
 
 }
+

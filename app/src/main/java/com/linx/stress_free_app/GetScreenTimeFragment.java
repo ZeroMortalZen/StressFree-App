@@ -5,12 +5,15 @@ import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,9 +23,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.linx.stress_free_app.AnimationController.ProgressBarAnimation;
 import com.linx.stress_free_app.StressSystem.HelperClass;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
+import com.thecode.aestheticdialogs.OnDialogClickListener;
 
 import java.util.Calendar;
 import java.util.List;
@@ -37,6 +43,8 @@ public class GetScreenTimeFragment extends Fragment {
     TextView typewriterText;
     private static final long WEEK_IN_MILLIS = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private FragmentSubmitListener submitListener;
+    private TextView screenTimeTextView;
 
 
 
@@ -57,23 +65,31 @@ public class GetScreenTimeFragment extends Fragment {
         //progessAnimation();
 
     }
-
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentSubmitListener) {
+            submitListener = (FragmentSubmitListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement FragmentSubmitListener");
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_get_screen_time, container, false);
 
-         progressBar= view.findViewById(R.id.progressBar2);
+        screenTimeTextView = view.findViewById(R.id.screenTimeTextView);
+        progressBar= view.findViewById(R.id.progressBar2);
         progressBar.setMax(100);
         progressBar.setScaleY(3f);
-         PrecentageView = view.findViewById(R.id.precentageView);
-        NextScreenDataBtn =view.findViewById(R.id.NextScreenDataBtn);
-        TextView screenTimeTextView = view.findViewById(R.id.screenTimeTextView);
+        PrecentageView = view.findViewById(R.id.precentageView);
+        NextScreenDataBtn =view.findViewById(R.id.SubmitTime);
         typewriterText = (TextView) view.findViewById(R.id.typewriter_text);
         handler.postDelayed(runnable, 500); // adjust the delay to make it start after a certain time
 
         long screenTime = getScreenTime(getContext());
 
-        screenTimeTextView.setText("Screen Time: " + screenTime + "Min");
+        //screenTimeTextView.setText("Screen Time: " + screenTime + "Min");
         progessAnimation();
 
         startResetScreenUsageTimer();
@@ -90,6 +106,7 @@ public class GetScreenTimeFragment extends Fragment {
                 DatabaseReference userRef = database.getReference("users").child(userId);
 
                 userRef.child("totalScreenTime").setValue(helperClass.getTotalScreenTime());
+                submitListener.onSubmit(1);
 
             }
         });
@@ -115,37 +132,18 @@ public class GetScreenTimeFragment extends Fragment {
             totalScreenTime += usageStats.getTotalTimeInForeground();
         }
 
-
         //Next Convert Ms to Minutes
         long minutes = (totalScreenTime / 1000) / 60;
 
         helperClass.setTotalScreenTime(minutes);
 
-        //Store in Database
-        //Database connection & Store Values
 
-
-
-
-
-
-
-        String getTotalScreenTime= String.valueOf(helperClass.getTotalScreenTime());
-        Toast.makeText(getActivity(),getTotalScreenTime,Toast.LENGTH_SHORT).show();
 
         return minutes;
-
-
-
-
     }
 
 
-    public void progessAnimation(){
-        ProgressBarAnimation anim = new ProgressBarAnimation(NextScreenDataBtn,progressBar,PrecentageView,0f,100f);
-        anim.setDuration(8000);
-        progressBar.setAnimation(anim);
-    }
+
 
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
@@ -189,5 +187,64 @@ public class GetScreenTimeFragment extends Fragment {
         }
     }
 
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        submitListener = null;
+    }
+
+    public interface AnimationEndListener {
+        void onAnimationEnd();
+    }
+
+    private void showScreenTimeToast() {
+        long minutes = helperClass.getTotalScreenTime();
+        screenTimeTextView.setText("Screen Time: " + minutes + " min");
+
+        if (minutes < 120) {
+            new AestheticDialog.Builder(getActivity(), DialogStyle.TOASTER, DialogType.INFO)
+                    .setTitle("ScreenTime")
+                    .setMessage("Wow, your screen time is low. Well done!")
+                    .setOnClickListener(new OnDialogClickListener() {
+                        @Override
+                        public void onClick(AestheticDialog.Builder dialog) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+
+        } else if (minutes >= 120 && minutes <= 360) {
+            new AestheticDialog.Builder(getActivity(), DialogStyle.TOASTER, DialogType.INFO)
+                    .setTitle("ScreenTime")
+                    .setMessage("Your screen time is average. That's pretty good!")
+                    .setOnClickListener(new OnDialogClickListener() {
+                        @Override
+                        public void onClick(AestheticDialog.Builder dialog) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        } else if (minutes > 360) {
+            new AestheticDialog.Builder(getActivity(), DialogStyle.TOASTER, DialogType.INFO)
+                    .setTitle("ScreenTime")
+                    .setMessage("Your screen time is high. You should put the phone down once in a while.")
+                    .setOnClickListener(new OnDialogClickListener() {
+                        @Override
+                        public void onClick(AestheticDialog.Builder dialog) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        }
+    }
+
+
+
+    public void progessAnimation() {
+        ProgressBarAnimation anim = new ProgressBarAnimation(NextScreenDataBtn, progressBar, PrecentageView, 0f, 100f, this::showScreenTimeToast);
+        anim.setDuration(8000);
+        progressBar.setAnimation(anim);
+    }
 
 }

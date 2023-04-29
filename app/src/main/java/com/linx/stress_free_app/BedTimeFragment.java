@@ -1,9 +1,11 @@
 package com.linx.stress_free_app;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -36,6 +38,18 @@ public class BedTimeFragment extends Fragment {
    TextView typewriter_text2;
    EditText editHoursText;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private FragmentSubmitListener submitListener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentSubmitListener) {
+            submitListener = (FragmentSubmitListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement FragmentSubmitListener");
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +81,10 @@ public class BedTimeFragment extends Fragment {
 
                 userRef.child("time").setValue(timeInFloat);
 
+                if (submitListener != null) {
+                    submitListener.onSubmit(2);
+                }
+
                 String getTime= String.valueOf(helperClass.getTime());
                 Toast.makeText(getActivity(),getTime,Toast.LENGTH_SHORT).show();
 
@@ -81,6 +99,8 @@ public class BedTimeFragment extends Fragment {
 
         return view;
     }
+
+
 
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {

@@ -17,25 +17,26 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="73dp"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/curved_progress_bar"
         android:fontFamily="@font/baloo_paaji"
         android:text="Get Premission"
         android:textColor="#FFF4F4"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:visibility="gone" />
 
     <com.nitish.typewriterview.TypeWriterView
         android:id="@+id/typeWriterView"
-        android:layout_width="358dp"
-        android:layout_height="361dp"
+        android:layout_width="374dp"
+        android:layout_height="467dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
 
         android:layout_centerInParent="true"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="279dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="148dp"
         android:background="@drawable/speechbubble"
         android:shadowColor="#000000"
         android:shadowDx="1.5"
@@ -45,7 +46,7 @@
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
         android:textColorHint="#601D1D"
-        android:textSize="32sp"
+        android:textSize="20sp"
         app:fontFamily="@font/baloo_paaji" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -55,32 +56,34 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="71dp"
+        android:layout_marginStart="84dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="33dp"
+        android:layout_marginBottom="21dp"
         android:background="@drawable/curved_progress_bar"
         android:text="Continue"
-        android:textColor="#FFFFFF"
-        android:visibility="gone" />
-
-    <ImageView
-        android:id="@+id/imageViewMorning"
-        android:layout_width="99dp"
-        android:layout_height="70dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp"
-        android:src="@drawable/akwhitelogo" />
+        android:textColor="#FFFFFF" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="194dp"
-        android:layout_height="209dp"
-        android:layout_alignParentStart="true"
+        android:layout_width="152dp"
+        android:layout_height="122dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <Button
+        android:id="@+id/infobtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="-61dp"
-        android:layout_marginBottom="122dp"
-        android:src="@drawable/akwhitelogo" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="147dp"
+        android:layout_marginBottom="126dp"
+        android:background="@drawable/round_corner"
+        android:text="More Info"
+        android:textColor="#FFFFFF" />
 
 
 </RelativeLayout>
