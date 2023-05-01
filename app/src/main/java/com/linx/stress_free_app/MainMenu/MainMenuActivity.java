@@ -1,6 +1,7 @@
 package com.linx.stress_free_app.MainMenu;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -34,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.linx.stress_free_app.LoginActivity;
 import com.linx.stress_free_app.MainMenu.MainMenuFragments.ExerciseFragment;
 import com.linx.stress_free_app.MainMenu.MainMenuFragments.HomeFragment;
 import com.linx.stress_free_app.MainMenu.MainMenuFragments.MeditationFragment;
@@ -59,6 +61,10 @@ public class MainMenuActivity extends AppCompatActivity {
     private Fragment currentFragment;
     FloatingActionButton fab;
     StressCalacutorSystem stressCalacutorSystem = new StressCalacutorSystem();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+    String userId = currentUser.getUid();
+    DatabaseReference isFirstTimeRef = database.getReference("users").child(userId).child("isFirstTime");
 
 
     @Override
@@ -131,7 +137,7 @@ public class MainMenuActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -222,28 +228,37 @@ public class MainMenuActivity extends AppCompatActivity {
 
     //Tutorial
     private void showSequence1() {
-        AestheticDialog.Builder builder = new AestheticDialog.Builder(this, DialogStyle.FLASH, DialogType.SUCCESS);
-        builder.setTitle("Welcome to the App")
-                .setMessage("This is the main menu, where you can access different features of the app.")
-                .setAnimation(DialogAnimation.DIAGONAL)
-                .setOnClickListener(new OnDialogClickListener() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Welcome to the CalmCompass")
+                .setMessage("The calmness that your app will guide users towards a more peaceful life. \n" +
+                        "\n" +
+                        "This is the main menu, where you can access different features like music, meditation, exercise let me explain more about the home page")
+                .setIcon(R.mipmap.ic_launcher) // Add your icon resource here
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(AestheticDialog.Builder dialog) {
+                    public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         showSequence2();
                     }
-                })
-                .show();
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void showSequence2() {
-        AestheticDialog.Builder builder = new AestheticDialog.Builder(this, DialogStyle.FLASH, DialogType.SUCCESS);
-        builder.setTitle("RecyclerView")
-                .setMessage("This is the RecyclerView, where you can browse through various items.")
-                .setAnimation(DialogAnimation.DIAGONAL)
-                .setOnClickListener(new OnDialogClickListener() {
-                    @Override
-                    public void onClick(AestheticDialog.Builder dialog) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Home page")
+                .setIcon(R.mipmap.ic_launcher)
+                .setMessage("STARTSURVEY BUTTON: This will take you to a page where you can do a small survey where you do a small survey that will help us gauge your stress level. And from that survey will advise you on an activity in the app.\n" +
+                        "\n" +
+                        "GOAL PROGRESS: This where you can see your daily progress of activities that need to be done\n" +
+                        "\n" +
+                        "There are various News and articles about stress and mindfulness click on them will bring you to the website so you can read more of it\n" +
+                        "\n" +
+                        "Let me take you to the Exercise page")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
                         bottomNavigationView.setSelectedItemId(R.id.excerciseMenu);
@@ -254,13 +269,18 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void showSequence3() {
-        AestheticDialog.Builder builder = new AestheticDialog.Builder(this, DialogStyle.FLASH, DialogType.SUCCESS);
-        builder.setTitle("Exercise Icon")
-                .setMessage("This is the Exercise Icon, where you can access exercise-related features.")
-                .setAnimation(DialogAnimation.DIAGONAL)
-                .setOnClickListener(new OnDialogClickListener() {
-                    @Override
-                    public void onClick(AestheticDialog.Builder dialog) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Exercise")
+                .setIcon(R.mipmap.ic_launcher)
+                .setMessage("These are the Exercise Pages, where you can access exercise-related features.\n" +
+                        "\n"+
+                        "You have the 3 daily exercise that needs to be done in a span of 24hrs.\n" +
+                        "\n"+
+                        "When you have completed each you earn a point which goes to increase your rank in the leaderboard which will be explained later\n" +
+                        "\n"+
+                        "Below that there is more exercise to do if you're bored.\n")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
                         bottomNavigationView.setSelectedItemId(R.id.meditationMenu);
@@ -271,14 +291,18 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
 
+
     private void showSequence4() {
-        AestheticDialog.Builder builder = new AestheticDialog.Builder(this, DialogStyle.FLASH, DialogType.SUCCESS);
-        builder.setTitle("Meditation Icon")
-                .setMessage("This is the Meditation Icon, where you can access meditation-related features.")
-                .setAnimation(DialogAnimation.DIAGONAL)
-                .setOnClickListener(new OnDialogClickListener() {
-                    @Override
-                    public void onClick(AestheticDialog.Builder dialog) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Meditation")
+                .setIcon(R.mipmap.ic_launcher)
+                .setMessage("This is the Meditation, where you can access meditation-related features. Again there 3 daily tasks that need to be done.\n" +
+                        "\n" +
+                        "On the breathing exercise page, a progress bar will indicate the remaining time until it is finished.\n" +
+                        "\n" +
+                        "Complete each task to gain to increase your place in the leaderboard.\n")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
                         bottomNavigationView.setSelectedItemId(R.id.listenMenu);
@@ -289,73 +313,63 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void showSequence5() {
-        AestheticDialog.Builder builder = new AestheticDialog.Builder(this, DialogStyle.FLASH, DialogType.SUCCESS);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Music Icon")
-                .setMessage("This is the Music Icon, where you can access music-related features.")
-                .setAnimation(DialogAnimation.DIAGONAL)
-                .setOnClickListener(new OnDialogClickListener() {
-                    @Override
-                    public void onClick(AestheticDialog.Builder dialog) {
+                .setIcon(R.mipmap.ic_launcher)
+                .setMessage("This music will allow you to listen to mindfulness music and melodies that are pulled.\n" +
+                        "\n" +
+                        "Once when you click, progress will increase and give you a score added to your overall score to display on the leaderboard.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         Intent intent = new Intent(MainMenuActivity.this, ProfileActivity.class);
                         startActivity(intent);
-                        showSequence6();
                     }
                 })
                 .show();
     }
 
-    private void showSequence6() {
-        AestheticDialog.Builder builder = new AestheticDialog.Builder(this, DialogStyle.FLASH, DialogType.SUCCESS);
-        builder.setTitle("Profile Icon")
-                .setMessage("This is the Profile Icon, where you can access your profile.")
-                .setAnimation(DialogAnimation.DIAGONAL)
-                .setOnClickListener(new OnDialogClickListener() {
-                    @Override
-                    public void onClick(AestheticDialog.Builder dialog) {
-                        Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
-                        startActivity(intent);
-                        showSequence7();
-                    }
 
 
-                })
-                .show();
-    }
-
-    private void showSequence7() {
-        AestheticDialog.Builder builder = new AestheticDialog.Builder(this, DialogStyle.FLASH, DialogType.SUCCESS);
-        builder.setTitle("Settings Icon")
-                .setMessage("This is the Settings Icon, where you can access app settings.")
-                .setAnimation(DialogAnimation.DIAGONAL)
-                .setOnClickListener(new OnDialogClickListener() {
-                    @Override
-                    public void onClick(AestheticDialog.Builder dialog) {
-
-                        // You can call any further actions or simply end the tutorial here
-                    }
-                })
-                .show();
-    }
 
     private void showTutorialSequence() {
-         SharedPreferences sharedPreferences = getSharedPreferences("APP_PREFS", MODE_PRIVATE);
-         boolean isFirstTime = sharedPreferences.getBoolean("isFirstTime", true);
-
-        // Temporarily comment out the "isFirstTime" check
-         if (isFirstTime) {
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        isFirstTimeRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void run() {
-                showSequence1();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Boolean isFirstTime = dataSnapshot.getValue(Boolean.class);
+
+                if (isFirstTime == null || isFirstTime) {
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            showSequence1();
+                        }
+                    }, 500); // 500 milliseconds delay
+
+                    // Save the updated isFirstTime value to the database
+                    isFirstTimeRef.setValue(true);
+                }
             }
-        }, 500); // 500 milliseconds delay
-         }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle errors
+            }
+        });
     }
 
 
-
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            // Redirect to the sign-in or sign-up screen
+            Intent signInIntent = new Intent(MainMenuActivity.this, LoginActivity.class);
+            startActivity(signInIntent);
+            finish();
+        }
+    }
 
 
 }

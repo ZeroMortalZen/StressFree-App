@@ -6,15 +6,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import android.widget.Space;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +44,11 @@ import com.linx.stress_free_app.DiarySystem.DiaryFragment;
 import com.linx.stress_free_app.GraphSystem.GraphFragment;
 import com.linx.stress_free_app.MainMenu.MainMenuActivity;
 import com.linx.stress_free_app.OnlineLeaderboard.LeaderboardFragment;
+import com.linx.stress_free_app.Settings.SettingsActivity;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
+import com.thecode.aestheticdialogs.OnDialogClickListener;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -46,9 +57,10 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button saveChangesButton;
-    private Button DiaryButton;
+    private ImageButton HomeButton;
 
     private static final int SELECT_PROFILE_PICTURE_REQUEST_CODE = 100;
+    private static final int ADD_DIARY_ENTRY_REQUEST_CODE = 200;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -59,6 +71,24 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        DatabaseReference isFirstTimeRef = userRef.child("isFirstTime");
+        isFirstTimeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Boolean isFirstTime = dataSnapshot.getValue(Boolean.class);
+                Log.d("ProfileActivity", "isFirstTime value: " + isFirstTime);
+                if (isFirstTime == null || isFirstTime) {
+                    showSequence6();
+                }
+                isFirstTimeRef.setValue(true);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("ProfileActivity", "isFirstTimeRef onCancelled", databaseError.toException()); // Add this line
+                // Handle errors
+            }
+        });
 
         // Add the LeaderboardFragment to the container
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -73,7 +103,7 @@ public class ProfileActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.email_edit_text);
         passwordEditText = findViewById(R.id.password_edit_text);
         saveChangesButton = findViewById(R.id.save_changes_button);
-        //DiaryButton = findViewById(R.id.Diarybutton);
+        HomeButton = findViewById(R.id.HomeButton);
 
         fetchUserDataAndPopulateUI();
 
@@ -123,13 +153,13 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
-        //DiaryButton.setOnClickListener(new View.OnClickListener() {
-            //@Override
-            //public void onClick(View view) {
-               // Intent intent = new Intent(ProfileActivity.this, AddDiaryEntryActivity.class);
-               // startActivity(intent);
-            //}
-        //});
+        HomeButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+         Intent intent = new Intent(ProfileActivity.this, MainMenuActivity.class);
+         startActivity(intent);
+        }
+       });
 
 
     }
@@ -192,12 +222,24 @@ public class ProfileActivity extends AppCompatActivity {
         if (requestCode == SELECT_PROFILE_PICTURE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             newProfilePicUri = data.getData();
             profileImage.setImageURI(newProfilePicUri);
+        } else if (requestCode == ADD_DIARY_ENTRY_REQUEST_CODE && resultCode == RESULT_OK) {
+            if (data != null && data.getBooleanExtra("diaryEntryAdded", false)) {
+                Toast.makeText(ProfileActivity.this, "New Diary Entry has been added", Toast.LENGTH_SHORT).show();
+            }
         }
     }
+
 
     private void updateUserData() {
         String newEmail = emailEditText.getText().toString();
         String newPassword = passwordEditText.getText().toString();
+
+
+        if (newEmail.isEmpty() || newPassword.isEmpty()) {
+            Toast.makeText(ProfileActivity.this, "Email and password cannot be empty.", Toast.LENGTH_SHORT).show();
+            //Emothial dialog
+            return;
+        }
 
         // Update email and password in the Firebase Realtime Database
         userRef.child("email").setValue(newEmail);
@@ -284,6 +326,36 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
+    private void showSequence6() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Profile")
+                .setIcon(R.mipmap.ic_launcher)
+                .setMessage("In this menu, you have access to change your account profile pic and other various things.\n" +
+                        "\n" +
+                        "There is also there another small main menu Leaderboard, Diary, Graph\n" +
+                        "\n" +
+                        "The diary will allow you to write public diary entries about anything you want.\n" +
+                        "Your latest diary entry will be public for others to see.\n" +
+                        "\n" +
+                        "Leaderboard this will display your placement which is based on scores from various activities in the app\n" +
+                        "\n" +
+                        "Click on users' names will allow you to see their latest diary entries\n" +
+                        "\n" +
+                        "The graph displays what activities you have been doing the most it takes the time(minutes) you spent on the activities.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .show();
+    }
+
+
+
 }
 
 

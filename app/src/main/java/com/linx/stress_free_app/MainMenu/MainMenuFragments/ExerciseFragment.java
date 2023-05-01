@@ -23,6 +23,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.linx.stress_free_app.ExercisePlayer.ExercisePlayerActivity;
 import com.linx.stress_free_app.ExercisePlayer.ExercisePlayerActivity2;
 import com.linx.stress_free_app.ExercisePlayer.ExercisePlayerActivity3;
@@ -30,6 +33,9 @@ import com.linx.stress_free_app.ExercisePlayer.ImageData;
 import com.linx.stress_free_app.ExercisePlayer.ImageFragment;
 import com.linx.stress_free_app.ExercisePlayer.ImagesAdapter;
 import com.linx.stress_free_app.ExercisePlayer.TutorialPlayerActivity2;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProvider;
+import com.linx.stress_free_app.viewmodels.SharedViewModel;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,18 +58,24 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
     private LinearLayout verticalStepProgressBar;
     private int[] stepIndicatorIds = {R.id.step1, R.id.step2, R.id.step3}; // Add more step IDs if needed
     private int currentStep = 0;
-    ImageButton button1;
-    ImageButton button2;
-    ImageButton button3;
-    Button ytbutton;
+    Button button1;
+    Button button2;
+    Button button3;
+    ImageButton ytbutton;
     TextView textviewtaskcom2;
     TextView rewardText2;
     ImageView rewardmedicon2;
     ImageView imageTask2;
 
+
     private RecyclerView imagesRecyclerView;
     private ImagesAdapter imagesAdapter;
     private List<ImageData> imagesData = new ArrayList<>();
+    private SharedViewModel sharedViewModel;
+    private boolean showDialogOnLoad = true;
+
+
+
 
 
     @Override
@@ -77,14 +89,15 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
 
 
 
+
+
         button2 = view.findViewById(R.id.button2);
         button1 = view.findViewById(R.id.medbutton1);
-        button3 = view.findViewById(R.id.medbutton2);
-        ytbutton = view.findViewById(R.id.YTbutton);
-
-
+        button3 = view.findViewById(R.id.exbutton3);
+        ytbutton = view.findViewById(R.id.YT);
 
         verticalStepProgressBar = view.findViewById(R.id.verticalStepProgressBar);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
         int completedStep = sharedPreferences.getInt("completed_step", 0);
@@ -159,6 +172,8 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
 
 
 
+
+
         return view;
     }
 
@@ -166,7 +181,7 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
         for (int i = 0; i < stepIndicatorIds.length; i++) {
             ImageView stepIndicator = verticalStepProgressBar.findViewById(stepIndicatorIds[i]);
             if (i < currentStep) {
-                stepIndicator.setImageResource(R.drawable.circle_completed);
+                stepIndicator.setImageResource(R.drawable.check);
             } else {
                 stepIndicator.setImageResource(R.drawable.circle_uncompleted);
             }
@@ -256,6 +271,8 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
 
 
     public void onStepCompleted(int step) {
+        sharedViewModel.setYogaProgress(step);
+
         if (step == 1) {
             imageTask2.setImageResource(R.drawable.num1); // Replace with the appropriate image resource
             textviewtaskcom2.setText("Daily Meditation Completed 1");
@@ -283,26 +300,33 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
 
 
     private void updateUIForCompletedStep(int step) {
+        String title = "";
+        String message = "";
+
         if (step == 1) {
             imageTask2.setImageResource(R.drawable.num1);
             textviewtaskcom2.setText("Daily Exercise Completed 1");
-            showEmotionDialog("Well done!", "You have completed your morning exercise.");
+            title = "Well done!";
+            message = "You have completed your morning exercise.";
         } else if (step == 2) {
             imageTask2.setImageResource(R.drawable.num2);
             textviewtaskcom2.setText("Daily Exercise Completed 2");
-            showEmotionDialog("Well done!", "You have completed your afternoon exercise.");
+            title = "Well done!";
+            message = "You have completed your afternoon exercise.";
         } else if (step == 3) {
             imageTask2.setImageResource(R.drawable.num3);
             rewardmedicon2.setImageResource(R.drawable.reward);
             rewardText2.setText("You Earned A Point");
             textviewtaskcom2.setText("Daily Exercise Completed 3");
-            showEmotionDialog("Well done!", "You have completed your night exercise.");
+            title = "Well done!";
+            message = "You have completed your night exercise.";
         }
+
         // Disable button2 and button3 initially
         button2.setEnabled(false);
         button3.setEnabled(false);
 
-       // Enable button2 if step 1 is completed
+        // Enable button2 if step 1 is completed
         if (step >= 1) {
             button2.setEnabled(true);
         }
@@ -311,21 +335,33 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
         if (step >= 2) {
             button3.setEnabled(true);
         }
+
+        if (showDialogOnLoad) {
+            showEmotionDialog(title, message);
+        }
     }
 
 
     private void showEmotionDialog(String title, String message) {
-        AestheticDialog.Builder builder = new AestheticDialog.Builder(getActivity(), DialogStyle.EMOTION, DialogType.SUCCESS);
-        builder.setTitle(title)
-                .setMessage(message)
-                .setCancelable(true)
-                .setOnClickListener(new OnDialogClickListener() {
-                    @Override
-                    public void onClick(AestheticDialog.Builder dialog) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
+        if (showDialogOnLoad) {
+            AestheticDialog.Builder builder = new AestheticDialog.Builder(getActivity(), DialogStyle.EMOTION, DialogType.SUCCESS);
+            builder.setTitle(title)
+                    .setMessage(message)
+                    .setCancelable(true)
+                    .setOnClickListener(new OnDialogClickListener() {
+                        @Override
+                        public void onClick(AestheticDialog.Builder dialog) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showDialogOnLoad = false;
     }
 
 

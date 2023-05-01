@@ -8,12 +8,14 @@
         android:id="@+id/ivProfileImage"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginLeft="25dp"
         android:src="@drawable/placeholder_image" />
 
     <TextView
         android:id="@+id/tvUserEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
         android:text="user@example.com"
         android:textAlignment="center"
         android:textColor="#FFFFFF" />
@@ -22,6 +24,7 @@
         android:id="@+id/tvDiaryTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
         android:text="Diary Entry Title"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -31,6 +34,7 @@
         android:id="@+id/tvDiaryContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
         android:text="Diary entry content goes here..."
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"

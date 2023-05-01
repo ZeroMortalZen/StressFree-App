@@ -28,6 +28,7 @@ import java.util.List;
 public class DiaryFragment extends Fragment {
 
     private Button DiaryButton;
+    private static final int ADD_DIARY_ENTRY_REQUEST_CODE = 200;
 
     @Nullable
     @Override
@@ -41,7 +42,7 @@ public class DiaryFragment extends Fragment {
         @Override
         public void onClick(View view) {
          Intent intent = new Intent(getActivity(), AddDiaryEntryActivity.class);
-         startActivity(intent);
+            startActivityForResult(intent, ADD_DIARY_ENTRY_REQUEST_CODE);
         }
         });
 

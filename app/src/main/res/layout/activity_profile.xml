@@ -19,6 +19,16 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <ImageButton
+            android:id="@+id/HomeButton"
+            android:layout_width="97dp"
+            android:layout_height="60dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/curved_progress_bar"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/house" />
+
         <ImageView
             android:id="@+id/profile_image"
             android:layout_width="100dp"
@@ -113,13 +123,13 @@
             app:menu="@menu/bottom_navigation_menu" />
 
         <Space
-            android:layout_width="match_parent"
-            android:layout_height="17dp" />
+            android:layout_width="364dp"
+            android:layout_height="13dp" />
 
         <FrameLayout
             android:id="@+id/leaderboard_fragment_container"
-            android:layout_width="366dp"
-            android:layout_height="342dp"
+            android:layout_width="359dp"
+            android:layout_height="320dp"
             android:layout_marginBottom="11dp"
             android:background="@drawable/curved_progress_bar"
             app:layout_constraintBottom_toBottomOf="parent"

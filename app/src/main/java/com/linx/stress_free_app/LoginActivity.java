@@ -131,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_SHORT).show();
                             // Navigate to your main activity or other desired activity
-                            Intent intent = new Intent(LoginActivity.this, GetStarted.class);
+                            Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
                             startActivity(intent);
 
                         } else {

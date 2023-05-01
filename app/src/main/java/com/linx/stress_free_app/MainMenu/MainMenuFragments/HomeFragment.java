@@ -1,10 +1,11 @@
 package com.linx.stress_free_app.MainMenu.MainMenuFragments;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.linx.stress_free_app.GoalSystem.ProgressAdapter;
 import com.linx.stress_free_app.NewsSystem.NewsAdapter;
 import com.linx.stress_free_app.NewsSystem.NewsArticle;
 import com.linx.stress_free_app.NewsSystem.NewsResponse;
@@ -31,9 +33,12 @@ import com.linx.stress_free_app.RestAPI.RetrofitInstance;
 import com.linx.stress_free_app.Settings.SettingsActivity;
 import com.linx.stress_free_app.StressSystem.Item;
 import com.linx.stress_free_app.StressSystem.RecommendAdapter;
+import com.linx.stress_free_app.viewmodels.SharedViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,14 +52,27 @@ public class HomeFragment extends Fragment {
     private RecyclerView RecommendrecyclerView;
     private TextView RecoView;
     private ImageButton settingsbutton;
+    private RecyclerView GoalrecyclerView;
+    private ProgressAdapter progressAdapter;
+    private SharedViewModel sharedViewModel;
+    private Timer resetTimer;
+    private ImageButton notfiBtn;
 
+    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+    String userId = currentUser.getUid();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference userRef = database.getReference("users").child(userId);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
         fetchUserStressLevel();
-        RecoView = rootView.findViewById(R.id.whyReco);
+        RecoView = rootView.findViewById(R.id.goalText);
+
+        //Database
+
 
         settingsbutton = rootView.findViewById(R.id.settingbutton);
         settingsbutton.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +82,84 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+
+
+
+
+        //Goal View
+        GoalrecyclerView = rootView.findViewById(R.id.GoalrecyclerView);
+        GoalrecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Initialize adapter with the initial progress values (0, 0)
+        progressAdapter = new ProgressAdapter(0, 0);
+        GoalrecyclerView.setAdapter(progressAdapter);
+
+        // Instantiate the shared ViewModel
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
+        // Observe yoga progress value changes in the shared ViewModel
+        sharedViewModel.getYogaProgress().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer yogaProgress) {
+                // Update the adapter with the new yoga progress value
+                progressAdapter.setYogaProgress(yogaProgress);
+
+                // Update the progress value in the Firebase Realtime Database
+                userRef.child("yogaProgress").setValue(yogaProgress);
+            }
+        });
+
+
+        // Observe meditation progress value changes in the shared ViewModel
+        sharedViewModel.getMeditationProgress().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer meditationProgress) {
+                // Update the adapter with the new meditation progress value
+                progressAdapter.setMeditationProgress(meditationProgress);
+
+                // Update the progress value in the Firebase Realtime Database
+                userRef.child("meditationProgress").setValue(meditationProgress);
+            }
+        });
+
+
+        // Fetch yoga progress from the Firebase Realtime Database
+        userRef.child("yogaProgress").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Integer yogaProgress = dataSnapshot.getValue(Integer.class);
+                if (yogaProgress != null) {
+                    // Update the shared ViewModel with the fetched yoga progress value
+                    sharedViewModel.setYogaProgress(yogaProgress);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle error
+            }
+        });
+
+       // Fetch meditation progress from the Firebase Realtime Database
+        userRef.child("meditationProgress").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Integer meditationProgress = dataSnapshot.getValue(Integer.class);
+                if (meditationProgress != null) {
+                    // Update the shared ViewModel with the fetched meditation progress value
+                    sharedViewModel.setMeditationProgress(meditationProgress);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle error
+            }
+        });
+
+        // Start the Timer
+        //startTimer();
 
         RecommendrecyclerView = rootView.findViewById(R.id.RecoRecyclerView);
         recyclerView = rootView.findViewById(R.id.NewsRecyler);
@@ -136,12 +232,12 @@ public class HomeFragment extends Fragment {
             case 2:
                 // Add items for stress level 2
                 items.add(new Item(R.drawable.tutorial, "Started Stress Survery"));
-                items.add(new Item(R.drawable.icon2, "Item 1 for stress level 2"));
+                items.add(new Item(R.drawable.icon2, "Bit of Stress huh do some light yoga sessions"));
                 break;
             case 3:
                 // Add items for stress level 3
                 items.add(new Item(R.drawable.tutorial, "Started Stress Survery"));
-                items.add(new Item(R.drawable.icon3, "Item 1 for stress level 3"));
+                items.add(new Item(R.drawable.icon3, "WOW you have Some serious Stress have u done your breathing exercises"));
                 break;
             default:
                 break;
@@ -152,6 +248,24 @@ public class HomeFragment extends Fragment {
         RecommendrecyclerView.setHasFixedSize(true);
         RecommendrecyclerView.setAdapter(new RecommendAdapter(items, getActivity()));
     }
+
+
+    private void startTimer() {
+        // Start the reset timer
+        resetTimer = new Timer();
+        resetTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // Reset the progress values and update the database
+                sharedViewModel.setYogaProgress(0);
+                sharedViewModel.setMeditationProgress(0);
+                userRef.child("yogaProgress").setValue(0);
+                userRef.child("meditationProgress").setValue(0);
+            }
+        }, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
+    }
+
+
 
 
 }

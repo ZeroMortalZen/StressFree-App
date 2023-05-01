@@ -8,13 +8,165 @@
     tools:context=".MainMenu.MainMenuFragments.MeditationFragment">
 
     <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="273dp"
+        android:layout_marginBottom="776dp"
+        android:text="Why do breathing exercise"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="104dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="391dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/curved_progress_bar"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/iconMED1"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="30dp"
+            android:src="@drawable/breathex" />
+
+        <LinearLayout
+            android:layout_width="182dp"
+            android:layout_height="93dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titleMED1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Afternoon Breathing Exercise"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/descriptionMED1"
+                android:layout_width="151dp"
+                android:layout_height="58dp"
+                android:layout_margin="-10dp"
+                android:layout_marginTop="1dp"
+                android:text="Back? Ok some more Breathing exercises"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="104dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="217dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/curved_progress_bar"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/iconMED2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="30dp"
+            android:src="@drawable/alarm" />
+
+        <LinearLayout
+            android:layout_width="182dp"
+            android:layout_height="93dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titleMED2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Morning Breathing Exercise"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/descriptionMED2"
+                android:layout_width="151dp"
+                android:layout_height="58dp"
+                android:layout_margin="-10dp"
+                android:layout_marginTop="1dp"
+                android:text="Lets do some early breathing exercises"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="104dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="550dp"
+        android:layout_marginEnd="27dp"
+        android:background="@drawable/curved_progress_bar"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="30dp"
+            android:src="@drawable/day" />
+
+        <LinearLayout
+            android:layout_width="182dp"
+            android:layout_height="93dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Evening Breathing Exercise"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="151dp"
+                android:layout_height="58dp"
+                android:layout_margin="-10dp"
+                android:layout_marginTop="1dp"
+                android:text="Lets do some breathing exercises before bed"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="73dp"
-        android:layout_marginEnd="75dp"
+        android:layout_marginEnd="132dp"
         android:fontFamily="@font/baloo_paaji"
         android:text="Breathing Exercises"
         android:textColor="#FFFFFF"
@@ -27,7 +179,7 @@
         android:layout_below="@id/textView7"
         android:layout_centerInParent="true"
         android:layout_marginStart="154dp"
-        android:layout_marginTop="95dp"
+        android:layout_marginTop="39dp"
         android:fontFamily="@font/baloo_paaji"
         android:text="Morning"
         android:textColor="#FFFFFF"
@@ -41,9 +193,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="34dp"
         android:layout_marginEnd="44dp"
-        android:background="@drawable/breathexercise"
+        android:background="@drawable/curved_progress_bar"
         android:fontFamily="@font/baloo_paaji"
-        android:text="Exercise 1"
         android:textColor="#FFFFFF" />
 
     <TextView
@@ -59,21 +210,21 @@
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/medbutton2"
+        android:id="@+id/exbutton3"
         android:layout_width="253dp"
         android:layout_height="97dp"
         android:layout_below="@id/ex1text"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="19dp"
+        android:background="@drawable/curved_progress_bar"
         android:fontFamily="@font/baloo_paaji"
-        android:text="Exercise 2"
         android:textColor="#FDFDFD" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="86dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/medbutton2"
+        android:layout_below="@id/exbutton3"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="23dp"
@@ -90,8 +241,8 @@
         android:layout_below="@id/textView2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="7dp"
+        android:background="@drawable/curved_progress_bar"
         android:fontFamily="@font/baloo_paaji"
-        android:text="Exercise 3"
         android:textColor="#FFFFFF" />
 
     <LinearLayout
@@ -99,7 +250,7 @@
         android:layout_width="62dp"
         android:layout_height="424dp"
         android:layout_alignTop="@+id/medbutton1"
-        android:layout_alignBottom="@+id/medbutton2"
+        android:layout_alignBottom="@+id/exbutton3"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="-163dp"
         android:layout_toStartOf="@+id/medbutton1"
@@ -109,8 +260,8 @@
 
         <ImageView
             android:id="@+id/step1"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="37dp"
+            android:layout_height="49dp"
             android:src="@drawable/circle_uncompleted" />
 
         <View
@@ -121,8 +272,8 @@
 
         <ImageView
             android:id="@+id/step2"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="42dp"
+            android:layout_height="41dp"
             android:src="@drawable/circle_uncompleted" />
 
         <View
@@ -133,26 +284,13 @@
 
         <ImageView
             android:id="@+id/step3"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="38dp"
+            android:layout_height="42dp"
             android:src="@drawable/circle_uncompleted" />
 
         <!-- Add more ImageView and View elements for additional steps and lines as needed -->
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/YTbutton"
-        android:layout_width="203dp"
-        android:layout_height="65dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="138dp"
-        android:layout_marginEnd="85dp"
-        android:fontFamily="@font/baloo_paaji"
-        android:text="Explanation Video Click here"
-        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/textviewtaskcom"
@@ -200,5 +338,17 @@
         android:text="You Earned A Point"
         android:textColor="#FFFAFA"
         android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/YTbutton"
+        android:layout_width="48dp"
+        android:layout_height="47dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="125dp"
+        android:background="@drawable/curved_progress_bar"
+        android:scaleType="centerCrop"
+        android:src="@drawable/info" />
 
 </RelativeLayout>

@@ -4,29 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/note3"
     android:padding="16dp"
     tools:context=".DiarySystem.AddDiaryEntryActivity">
 
     <EditText
         android:id="@+id/etTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="335dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="28dp"
         android:hint="Title"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etContent"
-        android:layout_width="369dp"
-        android:layout_height="139dp"
+        android:layout_width="326dp"
+        android:layout_height="135dp"
         android:gravity="top"
         android:hint="Content"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toTopOf="@+id/btnSaveEntry"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etTitle" />
 
@@ -34,10 +37,11 @@
         android:id="@+id/btnSaveEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="368dp"
         android:text="Save Entry"
         android:textColor="#F4F4F4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.556"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etContent" />
 

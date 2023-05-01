@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,6 +42,11 @@ public class AddDiaryEntryActivity extends AppCompatActivity {
 
             // Save diary entry to Firebase Database
             saveDiaryEntry(title, content);
+
+             Intent resultIntent = new Intent();
+             resultIntent.putExtra("diaryEntryAdded", true);
+             setResult(RESULT_OK, resultIntent);
+             finish();
         });
 
     }

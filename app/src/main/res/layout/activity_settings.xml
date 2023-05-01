@@ -55,14 +55,17 @@
             app:layout_constraintVertical_bias="0.115" />
     </LinearLayout>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/settingbackbutton"
-        android:layout_width="49dp"
-        android:layout_height="43dp"
+        android:layout_width="55dp"
+        android:layout_height="54dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="24dp"
-        tools:srcCompat="@drawable/back" />
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="11dp"
+        android:background="@drawable/curved_progress_bar"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/house" />
+
 
 </RelativeLayout>
