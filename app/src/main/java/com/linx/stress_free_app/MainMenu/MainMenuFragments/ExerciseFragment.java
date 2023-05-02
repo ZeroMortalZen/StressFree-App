@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,12 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.linx.stress_free_app.ExercisePlayer.ExercisePlayerActivity;
 import com.linx.stress_free_app.ExercisePlayer.ExercisePlayerActivity2;
 import com.linx.stress_free_app.ExercisePlayer.ExercisePlayerActivity3;
@@ -63,17 +68,17 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
     Button button3;
     ImageButton ytbutton;
     TextView textviewtaskcom2;
-    TextView rewardText2;
-    ImageView rewardmedicon2;
     ImageView imageTask2;
-
 
     private RecyclerView imagesRecyclerView;
     private ImagesAdapter imagesAdapter;
     private List<ImageData> imagesData = new ArrayList<>();
     private SharedViewModel sharedViewModel;
     private boolean showDialogOnLoad = true;
-
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    private int exerciseCurrentStep = 0;
+    private boolean stepCompleted;
 
 
 
@@ -82,13 +87,16 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_exercise, container, false);
 
+
         textviewtaskcom2 =view.findViewById(R.id.textviewtaskcom2);
         imageTask2 = view.findViewById(R.id.imageTask2);
-        rewardmedicon2 = view.findViewById(R.id.rewardmedicon2);
-        rewardText2=view.findViewById(R.id.rewardText2);
 
 
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
+
+        loadSteps();
 
 
         button2 = view.findViewById(R.id.button2);
@@ -99,17 +107,10 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
         verticalStepProgressBar = view.findViewById(R.id.verticalStepProgressBar);
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
-        int completedStep = sharedPreferences.getInt("completed_step", 0);
-        updateUIForCompletedStep(completedStep);
 
-        currentStep = loadSteps(); // Load the steps
-        updateStepIndicators(currentStep);
+        updateUIForCompletedStep(exerciseCurrentStep);
 
-
-
-
-
+        updateStepIndicators(exerciseCurrentStep);
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,23 +165,15 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
 
         // Load images and gifs from Firebase Storage
         loadImagesFromFirebase();
-
-
-
-
-
-
-
-
-
-
         return view;
     }
 
-    private void updateStepIndicators(int currentStep) {
+    private void updateStepIndicators(int exerciseCurrentStep) {
         for (int i = 0; i < stepIndicatorIds.length; i++) {
+            Log.d("Current Step", String.valueOf(exerciseCurrentStep));
             ImageView stepIndicator = verticalStepProgressBar.findViewById(stepIndicatorIds[i]);
-            if (i < currentStep) {
+
+            if (i < exerciseCurrentStep) {
                 stepIndicator.setImageResource(R.drawable.check);
             } else {
                 stepIndicator.setImageResource(R.drawable.circle_uncompleted);
@@ -190,7 +183,7 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
 
     // Call this method to update the current step and refresh the step indicators
     public void setCurrentStep(int currentStep) {
-        this.currentStep = currentStep;
+        this.exerciseCurrentStep = currentStep;
         updateStepIndicators(currentStep);
         saveSteps(currentStep);
     }
@@ -208,30 +201,48 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
         }
     }
 
+
     private void saveSteps(int steps) {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_steps", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("steps", steps);
-        editor.putLong("timestamp", System.currentTimeMillis());
-        editor.apply();
-    }
-
-    private int loadSteps() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_steps", Context.MODE_PRIVATE);
-        long savedTimestamp = sharedPreferences.getLong("timestamp", 0);
-        long currentTime = System.currentTimeMillis();
-        long timeDifference = currentTime - savedTimestamp;
-
-        // Check if a day has passed (24 hours * 60 minutes * 60 seconds * 1000 milliseconds)
-        if (timeDifference >= 24 * 60 * 60 * 1000) {
-            saveSteps(0); // Reset the steps
-            updateUIForCompletedStep(0); // Update UI based on reset steps
-            return 0;
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String userId = user.getUid();
+            DatabaseReference stepsRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+            stepsRef.child("exercise_steps").child("steps").setValue(steps);
+            stepsRef.child("exercise_steps").child("timestamp").setValue(System.currentTimeMillis());
         }
-
-        return sharedPreferences.getInt("steps", 0);
     }
 
+
+    private void loadSteps() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+
+            ValueEventListener exerciseStepsListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Integer steps = dataSnapshot.getValue(Integer.class);
+                    if (steps != null) {
+                        exerciseCurrentStep = steps;
+                    } else {
+                        exerciseCurrentStep = 0;
+                    }
+                    updateUIForCompletedStep(exerciseCurrentStep);
+                    updateStepIndicators(exerciseCurrentStep);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle any errors
+                }
+            };
+
+            // Load exercise_steps
+            DatabaseReference exerciseStepsRef = userRef.child("exercise_steps").child("steps");
+            exerciseStepsRef.addListenerForSingleValueEvent(exerciseStepsListener);
+        }
+    }
 
 
     private void loadImagesFromFirebase() {
@@ -270,56 +281,76 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
     }
 
 
-    public void onStepCompleted(int step) {
-        sharedViewModel.setYogaProgress(step);
+    public void onStepCompleted(int exerciseCurrentStep) {
+        sharedViewModel.setYogaProgress(exerciseCurrentStep);
+        String title = "";
+        String message = "";
+        if (exerciseCurrentStep == 1) {
 
-        if (step == 1) {
             imageTask2.setImageResource(R.drawable.num1); // Replace with the appropriate image resource
             textviewtaskcom2.setText("Daily Meditation Completed 1");
-            Toast.makeText(getActivity(), "You have completed your morning exercise, you have earned a point.", Toast.LENGTH_SHORT).show();
-        } else if (step == 2) {
+            title = "Well done!";
+            message = "You have completed your Morning  exercise.";
+            showEmotionDialog(title, message);
+
+        } else if (exerciseCurrentStep == 2) {
             imageTask2.setImageResource(R.drawable.num2); // Replace with the appropriate image resource
             textviewtaskcom2.setText("Daily Meditation Completed 2");
-            Toast.makeText(getActivity(), "You have completed your afternoon exercise, you have earned a point.", Toast.LENGTH_SHORT).show();
-        } else if (step == 3) {
+            title = "Well done!";
+            message = "You have completed your Afternoon exercise.";
+            showEmotionDialog(title, message);
+        } else if (exerciseCurrentStep == 3) {
             imageTask2.setImageResource(R.drawable.num3); // Replace with the appropriate image resource
             textviewtaskcom2.setText("Daily Meditation Completed 3");
-            rewardmedicon2.setVisibility(View.VISIBLE);
-            rewardText2.setVisibility(View.VISIBLE);
-            Toast.makeText(getActivity(), "You have completed your night exercise, you have earned a point.", Toast.LENGTH_SHORT).show();
+            title = "Well done!";
+            message = "You have completed your Evening exercise.";
+            showEmotionDialog(title, message);
         }
-        saveCompletedStep(step);
+        saveCompletedStep(exerciseCurrentStep);
+
+        // Disable button2 and button3 initially
+        button2.setEnabled(false);
+        button3.setEnabled(false);
+
+        // Enable button2 if step 1 is completed
+        if (exerciseCurrentStep >= 1) {
+            button2.setEnabled(true);
+            button1.setEnabled(false);
+        }
+
+        // Enable button3 if step 2 is completed
+        if (exerciseCurrentStep >= 2) {
+            button3.setEnabled(true);
+            button2.setEnabled(false);
+            button1.setEnabled(false);
+
+        }
+
     }
 
     private void saveCompletedStep(int step) {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("completed_step", step);
-        editor.apply();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            mDatabase.child("completed_step").child(userId).setValue(step);
+        }
     }
 
-
     private void updateUIForCompletedStep(int step) {
-        String title = "";
-        String message = "";
+
 
         if (step == 1) {
             imageTask2.setImageResource(R.drawable.num1);
             textviewtaskcom2.setText("Daily Exercise Completed 1");
-            title = "Well done!";
-            message = "You have completed your morning exercise.";
+
         } else if (step == 2) {
             imageTask2.setImageResource(R.drawable.num2);
             textviewtaskcom2.setText("Daily Exercise Completed 2");
-            title = "Well done!";
-            message = "You have completed your afternoon exercise.";
+
         } else if (step == 3) {
             imageTask2.setImageResource(R.drawable.num3);
-            rewardmedicon2.setImageResource(R.drawable.reward);
-            rewardText2.setText("You Earned A Point");
             textviewtaskcom2.setText("Daily Exercise Completed 3");
-            title = "Well done!";
-            message = "You have completed your night exercise.";
+
         }
 
         // Disable button2 and button3 initially
@@ -329,15 +360,19 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
         // Enable button2 if step 1 is completed
         if (step >= 1) {
             button2.setEnabled(true);
+            button1.setEnabled(false);
         }
 
         // Enable button3 if step 2 is completed
         if (step >= 2) {
             button3.setEnabled(true);
+            button2.setEnabled(false);
+            button1.setEnabled(false);
+
         }
 
         if (showDialogOnLoad) {
-            showEmotionDialog(title, message);
+            //showEmotionDialog(title, message);
         }
     }
 
@@ -363,7 +398,4 @@ public class ExerciseFragment extends Fragment implements OnStepCompletedListene
         super.onResume();
         showDialogOnLoad = false;
     }
-
-
-
 }

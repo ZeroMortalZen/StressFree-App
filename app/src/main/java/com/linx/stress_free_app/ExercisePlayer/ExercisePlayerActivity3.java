@@ -34,6 +34,7 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -53,6 +54,7 @@ public class ExercisePlayerActivity3 extends AppCompatActivity {
     ImageView ExerciseGif;
     private StorageReference mStorageRef;
     private TextView ExDialog;
+    private TextView countdownTimer;
 
     private List<String> exerciseFiles;
     private long lastUpdateTimestamp;
@@ -67,7 +69,7 @@ public class ExercisePlayerActivity3 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_player3);
-        progressBar = findViewById(R.id.progress_bar4);
+        countdownTimer = findViewById(R.id.countdown_timer3);
         ExDialog =findViewById(R.id.ExDialog);
 
         // Initialize Firebase Storage reference
@@ -124,7 +126,7 @@ public class ExercisePlayerActivity3 extends AppCompatActivity {
         handler = new Handler();
         startPlaying();
         elapsedTime = 0;
-        targetTime = TimeUnit.SECONDS.toMillis(40); // Set the target time, e.g., 10 seconds
+        targetTime = TimeUnit.SECONDS.toMillis(80); // Set the target time, e.g., 10 seconds
         userScore = 0;
 
         // Set the MediaPlayer to loop the audio clip
@@ -164,6 +166,19 @@ public class ExercisePlayerActivity3 extends AppCompatActivity {
                 elapsedTime += 1000;
                 long elapsedTimeInMinutes = elapsedTime / 60000;
 
+
+                // Calculate the remaining time
+                long remainingTime = targetTime - elapsedTime;
+
+                // Format the remaining time as MM:SS
+                String formattedRemainingTime = String.format(Locale.getDefault(), "%02d:%02d",
+                        TimeUnit.MILLISECONDS.toMinutes(remainingTime),
+                        TimeUnit.MILLISECONDS.toSeconds(remainingTime) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(remainingTime)));
+
+                // Update the countdown timer TextView
+                countdownTimer.setText(formattedRemainingTime);
+
                 if (elapsedTime >= targetTime) {
                     userScore += 1;
 
@@ -183,11 +198,11 @@ public class ExercisePlayerActivity3 extends AppCompatActivity {
                     elapsedTime = 0;
 
                     if (stepCompletedListener != null) {
-                        stepCompletedListener.onStepCompleted(1);
+                        stepCompletedListener.onStepCompleted(3);
                     }
 
                     Intent resultIntent = new Intent();
-                    resultIntent.putExtra("step", 1);
+                    resultIntent.putExtra("step", 3);
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                 } else {
@@ -195,7 +210,6 @@ public class ExercisePlayerActivity3 extends AppCompatActivity {
                     if (elapsedTime % 5000 == 0) {
                         storeDataInFirebase(elapsedTimeInMinutes, exerciselevel);
                     }
-                    progressBar.setProgress((int) elapsedTime);
                     handler.postDelayed(this, 1000);
                 }
             }

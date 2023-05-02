@@ -26,6 +26,8 @@ import com.linx.stress_free_app.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class LeaderboardFragment extends Fragment implements LeaderboardAdapter.OnUserItemClickListener {
 
@@ -64,6 +66,10 @@ public class LeaderboardFragment extends Fragment implements LeaderboardAdapter.
 
                     user.setUserId(userSnapshot.getKey()); // Set the userId
 
+                    user.setExerciseLevel(userSnapshot.child("exerciselevel").getValue(Double.class));
+                    user.setMusicLevel(userSnapshot.child("musicLevel").getValue(Double.class));
+                    user.setMedLevel(userSnapshot.child("medLevel").getValue(Double.class));
+
                     Log.d("LeaderboardFragment", "Profile Pic URL: " + profilePicUrl);
 
                     if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
@@ -72,6 +78,22 @@ public class LeaderboardFragment extends Fragment implements LeaderboardAdapter.
 
                     userList.add(user);
                 }
+
+                // Sort userList by the highest average of exerciseLevel, musicLevel, medLevel,
+                // and then by the alphabetical order of the email
+                Collections.sort(userList, new Comparator<User>() {
+                    @Override
+                    public int compare(User u1, User u2) {
+                        double avg1 = (u1.getExerciseLevel() + u1.getMusicLevel() + u1.getMedLevel()) / 3.0;
+                        double avg2 = (u2.getExerciseLevel() + u2.getMusicLevel() + u2.getMedLevel()) / 3.0;
+
+                        if (Double.compare(avg2, avg1) != 0) {
+                            return Double.compare(avg2, avg1);
+                        } else {
+                            return u1.getEmail().compareToIgnoreCase(u2.getEmail());
+                        }
+                    }
+                });
 
                 LeaderboardAdapter adapter = new LeaderboardAdapter(userList, LeaderboardFragment.this);
                 recyclerView.setAdapter(adapter);
@@ -85,10 +107,17 @@ public class LeaderboardFragment extends Fragment implements LeaderboardAdapter.
         });
     }
 
+
+
+
     public void onUserItemClick(String userId) {
         Intent intent = new Intent(getContext(), UserDiaryEntryActivity.class);
         intent.putExtra("userId", userId);
         startActivity(intent);
     }
 
+
+
 }
+
+

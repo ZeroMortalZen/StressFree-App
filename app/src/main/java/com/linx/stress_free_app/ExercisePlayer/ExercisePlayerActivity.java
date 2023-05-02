@@ -34,6 +34,7 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -52,6 +53,7 @@ public class ExercisePlayerActivity extends AppCompatActivity {
     int exerciselevel;
     ImageView ExerciseGif;
     private StorageReference mStorageRef;
+    private TextView countdownTimer;
 
     private List<String> exerciseFiles;
     private long lastUpdateTimestamp;
@@ -67,7 +69,7 @@ public class ExercisePlayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_player);
-        progressBar = findViewById(R.id.progress_bar4);
+        countdownTimer = findViewById(R.id.countdown_timer);
         ExDialog = findViewById(R.id.ExDialog2);
 
 
@@ -126,7 +128,7 @@ public class ExercisePlayerActivity extends AppCompatActivity {
         handler = new Handler();
         startPlaying();
         elapsedTime = 0;
-        targetTime = TimeUnit.SECONDS.toMillis(60); // Set the target time, e.g., 10 seconds
+        targetTime = TimeUnit.SECONDS.toMillis(80); // Set the target time, e.g., 10 seconds
         userScore = 0;
 
         // Set the MediaPlayer to loop the audio clip
@@ -167,10 +169,21 @@ public class ExercisePlayerActivity extends AppCompatActivity {
                 elapsedTime += 1000;
                 long elapsedTimeInMinutes = elapsedTime / 60000;
 
+                long remainingTime = targetTime - elapsedTime;
+
+                // Format the remaining time as MM:SS
+                String formattedRemainingTime = String.format(Locale.getDefault(), "%02d:%02d",
+                        TimeUnit.MILLISECONDS.toMinutes(remainingTime),
+                        TimeUnit.MILLISECONDS.toSeconds(remainingTime) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(remainingTime)));
+
+                // Update the countdown timer TextView
+                countdownTimer.setText(formattedRemainingTime);
+
                 if (elapsedTime >= targetTime) {
                     userScore += 1;
 
-                    // Update medlevel based on the userScore
+                    // Update exercise level based on the userScore
                     if (userScore >= 1 && userScore <= 5) {
                         exerciselevel = 1;
                     } else if (userScore >= 6 && userScore <= 10) {
@@ -198,7 +211,6 @@ public class ExercisePlayerActivity extends AppCompatActivity {
                     if (elapsedTime % 5000 == 0) {
                         storeDataInFirebase(elapsedTimeInMinutes, exerciselevel);
                     }
-                    progressBar.setProgress((int) elapsedTime);
                     handler.postDelayed(this, 1000);
                 }
             }

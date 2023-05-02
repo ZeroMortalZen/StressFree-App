@@ -24,8 +24,7 @@
         android:fontFamily="@font/baloo_paaji"
         android:text="Get Premission"
         android:textColor="#FFF4F4"
-        android:textSize="20sp"
-        android:visibility="gone" />
+        android:textSize="20sp" />
 
     <com.nitish.typewriterview.TypeWriterView
         android:id="@+id/typeWriterView"
@@ -58,10 +57,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="84dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="21dp"
+        android:layout_marginBottom="56dp"
         android:background="@drawable/curved_progress_bar"
         android:text="Continue"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/imageView2"

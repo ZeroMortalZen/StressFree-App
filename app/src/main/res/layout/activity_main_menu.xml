@@ -16,8 +16,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ProfileRecycle"
-            android:layout_width="219dp"
-            android:layout_height="75dp"
+            android:layout_width="256dp"
+            android:layout_height="92dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="24dp"

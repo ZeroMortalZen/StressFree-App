@@ -73,13 +73,13 @@ public class GraphFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<BarEntry> entries = new ArrayList<>();
 
-                float exerciseTime = dataSnapshot.child("exerciseTime").getValue(Float.class);
-                float meditationTime = dataSnapshot.child("mediationTime").getValue(Float.class);
-                float musicTime = dataSnapshot.child("musicTime").getValue(Float.class);
+                float exerciseTime = dataSnapshot.child("exerciselevel").getValue(Float.class);
+                float meditationTime = dataSnapshot.child("medLevel").getValue(Float.class);
+                float musicTime = dataSnapshot.child("musicLevel").getValue(Float.class);
 
                 entries.add(new BarEntry(0, new float[]{exerciseTime, meditationTime, musicTime}));
 
-                BarDataSet barDataSet = new BarDataSet(entries, "User Activities (Minutes)");
+                BarDataSet barDataSet = new BarDataSet(entries, "User Activities (SCORES)");
                 barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
                 barDataSet.setStackLabels(new String[]{"Exercise", "Meditation", "Music"});
 

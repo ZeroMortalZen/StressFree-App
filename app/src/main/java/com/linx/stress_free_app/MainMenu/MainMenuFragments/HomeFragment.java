@@ -106,7 +106,7 @@ public class HomeFragment extends Fragment {
                 progressAdapter.setYogaProgress(yogaProgress);
 
                 // Update the progress value in the Firebase Realtime Database
-                userRef.child("yogaProgress").setValue(yogaProgress);
+                userRef.child("exercise_steps").child("steps").setValue(yogaProgress);
             }
         });
 
@@ -119,13 +119,14 @@ public class HomeFragment extends Fragment {
                 progressAdapter.setMeditationProgress(meditationProgress);
 
                 // Update the progress value in the Firebase Realtime Database
-                userRef.child("meditationProgress").setValue(meditationProgress);
+                userRef.child("meditation_steps").child("steps").setValue(meditationProgress);
             }
         });
 
 
+
         // Fetch yoga progress from the Firebase Realtime Database
-        userRef.child("yogaProgress").addValueEventListener(new ValueEventListener() {
+        userRef.child("exercise_steps").child("steps").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Integer yogaProgress = dataSnapshot.getValue(Integer.class);
@@ -141,8 +142,9 @@ public class HomeFragment extends Fragment {
             }
         });
 
-       // Fetch meditation progress from the Firebase Realtime Database
-        userRef.child("meditationProgress").addValueEventListener(new ValueEventListener() {
+
+        // Fetch meditation progress from the Firebase Realtime Database
+        userRef.child("meditation_steps").child("steps").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Integer meditationProgress = dataSnapshot.getValue(Integer.class);
@@ -264,8 +266,4 @@ public class HomeFragment extends Fragment {
             }
         }, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
     }
-
-
-
-
 }

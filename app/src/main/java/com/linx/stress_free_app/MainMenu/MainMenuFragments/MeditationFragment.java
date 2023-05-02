@@ -7,6 +7,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.linx.stress_free_app.viewmodels.SharedViewModel;
 
 import androidx.annotation.NonNull;
@@ -46,8 +54,6 @@ public class MeditationFragment extends Fragment implements OnStepCompletedListe
     Button button3;
     ImageButton ytbutton;
     TextView textviewtaskcom;
-    TextView rewardText;
-    ImageView rewardmedicon;
     ImageView imageTask;
     private boolean showDialogOnLoad = true;
 
@@ -63,8 +69,6 @@ public class MeditationFragment extends Fragment implements OnStepCompletedListe
         button1 = view.findViewById(R.id.medbutton1);
         button2 = view.findViewById(R.id.exbutton3);
         ytbutton = view.findViewById(R.id.YTbutton);
-        rewardmedicon = view.findViewById(R.id.rewardmedicon);
-        rewardText=view.findViewById(R.id.rewardText);
 
 
 
@@ -85,7 +89,7 @@ public class MeditationFragment extends Fragment implements OnStepCompletedListe
 
 
         verticalStepProgressBar = view.findViewById(R.id.verticalStepProgressBar);
-        currentStep = loadSteps(); // Load the steps
+        loadSteps(); // Load the steps
         updateStepIndicators(currentStep);
 
 
@@ -166,49 +170,82 @@ public class MeditationFragment extends Fragment implements OnStepCompletedListe
 
 
     private void saveSteps(int steps) {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_steps", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("steps", steps);
-        editor.putLong("timestamp", System.currentTimeMillis());
-        editor.apply();
-    }
-
-    private int loadSteps() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_steps", Context.MODE_PRIVATE);
-        long savedTimestamp = sharedPreferences.getLong("timestamp", 0);
-        long currentTime = System.currentTimeMillis();
-        long timeDifference = currentTime - savedTimestamp;
-
-        // Check if a day has passed (24 hours * 60 minutes * 60 seconds * 1000 milliseconds)
-        if (timeDifference >= 24 * 60 * 60 * 1000) {
-            saveSteps(0); // Reset the steps
-            updateUIForCompletedStep(0); // Update UI based on reset steps
-            return 0;
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String userId = user.getUid();
+            DatabaseReference stepsRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+            stepsRef.child("meditation_steps").child("steps").setValue(steps);
+            stepsRef.child("meditation_steps").child("timestamp").setValue(System.currentTimeMillis());
         }
-
-        return sharedPreferences.getInt("steps", 0);
     }
+
+
+
+    private void loadSteps() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String userId = user.getUid();
+            DatabaseReference stepsRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("meditation_steps");
+
+            stepsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Long savedTimestamp = dataSnapshot.child("timestamp").getValue(Long.class);
+                    long currentTime = System.currentTimeMillis();
+                    long timeDifference = currentTime - (savedTimestamp != null ? savedTimestamp.longValue() : 0L);
+
+                    // Check if a day has passed (24 hours * 60 minutes * 60 seconds * 1000 milliseconds)
+                    if (timeDifference >= 24 * 60 * 60 * 1000) {
+                        saveSteps(0); // Reset the steps
+                        updateUIForCompletedStep(0); // Update UI based on reset steps
+                        setCurrentStep(0);
+                    } else {
+                        int steps = dataSnapshot.child("steps").getValue(Integer.class);
+                        setCurrentStep(steps);
+                    }
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle error
+                }
+            });
+        }
+    }
+
+
 
 
     @Override
 
     public void onStepCompleted(int step) {
-
+        String title = "";
+        String message = "";
         if (step == 1) {
             imageTask.setImageResource(R.drawable.num1); // Replace with the appropriate image resource
             textviewtaskcom.setText("Daily Meditation Completed 1");
-
+            title = "Well Done";
+            message = "Daily Meditation Completed 1 Check your progress bar";
+            showEmotionDialog(title,message);
         } else if (step == 2) {
             imageTask.setImageResource(R.drawable.num2); // Replace with the appropriate image resource
             textviewtaskcom.setText("Daily Meditation Completed 2");
-
+            title = "Well Done";
+            message = "Daily Meditation Completed 2 Check your progress bar";
+            showEmotionDialog(title,message);
         } else if (step == 3) {
             imageTask.setImageResource(R.drawable.num3); // Replace with the appropriate image resource
             textviewtaskcom.setText("Daily Meditation Completed 3");
-            rewardmedicon.setVisibility(View.VISIBLE);
-            rewardText.setVisibility(View.VISIBLE);
+            title = "Well Done";
+            message = "Daily Meditation Completed 3 Check your progress bar";
+            showEmotionDialog(title,message);
         }
         saveCompletedStep(step);
+
+        if (showDialogOnLoad) {
+            //showEmotionDialog(title, message);
+        }
     }
 
     private void saveCompletedStep(int step) {
@@ -220,25 +257,19 @@ public class MeditationFragment extends Fragment implements OnStepCompletedListe
 
 
     private void updateUIForCompletedStep(int step) {
-        String title = "";
-        String message = "";
+
         if (step == 1) {
             imageTask.setImageResource(R.drawable.num1);
             textviewtaskcom.setText("Daily Meditation Completed 1");
-            title = "Well Done";
-             message = "Daily Meditation Completed 1 Check your progress bar";
+
         } else if (step == 2) {
             imageTask.setImageResource(R.drawable.num2);
             textviewtaskcom.setText("Daily Meditation Completed 2");
-            title = "Well Done";
-            message = "Daily Meditation Completed 1 Check your progress bar";
+
         } else if (step == 3) {
             imageTask.setImageResource(R.drawable.num3);
-            rewardmedicon.setImageResource(R.drawable.reward);
-            rewardText.setText("You Earned A Point");
             textviewtaskcom.setText("Daily Meditation Completed 3");
-             title = "Well Done";
-             message = "Daily Meditation Completed 1 Check your progress bar";
+
         }
 
         // Disable button2 and button3 initially
@@ -255,9 +286,7 @@ public class MeditationFragment extends Fragment implements OnStepCompletedListe
             button3.setEnabled(true);
         }
 
-        if (showDialogOnLoad) {
-            showEmotionDialog(title, message);
-        }
+
 
 
     }

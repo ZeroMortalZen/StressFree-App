@@ -9,6 +9,9 @@ public class User {
     private String profilePicRef;
     private String profilePicUrl;
     private String userId;
+    private double exerciseLevel;
+    private double musicLevel;
+    private double medLevel;
 
     public User() {
     }
@@ -61,5 +64,30 @@ public class User {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+
+    public double getExerciseLevel() {
+        return exerciseLevel;
+    }
+
+    public void setExerciseLevel(double exerciseLevel) {
+        this.exerciseLevel = exerciseLevel;
+    }
+
+    public double getMusicLevel() {
+        return musicLevel;
+    }
+
+    public void setMusicLevel(double musicLevel) {
+        this.musicLevel = musicLevel;
+    }
+
+    public double getMedLevel() {
+        return medLevel;
+    }
+
+    public void setMedLevel(double medLevel) {
+        this.medLevel = medLevel;
     }
 }

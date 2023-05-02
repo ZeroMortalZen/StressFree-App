@@ -1,38 +1,67 @@
 package com.linx.stress_free_app.StressSystem;
 
 public class HelperClass {
-
-
-
+    String email;
+    boolean isFirstTime;
+    String medalRank;
+    String profilePicUrl;
     float pain;
     float time;
-    long  totalScreenTime;
-    long  totalAppUsage;
+    long totalScreenTime;
+    long totalAppUsage;
     float stressLevelScore;
-    float MediationTime;
-    int MedLevel;
-    float MusicTime;
-    int MusicLevel;
+    float mediationTime;
+    int medLevel;
+    float musicTime;
+    int musicLevel;
     float exerciseTime;
     int exerciselevel;
-    boolean hasStresslevel ;
+    boolean hasStresslevel;
 
-    public HelperClass(float pain, float time, long totalScreenTime, long totalAppUsage, float stressLevelScore, float mediationTime, float mediationTime1, int medLevel, float musicTime, int musicLevel, float exerciseTime, int exerciselevel, boolean hasStresslevel) {
-        this.pain = pain;
-        this.time = time;
-        this.totalScreenTime = totalScreenTime;
-        this.totalAppUsage = totalAppUsage;
-        this.stressLevelScore = stressLevelScore;
-        MediationTime = mediationTime;
-        MedLevel = medLevel;
-        MusicTime = musicTime;
-        MusicLevel = musicLevel;
-        this.exerciseTime = exerciseTime;
-        this.exerciselevel = exerciselevel;
-        this.hasStresslevel = hasStresslevel;
-
+    // Constructor for setting default values
+    public HelperClass(String email) {
+        this.email = email;
+        this.isFirstTime = true;
+        this.medalRank = "no rank";
+        this.profilePicUrl = "https://firebasestorage.googleapis.com/v0/b/stress-free-app-df840.appspot.com/o/profile_pictures%2FZmRjmQCBIpZbezCyCNmZLkYKQts2.jpg?alt=media&token=19aea6ad-667c-4f65-8d08-ff659327bd6c";
+        this.stressLevelScore = 1;
+        this.hasStresslevel = true;
     }
 
+    // Getters and setters for email, isFirstTime, medalRank, and profilePicUrl
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean getIsFirstTime() {
+        return isFirstTime;
+    }
+
+    public void setIsFirstTime(boolean isFirstTime) {
+        this.isFirstTime = isFirstTime;
+    }
+
+    public String getMedalRank() {
+        return medalRank;
+    }
+
+    public void setMedalRank(String medalRank) {
+        this.medalRank = medalRank;
+    }
+
+    public String getProfilePicUrl() {
+        return profilePicUrl;
+    }
+
+    public void setProfilePicUrl(String profilePicUrl) {
+        this.profilePicUrl = profilePicUrl;
+    }
+
+    // Existing getters and setters
     public float getPain() {
         return pain;
     }
@@ -74,35 +103,35 @@ public class HelperClass {
     }
 
     public float getMediationTime() {
-        return MediationTime;
+        return mediationTime;
     }
 
     public void setMediationTime(float mediationTime) {
-        MediationTime = mediationTime;
+        this.mediationTime = mediationTime;
     }
 
     public int getMedLevel() {
-        return MedLevel;
+        return medLevel;
     }
 
     public void setMedLevel(int medLevel) {
-        MedLevel = medLevel;
+        this.medLevel = medLevel;
     }
 
     public float getMusicTime() {
-        return MusicTime;
+        return musicTime;
     }
 
     public void setMusicTime(float musicTime) {
-        MusicTime = musicTime;
+        this.musicTime = musicTime;
     }
 
     public int getMusicLevel() {
-        return MusicLevel;
+        return musicLevel;
     }
 
     public void setMusicLevel(int musicLevel) {
-        MusicLevel = musicLevel;
+        this.musicLevel = musicLevel;
     }
 
     public float getExerciseTime() {

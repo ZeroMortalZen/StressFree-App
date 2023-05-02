@@ -314,31 +314,6 @@
         android:layout_alignParentTop="true"
         android:src="@drawable/num0" />
 
-    <ImageView
-        android:id="@+id/rewardmedicon"
-        android:layout_width="62dp"
-        android:layout_height="49dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="327dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="5dp"
-        android:src="@drawable/reward"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/rewardText"
-        android:layout_width="87dp"
-        android:layout_height="51dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="68dp"
-        android:fontFamily="@font/baloo_paaji"
-        android:text="You Earned A Point"
-        android:textColor="#FFFAFA"
-        android:visibility="gone" />
-
     <ImageButton
         android:id="@+id/YTbutton"
         android:layout_width="48dp"

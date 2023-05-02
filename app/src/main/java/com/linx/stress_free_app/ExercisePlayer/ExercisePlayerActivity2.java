@@ -34,6 +34,7 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -57,6 +58,7 @@ public class ExercisePlayerActivity2 extends AppCompatActivity {
     private List<String> exerciseFiles;
     private long lastUpdateTimestamp;
     private Random random;
+    private TextView countdownTimer;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -67,7 +69,7 @@ public class ExercisePlayerActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_player2);
-        progressBar = findViewById(R.id.progress_bar4);
+        countdownTimer = findViewById(R.id.countdown_timer2);
         ExDialog2 = findViewById(R.id.ExDialog2);
 
         // Initialize Firebase Storage reference
@@ -163,6 +165,17 @@ public class ExercisePlayerActivity2 extends AppCompatActivity {
                 elapsedTime += 1000;
                 long elapsedTimeInMinutes = elapsedTime / 60000;
 
+                long remainingTime = targetTime - elapsedTime;
+
+                // Format the remaining time as MM:SS
+                String formattedRemainingTime = String.format(Locale.getDefault(), "%02d:%02d",
+                        TimeUnit.MILLISECONDS.toMinutes(remainingTime),
+                        TimeUnit.MILLISECONDS.toSeconds(remainingTime) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(remainingTime)));
+
+                // Update the countdown timer TextView
+                countdownTimer.setText(formattedRemainingTime);
+
                 if (elapsedTime >= targetTime) {
                     userScore += 1;
 
@@ -182,11 +195,11 @@ public class ExercisePlayerActivity2 extends AppCompatActivity {
                     elapsedTime = 0;
 
                     if (stepCompletedListener != null) {
-                        stepCompletedListener.onStepCompleted(1);
+                        stepCompletedListener.onStepCompleted(2);
                     }
 
                     Intent resultIntent = new Intent();
-                    resultIntent.putExtra("step", 1);
+                    resultIntent.putExtra("step", 2);
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                 } else {
@@ -194,7 +207,6 @@ public class ExercisePlayerActivity2 extends AppCompatActivity {
                     if (elapsedTime % 5000 == 0) {
                         storeDataInFirebase(elapsedTimeInMinutes, exerciselevel);
                     }
-                    progressBar.setProgress((int) elapsedTime);
                     handler.postDelayed(this, 1000);
                 }
             }

@@ -105,7 +105,7 @@ public class BedTimeFragment extends Fragment {
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         int i = 0;
-        final String text = "Please enter what time you go to bed";
+        final String text = "Enter Amount of hours you sleep. ";
         @Override
         public void run() {
             if (i <= text.length()) {

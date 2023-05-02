@@ -213,7 +213,11 @@ public class SignUpActivity extends AppCompatActivity {
     private void saveUserDataToDatabase(String userId) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
 
-        HelperClass helperClass = new HelperClass(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
+        // Retrieve the user's email
+        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        // Use the new constructor that takes the email as a parameter
+        HelperClass helperClass = new HelperClass(email);
         databaseReference.child(userId).setValue(helperClass).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -226,6 +230,9 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 
 
 
